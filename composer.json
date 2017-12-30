@@ -1,0 +1,19 @@
+{
+    "name": "abb/fakturownia",
+    "description": "PHP client for Fakturownia API",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "abb",
+            "email": "abb.mail1@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Abb\\Fakturownia\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
