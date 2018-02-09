@@ -1,5 +1,5 @@
 # Fakturownia (InvoiceOcean)
-PHP client for Fakturownia API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
+PHP client for Fakturownia (InvoiceOcean) API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
 
 ## Requirements
 * PHP 5.4 or higher.
