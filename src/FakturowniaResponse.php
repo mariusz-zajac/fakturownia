@@ -8,7 +8,7 @@ namespace Abb\Fakturownia;
 class FakturowniaResponse
 {
 
-    const STATUS_OK        = 'OK';
+    const STATUS_SUCCESS   = 'SUCCESS';
     const STATUS_NOT_FOUND = 'NOT_FOUND';
     const STATUS_ERROR     = 'ERROR';
 
@@ -28,7 +28,7 @@ class FakturowniaResponse
      * @param integer $code
      * @param array   $data
      */
-    public function __construct($code, $data)
+    public function __construct($code, array $data)
     {
         $this->code = $code;
         $this->data = $data;
@@ -64,7 +64,7 @@ class FakturowniaResponse
         $code = $this->code;
 
         if (200 <= $code && $code < 300) {
-            return self::STATUS_OK;
+            return self::STATUS_SUCCESS;
         }
 
         if ($code === 404) {
@@ -72,6 +72,36 @@ class FakturowniaResponse
         }
 
         return self::STATUS_ERROR;
+    }
+
+    /**
+     * Checks if the response has success status
+     *
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return self::STATUS_SUCCESS === $this->getStatus();
+    }
+
+    /**
+     * Checks if the response has 'not found' status
+     *
+     * @return bool
+     */
+    public function isNotFound()
+    {
+        return self::STATUS_NOT_FOUND === $this->getStatus();
+    }
+
+    /**
+     * Checks if the response has error status
+     *
+     * @return bool
+     */
+    public function isError()
+    {
+        return self::STATUS_ERROR === $this->getStatus();
     }
 
     /**
