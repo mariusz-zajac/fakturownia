@@ -17,7 +17,10 @@ $ composer require abb/fakturownia
 
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoices = $fakturownia->getInvoices();
+$response = $fakturownia->getInvoices();
+$status = $response->getStatus(); // e.g. 'SUCCESS', 'ERROR', 'NOT_FOUND'
+$code = $response->getCode();
+$invoices = $response->getData();
 ```
 
 ### Example 2 - Get invoices by parameters
@@ -28,7 +31,7 @@ $params = [
     'period' => 'this_month',
     'page' => '1',
 ];
-$invoices = $fakturownia->getInvoices($params);
+$invoices = $fakturownia->getInvoices($params)->getData();
 ```
 
 ### Example 3 - Get invoice by ID
@@ -36,7 +39,7 @@ $invoices = $fakturownia->getInvoices($params);
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $invoiceId = 123456;
-$invoice = $fakturownia->getInvoice($invoiceId);
+$invoice = $fakturownia->getInvoice($invoiceId)->getData();
 ```
 
 ### Example 4 - Create an invoice
@@ -69,7 +72,7 @@ $invoiceData = [
         ],
     ],
 ];
-$createdInvoice = $fakturownia->createInvoice($invoiceData);
+$createdInvoice = $fakturownia->createInvoice($invoiceData)->getData();
 ```
 
 ### Example 5 - Update invoice
@@ -86,7 +89,7 @@ $invoiceData = [
         ],
     ],
 ];
-$updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData);
+$updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData)->getData();
 ```
 
 
@@ -95,7 +98,7 @@ $updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData);
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $invoiceId = 123456;
-$result = $fakturownia->deleteInvoice($invoiceId);
+$result = $fakturownia->deleteInvoice($invoiceId)->getData();
 ```
 
 More info about the required parameters for every method: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).
