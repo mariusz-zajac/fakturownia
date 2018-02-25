@@ -25,7 +25,7 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @throws Exception\RequestErrorException
      */
-    public function getInvoices(array $params)
+    public function getInvoices(array $params = [])
     {
         return $this->request(__FUNCTION__, 0, $params);
     }
@@ -155,7 +155,7 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @throws Exception\RequestErrorException
      */
-    public function getClients(array $params)
+    public function getClients(array $params = [])
     {
         return $this->request(__FUNCTION__, 0, $params);
     }
@@ -238,7 +238,7 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @throws Exception\RequestErrorException
      */
-    public function getProducts(array $params)
+    public function getProducts(array $params = [])
     {
         return $this->request(__FUNCTION__, 0, $params);
     }
