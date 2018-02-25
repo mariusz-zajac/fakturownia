@@ -9,14 +9,6 @@ class Fakturownia extends FakturowniaAbstract
 {
 
     /**
-     * @inheritdoc
-     */
-    public function __construct($apiToken)
-    {
-        parent::__construct($apiToken);
-    }
-
-    /**
      * Get invoices
      *
      * @param array $params
