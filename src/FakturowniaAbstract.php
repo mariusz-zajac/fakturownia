@@ -68,7 +68,7 @@ abstract class FakturowniaAbstract
      */
     public function __construct($apiToken)
     {
-        $parts = explode('/', $apiToken);
+        $parts = array_filter(explode('/', $apiToken));
 
         if (count($parts) !== 2) {
             throw new InvalidArgumentException('Invalid Fakturownia Api token');
