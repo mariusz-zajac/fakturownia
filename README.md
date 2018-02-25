@@ -11,6 +11,32 @@ The recommended way to install is through [Composer](http://getcomposer.org).
 $ composer require abb/fakturownia
 ```
 
+## Available methods
+
+* getInvoices(array $params = [])
+* getInvoice($id)
+* getInvoiceByClientId($id)
+* createInvoice(array $invoice)
+* updateInvoice($id, array $invoice)
+* deleteInvoice($id)
+* sendInvoice($id)
+* changeInvoiceStatus($id, $status)
+* getClients(array $params = [])
+* getClient($id)
+* getClientByExternalId($id)
+* createClient(array $client)
+* updateClient($id, array $client)
+* getProducts(array $params = [])
+* getProduct($id, $warehouseId = null)
+* createProduct(array $product)
+* updateProduct($id, array $product)
+* getWarehouseDocument($id)
+* createWarehouseDocument(array $warehouseDocument)
+* updateWarehouseDocument($id, array $warehouseDocument)
+* deleteWarehouseDocument($id)
+* getAccount()
+* createAccountForClient(array $account, array $user = [], array $company = [])
+
 ## Examples of usage
 
 ### Example 1 - Get invoices
