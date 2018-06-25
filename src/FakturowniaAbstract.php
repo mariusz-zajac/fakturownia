@@ -2,8 +2,8 @@
 
 namespace Abb\Fakturownia;
 
+use Abb\Fakturownia\Exception\InvalidTokenException;
 use Abb\Fakturownia\Exception\RequestErrorException;
-use Abb\Fakturownia\Exception\InvalidArgumentException;
 
 /**
  * Class FakturowniaAbstract
@@ -64,15 +64,11 @@ abstract class FakturowniaAbstract
      *
      * @param string $apiToken
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidTokenException
      */
     public function __construct($apiToken)
     {
-        $parts = array_filter(explode('/', $apiToken));
-
-        if (count($parts) !== 2) {
-            throw new InvalidArgumentException('Invalid Fakturownia Api token');
-        }
+        $this->tokenValidOrFail($apiToken);
 
         $this->apiToken = $apiToken;
         $this->curl = curl_init();
@@ -89,19 +85,38 @@ abstract class FakturowniaAbstract
     }
 
     /**
-     * Prepare Api url
+     * Validate API token
+     *
+     * @param string $token
+     *
+     * @return void
+     *
+     * @throws InvalidTokenException If token is not valid
+     */
+    protected function tokenValidOrFail($token)
+    {
+        // pattern: username/token_hash
+        $isValid = (bool) preg_match('~^[^/]+/[^/]+$~', $token);
+
+        if (!$isValid) {
+            throw new InvalidTokenException();
+        }
+    }
+
+    /**
+     * Prepare API url
      *
      * @param string  $apiMethod
      * @param integer $id
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function prepareUrl($apiMethod, $id)
     {
         if (!isset($this->apiMethodsMapping[$apiMethod])) {
-            throw new InvalidArgumentException('Unsupported api method');
+            throw new \InvalidArgumentException('Unsupported API method: ' . $apiMethod);
         }
 
         $username = explode('/', $this->apiToken)[1];
@@ -113,13 +128,13 @@ abstract class FakturowniaAbstract
     }
 
     /**
-     * Convert api method to request method
+     * Map API method to request method
      *
      * @param string $apiMethod
      *
      * @return string
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function mapApiMethodToRequestMethod($apiMethod)
     {
@@ -137,8 +152,8 @@ abstract class FakturowniaAbstract
             case 'get':
                 return 'GET';
             default:
-                throw new InvalidArgumentException(
-                    'Undefined request method mapping for api method: ' . $apiMethod
+                throw new \InvalidArgumentException(
+                    'Undefined request method mapping for API method: ' . $apiMethod
                 );
         }
     }
