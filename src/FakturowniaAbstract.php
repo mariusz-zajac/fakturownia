@@ -42,6 +42,7 @@ abstract class FakturowniaAbstract
         'createClient'            => 'clients.json',
         'updateClient'            => 'clients/[ID].json',
         'getClient'               => 'clients/[ID].json',
+        'getClientByExternalId'   => 'clients.json',
         'getClients'              => 'clients.json',
         // product
         'createProduct'           => 'products.json',
