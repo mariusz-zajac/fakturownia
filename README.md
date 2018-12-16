@@ -15,7 +15,6 @@ $ composer require abb/fakturownia
 
 * getInvoices(array $params = [])
 * getInvoice($id)
-* getInvoiceByClientId($id)
 * createInvoice(array $invoice)
 * updateInvoice($id, array $invoice)
 * deleteInvoice($id)

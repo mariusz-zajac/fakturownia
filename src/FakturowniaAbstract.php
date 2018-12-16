@@ -36,7 +36,6 @@ abstract class FakturowniaAbstract
         'deleteInvoice'           => 'invoices/[ID].json',
         'getInvoice'              => 'invoices/[ID].json',
         'getInvoices'             => 'invoices.json',
-        'getInvoiceByClientId'    => 'invoices.json',
         'sendInvoice'             => 'invoices/[ID]/send_by_email.json',
         'changeInvoiceStatus'     => 'invoices/[ID]/change_status.json',
         // client

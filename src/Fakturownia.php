@@ -37,24 +37,6 @@ class Fakturownia extends FakturowniaAbstract
     }
 
     /**
-     * Get invoice by client ID
-     *
-     * @param integer $id
-     *
-     * @return FakturowniaResponse
-     *
-     * @throws Exception\RequestErrorException
-     */
-    public function getInvoiceByClientId($id)
-    {
-        $data = [
-            'client_id' => $id,
-        ];
-
-        return $this->request(__FUNCTION__, 0, $data);
-    }
-
-    /**
      * Create invoice
      *
      * @param array $invoice
