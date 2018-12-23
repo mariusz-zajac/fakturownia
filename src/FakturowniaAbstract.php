@@ -6,7 +6,7 @@ use Abb\Fakturownia\Exception\InvalidTokenException;
 use Abb\Fakturownia\Exception\RequestErrorException;
 
 /**
- * Class FakturowniaAbstract
+ * Base class for Fakturownia client
  */
 abstract class FakturowniaAbstract
 {
@@ -27,7 +27,7 @@ abstract class FakturowniaAbstract
     protected $baseUrl = 'https://[USERNAME].fakturownia.pl';
 
     /**
-     * @var array
+     * @var array API methods to url mapping
      */
     protected $apiMethodsMapping = [
         // invoice
@@ -36,13 +36,17 @@ abstract class FakturowniaAbstract
         'deleteInvoice'           => 'invoices/[ID].json',
         'getInvoice'              => 'invoices/[ID].json',
         'getInvoices'             => 'invoices.json',
-        'getInvoiceByClientId'    => 'invoices.json',
         'sendInvoice'             => 'invoices/[ID]/send_by_email.json',
         'changeInvoiceStatus'     => 'invoices/[ID]/change_status.json',
+        // recurring invoice
+        'getRecurringInvoices'    => 'recurrings.json',
+        'createRecurringInvoice'  => 'recurrings.json',
+        'updateRecurringInvoice'  => 'recurrings/[ID].json',
         // client
         'createClient'            => 'clients.json',
         'updateClient'            => 'clients/[ID].json',
         'getClient'               => 'clients/[ID].json',
+        'getClientByExternalId'   => 'clients.json',
         'getClients'              => 'clients.json',
         // product
         'createProduct'           => 'products.json',
@@ -54,6 +58,19 @@ abstract class FakturowniaAbstract
         'updateWarehouseDocument' => 'warehouse_documents/[ID].json',
         'deleteWarehouseDocument' => 'warehouse_documents/[ID].json',
         'getWarehouseDocument'    => 'warehouse_documents/[ID].json',
+        'getWarehouseDocuments'   => 'warehouse_documents.json',
+        // warehouse
+        'createWarehouse'         => 'warehouse.json',
+        'updateWarehouse'         => 'warehouse/[ID].json',
+        'deleteWarehouse'         => 'warehouse/[ID].json',
+        'getWarehouse'            => 'warehouse/[ID].json',
+        'getWarehouses'           => 'warehouse.json',
+        // category
+        'createCategory'          => 'categories.json',
+        'updateCategory'          => 'categories/[ID].json',
+        'deleteCategory'          => 'categories/[ID].json',
+        'getCategory'             => 'categories/[ID].json',
+        'getCategories'           => 'categories.json',
         // account
         'getAccount'              => 'account.json',
         'createAccountForClient'  => 'account.json',
@@ -62,7 +79,7 @@ abstract class FakturowniaAbstract
     /**
      * Constructor
      *
-     * @param string $apiToken
+     * @param string $apiToken Fakturownia API token
      *
      * @throws InvalidTokenException
      */
@@ -87,7 +104,7 @@ abstract class FakturowniaAbstract
     /**
      * Validate API token
      *
-     * @param string $token
+     * @param string $token Token
      *
      * @return void
      *
@@ -106,8 +123,8 @@ abstract class FakturowniaAbstract
     /**
      * Prepare API url
      *
-     * @param string  $apiMethod
-     * @param integer $id
+     * @param string  $apiMethod API method
+     * @param integer $id        Item ID
      *
      * @return string
      *
@@ -130,7 +147,7 @@ abstract class FakturowniaAbstract
     /**
      * Map API method to request method
      *
-     * @param string $apiMethod
+     * @param string $apiMethod API method
      *
      * @return string
      *
@@ -161,9 +178,9 @@ abstract class FakturowniaAbstract
     /**
      * Send a request to the API via curl
      *
-     * @param string  $apiMethod
-     * @param integer $id
-     * @param array   $data
+     * @param string  $apiMethod API method
+     * @param integer $id        Item ID
+     * @param array   $data      Data
      *
      * @return FakturowniaResponse
      *

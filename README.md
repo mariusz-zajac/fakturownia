@@ -2,7 +2,7 @@
 PHP client for Fakturownia (InvoiceOcean) API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
 
 ## Requirements
-* PHP 5.4 or higher.
+* PHP 5.4 or higher with curl and json extensions.
 
 ## Installation
 The recommended way to install is through [Composer](http://getcomposer.org).
@@ -15,12 +15,14 @@ $ composer require abb/fakturownia
 
 * getInvoices(array $params = [])
 * getInvoice($id)
-* getInvoiceByClientId($id)
 * createInvoice(array $invoice)
 * updateInvoice($id, array $invoice)
 * deleteInvoice($id)
 * sendInvoice($id)
 * changeInvoiceStatus($id, $status)
+* getRecurringInvoices(array $params = [])
+* createRecurringInvoice(array $recurringInvoice)
+* updateRecurringInvoice($id, array $recurringInvoice)
 * getClients(array $params = [])
 * getClient($id)
 * getClientByExternalId($id)
@@ -30,10 +32,21 @@ $ composer require abb/fakturownia
 * getProduct($id, $warehouseId = null)
 * createProduct(array $product)
 * updateProduct($id, array $product)
+* getWarehouseDocuments(array $params = [])
 * getWarehouseDocument($id)
 * createWarehouseDocument(array $warehouseDocument)
 * updateWarehouseDocument($id, array $warehouseDocument)
 * deleteWarehouseDocument($id)
+* getWarehouses(array $params = [])
+* getWarehouse($id)
+* createWarehouse(array $warehouse)
+* updateWarehouse($id, array $warehouse)
+* deleteWarehouse($id)
+* getCategories(array $params = [])
+* getCategory($id)
+* createCategory(array $category)
+* updateCategory($id, array $category)
+* deleteCategory($id)
 * getAccount()
 * createAccountForClient(array $account, array $user = [], array $company = [])
 
@@ -118,7 +131,6 @@ $invoiceData = [
 $updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData)->getData();
 ```
 
-
 ### Example 6 - Delete invoice
 
 ```php
@@ -128,3 +140,7 @@ $result = $fakturownia->deleteInvoice($invoiceId)->getData();
 ```
 
 More info about the required parameters for every method: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).
+
+## Changelog
+
+Changelog is available [here](CHANGELOG.md).

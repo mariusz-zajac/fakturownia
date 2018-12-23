@@ -3,7 +3,7 @@
 namespace Abb\Fakturownia;
 
 /**
- * Class FakturowniaResponse
+ * Response object returning by Fakturownia client
  */
 class FakturowniaResponse
 {
@@ -25,8 +25,8 @@ class FakturowniaResponse
     /**
      * Constructor
      *
-     * @param integer $code
-     * @param array   $data
+     * @param integer $code Response code
+     * @param array   $data Response data
      */
     public function __construct($code, array $data)
     {
