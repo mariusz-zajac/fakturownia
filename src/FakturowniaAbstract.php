@@ -59,6 +59,18 @@ abstract class FakturowniaAbstract
         'deleteWarehouseDocument' => 'warehouse_documents/[ID].json',
         'getWarehouseDocument'    => 'warehouse_documents/[ID].json',
         'getWarehouseDocuments'   => 'warehouse_documents.json',
+        // warehouse
+        'createWarehouse'         => 'warehouse.json',
+        'updateWarehouse'         => 'warehouse/[ID].json',
+        'deleteWarehouse'         => 'warehouse/[ID].json',
+        'getWarehouse'            => 'warehouse/[ID].json',
+        'getWarehouses'           => 'warehouse.json',
+        // category
+        'createCategory'          => 'categories.json',
+        'updateCategory'          => 'categories/[ID].json',
+        'deleteCategory'          => 'categories/[ID].json',
+        'getCategory'             => 'categories/[ID].json',
+        'getCategories'           => 'categories.json',
         // account
         'getAccount'              => 'account.json',
         'createAccountForClient'  => 'account.json',

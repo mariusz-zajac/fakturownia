@@ -406,6 +406,164 @@ class Fakturownia extends FakturowniaAbstract
     }
 
     /**
+     * Get warehouses
+     *
+     * @param array $params
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getWarehouses(array $params = [])
+    {
+        return $this->request(__FUNCTION__, 0, $params);
+    }
+
+    /**
+     * Get warehouse
+     *
+     * @param integer $id
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getWarehouse($id)
+    {
+        return $this->request(__FUNCTION__, $id);
+    }
+
+    /**
+     * Create warehouse
+     *
+     * @param array $warehouse
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createWarehouse(array $warehouse)
+    {
+        $data = [
+            'warehouse' => $warehouse,
+        ];
+
+        return $this->request(__FUNCTION__, 0, $data);
+    }
+
+    /**
+     * Update warehouse
+     *
+     * @param integer $id
+     * @param array   $warehouse
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updateWarehouse($id, array $warehouse)
+    {
+        $data = [
+            'warehouse' => $warehouse,
+        ];
+
+        return $this->request(__FUNCTION__, $id, $data);
+    }
+
+    /**
+     * Delete warehouse
+     *
+     * @param integer $id
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function deleteWarehouse($id)
+    {
+        return $this->request(__FUNCTION__, $id);
+    }
+
+    /**
+     * Get categories
+     *
+     * @param array $params
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getCategories(array $params = [])
+    {
+        return $this->request(__FUNCTION__, 0, $params);
+    }
+
+    /**
+     * Get category
+     *
+     * @param integer $id
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getCategory($id)
+    {
+        return $this->request(__FUNCTION__, $id);
+    }
+
+    /**
+     * Create category
+     *
+     * @param array $category
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createCategory(array $category)
+    {
+        $data = [
+            'category' => $category,
+        ];
+
+        return $this->request(__FUNCTION__, 0, $data);
+    }
+
+    /**
+     * Update category
+     *
+     * @param integer $id
+     * @param array   $category
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updateCategory($id, array $category)
+    {
+        $data = [
+            'category' => $category,
+        ];
+
+        return $this->request(__FUNCTION__, $id, $data);
+    }
+
+    /**
+     * Delete category
+     *
+     * @param integer $id
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function deleteCategory($id)
+    {
+        return $this->request(__FUNCTION__, $id);
+    }
+
+    /**
      * Get account
      *
      * @return FakturowniaResponse
