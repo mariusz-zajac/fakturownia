@@ -29,6 +29,7 @@ $ composer require abb/fakturownia
 * getProduct($id, $warehouseId = null)
 * createProduct(array $product)
 * updateProduct($id, array $product)
+* getWarehouseDocuments(array $params = [])
 * getWarehouseDocument($id)
 * createWarehouseDocument(array $warehouseDocument)
 * updateWarehouseDocument($id, array $warehouseDocument)

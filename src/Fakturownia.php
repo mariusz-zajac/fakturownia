@@ -276,6 +276,20 @@ class Fakturownia extends FakturowniaAbstract
     }
 
     /**
+     * Get warehouse documents
+     *
+     * @param array $params
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getWarehouseDocuments(array $params = [])
+    {
+        return $this->request(__FUNCTION__, 0, $params);
+    }
+
+    /**
      * Get warehouse document
      *
      * @param integer $id

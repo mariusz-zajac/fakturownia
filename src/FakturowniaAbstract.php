@@ -54,6 +54,7 @@ abstract class FakturowniaAbstract
         'updateWarehouseDocument' => 'warehouse_documents/[ID].json',
         'deleteWarehouseDocument' => 'warehouse_documents/[ID].json',
         'getWarehouseDocument'    => 'warehouse_documents/[ID].json',
+        'getWarehouseDocuments'   => 'warehouse_documents.json',
         // account
         'getAccount'              => 'account.json',
         'createAccountForClient'  => 'account.json',
