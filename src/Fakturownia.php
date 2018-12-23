@@ -121,6 +121,57 @@ class Fakturownia extends FakturowniaAbstract
     }
 
     /**
+     * Get recurring invoices
+     *
+     * @param array $params
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getRecurringInvoices(array $params = [])
+    {
+        return $this->request(__FUNCTION__, 0, $params);
+    }
+
+    /**
+     * Create recurring invoice
+     *
+     * @param array $recurringInvoice
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createRecurringInvoice(array $recurringInvoice)
+    {
+        $data = [
+            'recurring' => $recurringInvoice,
+        ];
+
+        return $this->request(__FUNCTION__, 0, $data);
+    }
+
+    /**
+     * Update recurring invoice
+     *
+     * @param integer $id
+     * @param array   $recurringInvoice
+     *
+     * @return FakturowniaResponse
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updateRecurringInvoice($id, array $recurringInvoice)
+    {
+        $data = [
+            'recurring' => $recurringInvoice,
+        ];
+
+        return $this->request(__FUNCTION__, $id, $data);
+    }
+
+    /**
      * Get clients
      *
      * @param array $params

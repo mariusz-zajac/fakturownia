@@ -38,6 +38,10 @@ abstract class FakturowniaAbstract
         'getInvoices'             => 'invoices.json',
         'sendInvoice'             => 'invoices/[ID]/send_by_email.json',
         'changeInvoiceStatus'     => 'invoices/[ID]/change_status.json',
+        // recurring invoice
+        'getRecurringInvoices'    => 'recurrings.json',
+        'createRecurringInvoice'  => 'recurrings.json',
+        'updateRecurringInvoice'  => 'recurrings/[ID].json',
         // client
         'createClient'            => 'clients.json',
         'updateClient'            => 'clients/[ID].json',
