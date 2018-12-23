@@ -6,7 +6,7 @@ use Abb\Fakturownia\Exception\InvalidTokenException;
 use Abb\Fakturownia\Exception\RequestErrorException;
 
 /**
- * Class FakturowniaAbstract
+ * Base class for Fakturownia client
  */
 abstract class FakturowniaAbstract
 {
@@ -27,7 +27,7 @@ abstract class FakturowniaAbstract
     protected $baseUrl = 'https://[USERNAME].fakturownia.pl';
 
     /**
-     * @var array
+     * @var array API methods to url mapping
      */
     protected $apiMethodsMapping = [
         // invoice
@@ -79,7 +79,7 @@ abstract class FakturowniaAbstract
     /**
      * Constructor
      *
-     * @param string $apiToken
+     * @param string $apiToken Fakturownia API token
      *
      * @throws InvalidTokenException
      */
@@ -104,7 +104,7 @@ abstract class FakturowniaAbstract
     /**
      * Validate API token
      *
-     * @param string $token
+     * @param string $token Token
      *
      * @return void
      *
@@ -123,8 +123,8 @@ abstract class FakturowniaAbstract
     /**
      * Prepare API url
      *
-     * @param string  $apiMethod
-     * @param integer $id
+     * @param string  $apiMethod API method
+     * @param integer $id        Item ID
      *
      * @return string
      *
@@ -147,7 +147,7 @@ abstract class FakturowniaAbstract
     /**
      * Map API method to request method
      *
-     * @param string $apiMethod
+     * @param string $apiMethod API method
      *
      * @return string
      *
@@ -178,9 +178,9 @@ abstract class FakturowniaAbstract
     /**
      * Send a request to the API via curl
      *
-     * @param string  $apiMethod
-     * @param integer $id
-     * @param array   $data
+     * @param string  $apiMethod API method
+     * @param integer $id        Item ID
+     * @param array   $data      Data
      *
      * @return FakturowniaResponse
      *
