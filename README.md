@@ -2,7 +2,7 @@
 PHP client for Fakturownia (InvoiceOcean) API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
 
 ## Requirements
-* PHP 5.4 or higher.
+* PHP 5.4 or higher with curl and json extensions.
 
 ## Installation
 The recommended way to install is through [Composer](http://getcomposer.org).
@@ -131,7 +131,6 @@ $invoiceData = [
 $updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData)->getData();
 ```
 
-
 ### Example 6 - Delete invoice
 
 ```php
@@ -141,3 +140,7 @@ $result = $fakturownia->deleteInvoice($invoiceId)->getData();
 ```
 
 More info about the required parameters for every method: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).
+
+## Changelog
+
+Changelog is available [here](CHANGELOG.md).
