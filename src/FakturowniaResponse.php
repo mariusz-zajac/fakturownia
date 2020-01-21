@@ -5,7 +5,7 @@ namespace Abb\Fakturownia;
 /**
  * Response object returning by Fakturownia client
  */
-class FakturowniaResponse
+class FakturowniaResponse implements ResponseInterface
 {
 
     const STATUS_SUCCESS   = 'SUCCESS';
@@ -13,20 +13,20 @@ class FakturowniaResponse
     const STATUS_ERROR     = 'ERROR';
 
     /**
-     * @var integer
+     * @var int
      */
-    private $code;
+    protected $code;
 
     /**
      * @var array
      */
-    private $data;
+    protected $data;
 
     /**
      * Constructor
      *
-     * @param integer $code Response code
-     * @param array   $data Response data
+     * @param int   $code Response code
+     * @param array $data Response data
      */
     public function __construct($code, array $data)
     {
@@ -35,9 +35,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Get response code
-     *
-     * @return integer
+     * {@inheritDoc}
      */
     public function getCode()
     {
@@ -45,9 +43,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Get response data
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getData()
     {
@@ -55,19 +51,15 @@ class FakturowniaResponse
     }
 
     /**
-     * Get response status
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getStatus()
     {
-        $code = $this->code;
-
-        if (200 <= $code && $code < 300) {
+        if (200 <= $this->code && $this->code < 300) {
             return self::STATUS_SUCCESS;
         }
 
-        if ($code === 404) {
+        if ($this->code === 404) {
             return self::STATUS_NOT_FOUND;
         }
 
@@ -75,9 +67,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Checks if the response has success status
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isSuccess()
     {
@@ -85,9 +75,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Checks if the response has 'not found' status
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isNotFound()
     {
@@ -95,9 +83,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Checks if the response has error status
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isError()
     {
@@ -105,9 +91,7 @@ class FakturowniaResponse
     }
 
     /**
-     * Convert response to array
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function toArray()
     {

@@ -5,35 +5,75 @@ namespace Abb\Fakturownia;
 /**
  * Fakturownia client
  */
-class Fakturownia extends FakturowniaAbstract
+class Fakturownia
 {
+
+    /**
+     * @var string
+     */
+    protected $apiToken;
+
+    /**
+     * @var RestClientInterface
+     */
+    protected $restClient;
+
+    /**
+     * @var FakturowniaApiUrlGenerator
+     */
+    protected $apiUrlGenerator;
+
+    /**
+     * Constructor
+     *
+     * @param string                   $apiToken   Fakturownia API token
+     * @param RestClientInterface|null $restClient REST client
+     */
+    public function __construct(
+        $apiToken,
+        RestClientInterface $restClient = null
+    ) {
+        (new FakturowniaTokenValidator())->isValidTokenOrFail($apiToken);
+        $this->apiToken = $apiToken;
+        $this->restClient = $restClient ?: new FakturowniaRestClient();
+        $username = explode('/', $this->apiToken)[1];
+        $this->apiUrlGenerator = new FakturowniaApiUrlGenerator($username);
+    }
 
     /**
      * Get invoices
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getInvoices(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetInvoices();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get invoice
      *
-     * @param integer $id Invoice ID
+     * @param int $id Invoice ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getInvoice($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlGetInvoice($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -41,83 +81,99 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $invoice Invoice data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createInvoice(array $invoice)
     {
+        $url = $this->apiUrlGenerator->urlCreateInvoice();
         $data = [
             'invoice' => $invoice,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update invoice
      *
-     * @param integer $id      Invoice ID
-     * @param array   $invoice Invoice data
+     * @param int   $id      Invoice ID
+     * @param array $invoice Invoice data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateInvoice($id, array $invoice)
     {
+        $url = $this->apiUrlGenerator->urlUpdateInvoice($id);
         $data = [
             'invoice' => $invoice,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
      * Delete invoice
      *
-     * @param integer $id Invoice ID
+     * @param int $id Invoice ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function deleteInvoice($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlDeleteInvoice($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
     }
 
     /**
      * Send invoice by e-mail to client
      *
-     * @param integer $id Invoice ID
+     * @param int $id Invoice ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function sendInvoice($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlSendInvoice($id);
+        $data = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Change invoice status
      *
-     * @param integer $id     Invoice ID
-     * @param string  $status Status
+     * @param int    $id     Invoice ID
+     * @param string $status Status
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function changeInvoiceStatus($id, $status)
     {
+        $url = $this->apiUrlGenerator->urlChangeInvoiceStatus($id);
         $data = [
             'status' => $status,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
@@ -125,13 +181,16 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getRecurringInvoices(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetRecurringInvoices();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -139,36 +198,40 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $recurringInvoice Recurring invoice data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createRecurringInvoice(array $recurringInvoice)
     {
+        $url = $this->apiUrlGenerator->urlCreateRecurringInvoice();
         $data = [
             'recurring' => $recurringInvoice,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update recurring invoice
      *
-     * @param integer $id               Recurring invoice ID
-     * @param array   $recurringInvoice Recurring invoice data
+     * @param int   $id               Recurring invoice ID
+     * @param array $recurringInvoice Recurring invoice data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateRecurringInvoice($id, array $recurringInvoice)
     {
+        $url = $this->apiUrlGenerator->urlUpdateRecurringInvoice($id);
         $data = [
             'recurring' => $recurringInvoice,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
@@ -176,45 +239,55 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getClients(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetClients();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get client
      *
-     * @param integer $id Client ID
+     * @param int $id Client ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getClient($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlGetClient($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get client by external ID
      *
-     * @param integer $id Client external ID
+     * @param int $id Client external ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getClientByExternalId($id)
     {
-        $data = [
+        $url = $this->apiUrlGenerator->urlGetClientByExternalId();
+        $params = [
             'external_id' => $id,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -222,36 +295,40 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $client Client data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createClient(array $client)
     {
+        $url = $this->apiUrlGenerator->urlCreateClient();
         $data = [
             'client' => $client,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update client
      *
-     * @param integer $id     Client ID
-     * @param array   $client Client data
+     * @param int   $id     Client ID
+     * @param array $client Client data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateClient($id, array $client)
     {
+        $url = $this->apiUrlGenerator->urlUpdateClient($id);
         $data = [
             'client' => $client,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
@@ -259,34 +336,40 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getProducts(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetProducts();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get product
      *
-     * @param integer      $id          Product ID
-     * @param integer|null $warehouseId Warehouse ID
+     * @param int      $id          Product ID
+     * @param int|null $warehouseId Warehouse ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getProduct($id, $warehouseId = null)
     {
-        $data = [];
+        $url = $this->apiUrlGenerator->urlGetProduct($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
 
         if (null !== $warehouseId) {
-            $data['warehouse_id'] = $warehouseId;
+            $params['warehouse_id'] = $warehouseId;
         }
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -294,36 +377,40 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $product Product data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createProduct(array $product)
     {
+        $url = $this->apiUrlGenerator->urlCreateProduct();
         $data = [
-            'product' => $product
+            'product' => $product,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update product
      *
-     * @param integer $id      Product ID
-     * @param array   $product Product data
+     * @param int   $id      Product ID
+     * @param array $product Product data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateProduct($id, array $product)
     {
+        $url = $this->apiUrlGenerator->urlUpdateProduct($id);
         $data = [
-            'product' => $product
+            'product' => $product,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
@@ -331,27 +418,35 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getWarehouseDocuments(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetWarehouseDocuments();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get warehouse document
      *
-     * @param integer $id Warehouse document ID
+     * @param int $id Warehouse document ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getWarehouseDocument($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlGetWarehouseDocument($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -359,50 +454,59 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $warehouseDocument Warehouse document data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createWarehouseDocument(array $warehouseDocument)
     {
+        $url = $this->apiUrlGenerator->urlCreateWarehouseDocument();
         $data = [
             'warehouse_document' => $warehouseDocument,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update warehouse document
      *
-     * @param integer $id                Warehouse document ID
-     * @param array   $warehouseDocument Warehouse document data
+     * @param int   $id                Warehouse document ID
+     * @param array $warehouseDocument Warehouse document data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateWarehouseDocument($id, array $warehouseDocument)
     {
+        $url = $this->apiUrlGenerator->urlUpdateWarehouseDocument($id);
         $data = [
             'warehouse_document' => $warehouseDocument,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
      * Delete warehouse document
      *
-     * @param integer $id Warehouse document ID
+     * @param int $id Warehouse document ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function deleteWarehouseDocument($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlDeleteWarehouseDocument($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
     }
 
     /**
@@ -410,27 +514,35 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getWarehouses(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetWarehouses();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get warehouse
      *
-     * @param integer $id Warehouse ID
+     * @param int $id Warehouse ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getWarehouse($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlGetWarehouse($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -438,50 +550,59 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $warehouse Warehouse data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createWarehouse(array $warehouse)
     {
+        $url = $this->apiUrlGenerator->urlCreateWarehouse();
         $data = [
             'warehouse' => $warehouse,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update warehouse
      *
-     * @param integer $id        Warehouse ID
-     * @param array   $warehouse Warehouse data
+     * @param int   $id        Warehouse ID
+     * @param array $warehouse Warehouse data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateWarehouse($id, array $warehouse)
     {
+        $url = $this->apiUrlGenerator->urlUpdateWarehouse($id);
         $data = [
             'warehouse' => $warehouse,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
      * Delete warehouse
      *
-     * @param integer $id Warehouse ID
+     * @param int $id Warehouse ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function deleteWarehouse($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlDeleteWarehouse($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
     }
 
     /**
@@ -489,27 +610,35 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $params Parameters
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getCategories(array $params = [])
     {
-        return $this->request(__FUNCTION__, 0, $params);
+        $url = $this->apiUrlGenerator->urlGetCategories();
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
      * Get category
      *
-     * @param integer $id Category ID
+     * @param int $id Category ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getCategory($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlGetCategory($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -517,62 +646,76 @@ class Fakturownia extends FakturowniaAbstract
      *
      * @param array $category Category data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createCategory(array $category)
     {
+        $url = $this->apiUrlGenerator->urlCreateCategory();
         $data = [
             'category' => $category,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 
     /**
      * Update category
      *
-     * @param integer $id       Category ID
-     * @param array   $category Category data
+     * @param int   $id       Category ID
+     * @param array $category Category data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function updateCategory($id, array $category)
     {
+        $url = $this->apiUrlGenerator->urlUpdateCategory($id);
         $data = [
             'category' => $category,
+            'api_token' => $this->apiToken,
         ];
 
-        return $this->request(__FUNCTION__, $id, $data);
+        return $this->restClient->put($url, $data);
     }
 
     /**
      * Delete category
      *
-     * @param integer $id Category ID
+     * @param int $id Category ID
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function deleteCategory($id)
     {
-        return $this->request(__FUNCTION__, $id);
+        $url = $this->apiUrlGenerator->urlDeleteCategory($id);
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
     }
 
     /**
      * Get account
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function getAccount()
     {
-        return $this->request(__FUNCTION__);
+        $url = $this->apiUrlGenerator->urlGetAccount();
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
     }
 
     /**
@@ -582,14 +725,16 @@ class Fakturownia extends FakturowniaAbstract
      * @param array $user    User data
      * @param array $company Company data
      *
-     * @return FakturowniaResponse
+     * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
     public function createAccountForClient(array $account, array $user = [], array $company = [])
     {
+        $url = $this->apiUrlGenerator->urlCreateAccountForClient();
         $data = [
             'account' => $account,
+            'api_token' => $this->apiToken,
         ];
 
         if (!empty($user)) {
@@ -600,6 +745,6 @@ class Fakturownia extends FakturowniaAbstract
             $data['company'] = $company;
         }
 
-        return $this->request(__FUNCTION__, 0, $data);
+        return $this->restClient->post($url, $data);
     }
 }
