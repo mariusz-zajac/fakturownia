@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+        colors = "true"
+        verbose = "true"
+        debug = "true"
+        bootstrap ="vendor/autoload.php"
+>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
