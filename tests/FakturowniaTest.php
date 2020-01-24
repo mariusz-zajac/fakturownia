@@ -349,6 +349,218 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
+    public function testGetWarehouseDocuments()
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+        ];
+        $response = $this->fakturownia->getWarehouseDocuments($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetWarehouseDocument()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+        ];
+        $response = $this->fakturownia->getWarehouseDocument(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreateWarehouseDocument()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'warehouse_document' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+        ];
+        $response = $this->fakturownia->createWarehouseDocument($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdateWarehouseDocument()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'warehouse_document' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+        ];
+        $invoice = $this->fakturownia->updateWarehouseDocument(123, $params);
+        self::assertEquals(202, $invoice->getCode());
+        self::assertEquals($responseData, $invoice->getData());
+    }
+
+    public function testDeleteWarehouseDocument()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+        ];
+        $response = $this->fakturownia->deleteWarehouseDocument(123);
+        self::assertEquals(203, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetWarehouses()
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse.json',
+        ];
+        $response = $this->fakturownia->getWarehouses($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetWarehouse()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+        ];
+        $response = $this->fakturownia->getWarehouse(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreateWarehouse()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'warehouse' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse.json',
+        ];
+        $response = $this->fakturownia->createWarehouse($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdateWarehouse()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'warehouse' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+        ];
+        $invoice = $this->fakturownia->updateWarehouse(123, $params);
+        self::assertEquals(202, $invoice->getCode());
+        self::assertEquals($responseData, $invoice->getData());
+    }
+
+    public function testDeleteWarehouse()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+        ];
+        $response = $this->fakturownia->deleteWarehouse(123);
+        self::assertEquals(203, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetCategories()
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories.json',
+        ];
+        $response = $this->fakturownia->getCategories($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetCategory()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories/123.json',
+        ];
+        $response = $this->fakturownia->getCategory(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreateCategory()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'category' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories.json',
+        ];
+        $response = $this->fakturownia->createCategory($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdateCategory()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'category' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories/123.json',
+        ];
+        $invoice = $this->fakturownia->updateCategory(123, $params);
+        self::assertEquals(202, $invoice->getCode());
+        self::assertEquals($responseData, $invoice->getData());
+    }
+
+    public function testDeleteCategory()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories/123.json',
+        ];
+        $response = $this->fakturownia->deleteCategory(123);
+        self::assertEquals(203, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetAccount()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/account.json',
+        ];
+        $response = $this->fakturownia->getAccount(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
     public function testCreateAccountForClient()
     {
         $account = [
