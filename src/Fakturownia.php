@@ -19,9 +19,9 @@ class Fakturownia
     protected $restClient;
 
     /**
-     * @var FakturowniaApiUrlGenerator
+     * @var string
      */
-    protected $apiUrlGenerator;
+    protected $baseUrl = 'https://[USERNAME].fakturownia.pl';
 
     /**
      * Constructor
@@ -37,7 +37,7 @@ class Fakturownia
         $this->apiToken = $apiToken;
         $this->restClient = $restClient ?: new FakturowniaRestClient();
         $username = explode('/', $this->apiToken)[1];
-        $this->apiUrlGenerator = new FakturowniaApiUrlGenerator($username);
+        $this->baseUrl = str_replace('[USERNAME]', $username, $this->baseUrl);
     }
 
     /**
@@ -51,7 +51,7 @@ class Fakturownia
      */
     public function getInvoices(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetInvoices();
+        $url = $this->baseUrl . '/invoices.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -68,7 +68,7 @@ class Fakturownia
      */
     public function getInvoice($id)
     {
-        $url = $this->apiUrlGenerator->urlGetInvoice($id);
+        $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -87,7 +87,7 @@ class Fakturownia
      */
     public function createInvoice(array $invoice)
     {
-        $url = $this->apiUrlGenerator->urlCreateInvoice();
+        $url = $this->baseUrl . '/invoices.json';
         $data = [
             'invoice' => $invoice,
             'api_token' => $this->apiToken,
@@ -108,7 +108,7 @@ class Fakturownia
      */
     public function updateInvoice($id, array $invoice)
     {
-        $url = $this->apiUrlGenerator->urlUpdateInvoice($id);
+        $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $data = [
             'invoice' => $invoice,
             'api_token' => $this->apiToken,
@@ -128,7 +128,7 @@ class Fakturownia
      */
     public function deleteInvoice($id)
     {
-        $url = $this->apiUrlGenerator->urlDeleteInvoice($id);
+        $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -147,7 +147,7 @@ class Fakturownia
      */
     public function sendInvoice($id)
     {
-        $url = $this->apiUrlGenerator->urlSendInvoice($id);
+        $url = $this->baseUrl . '/invoices/' . $id . '/send_by_email.json';
         $data = [
             'api_token' => $this->apiToken,
         ];
@@ -167,7 +167,7 @@ class Fakturownia
      */
     public function changeInvoiceStatus($id, $status)
     {
-        $url = $this->apiUrlGenerator->urlChangeInvoiceStatus($id);
+        $url = $this->baseUrl . '/invoices/' . $id . '/change_status.json';
         $data = [
             'status' => $status,
             'api_token' => $this->apiToken,
@@ -187,7 +187,7 @@ class Fakturownia
      */
     public function getRecurringInvoices(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetRecurringInvoices();
+        $url = $this->baseUrl . '/recurrings.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -204,7 +204,7 @@ class Fakturownia
      */
     public function createRecurringInvoice(array $recurringInvoice)
     {
-        $url = $this->apiUrlGenerator->urlCreateRecurringInvoice();
+        $url = $this->baseUrl . '/recurrings.json';
         $data = [
             'recurring' => $recurringInvoice,
             'api_token' => $this->apiToken,
@@ -225,7 +225,7 @@ class Fakturownia
      */
     public function updateRecurringInvoice($id, array $recurringInvoice)
     {
-        $url = $this->apiUrlGenerator->urlUpdateRecurringInvoice($id);
+        $url = $this->baseUrl . '/recurrings/' . $id . '.json';
         $data = [
             'recurring' => $recurringInvoice,
             'api_token' => $this->apiToken,
@@ -245,7 +245,7 @@ class Fakturownia
      */
     public function getClients(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetClients();
+        $url = $this->baseUrl . '/clients.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -262,7 +262,7 @@ class Fakturownia
      */
     public function getClient($id)
     {
-        $url = $this->apiUrlGenerator->urlGetClient($id);
+        $url = $this->baseUrl . '/clients/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -281,7 +281,7 @@ class Fakturownia
      */
     public function getClientByExternalId($id)
     {
-        $url = $this->apiUrlGenerator->urlGetClientByExternalId();
+        $url = $this->baseUrl . '/clients.json';
         $params = [
             'external_id' => $id,
             'api_token' => $this->apiToken,
@@ -301,7 +301,7 @@ class Fakturownia
      */
     public function createClient(array $client)
     {
-        $url = $this->apiUrlGenerator->urlCreateClient();
+        $url = $this->baseUrl . '/clients.json';
         $data = [
             'client' => $client,
             'api_token' => $this->apiToken,
@@ -322,7 +322,7 @@ class Fakturownia
      */
     public function updateClient($id, array $client)
     {
-        $url = $this->apiUrlGenerator->urlUpdateClient($id);
+        $url = $this->baseUrl . '/clients/' . $id . '.json';
         $data = [
             'client' => $client,
             'api_token' => $this->apiToken,
@@ -342,7 +342,7 @@ class Fakturownia
      */
     public function getProducts(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetProducts();
+        $url = $this->baseUrl . '/products.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -360,7 +360,7 @@ class Fakturownia
      */
     public function getProduct($id, $warehouseId = null)
     {
-        $url = $this->apiUrlGenerator->urlGetProduct($id);
+        $url = $this->baseUrl . '/products/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -383,7 +383,7 @@ class Fakturownia
      */
     public function createProduct(array $product)
     {
-        $url = $this->apiUrlGenerator->urlCreateProduct();
+        $url = $this->baseUrl . '/products.json';
         $data = [
             'product' => $product,
             'api_token' => $this->apiToken,
@@ -404,7 +404,7 @@ class Fakturownia
      */
     public function updateProduct($id, array $product)
     {
-        $url = $this->apiUrlGenerator->urlUpdateProduct($id);
+        $url = $this->baseUrl . '/products/' . $id . '.json';
         $data = [
             'product' => $product,
             'api_token' => $this->apiToken,
@@ -424,7 +424,7 @@ class Fakturownia
      */
     public function getWarehouseDocuments(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetWarehouseDocuments();
+        $url = $this->baseUrl . '/warehouse_documents.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -441,7 +441,7 @@ class Fakturownia
      */
     public function getWarehouseDocument($id)
     {
-        $url = $this->apiUrlGenerator->urlGetWarehouseDocument($id);
+        $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -460,7 +460,7 @@ class Fakturownia
      */
     public function createWarehouseDocument(array $warehouseDocument)
     {
-        $url = $this->apiUrlGenerator->urlCreateWarehouseDocument();
+        $url = $this->baseUrl . '/warehouse_documents.json';
         $data = [
             'warehouse_document' => $warehouseDocument,
             'api_token' => $this->apiToken,
@@ -481,7 +481,7 @@ class Fakturownia
      */
     public function updateWarehouseDocument($id, array $warehouseDocument)
     {
-        $url = $this->apiUrlGenerator->urlUpdateWarehouseDocument($id);
+        $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $data = [
             'warehouse_document' => $warehouseDocument,
             'api_token' => $this->apiToken,
@@ -501,7 +501,7 @@ class Fakturownia
      */
     public function deleteWarehouseDocument($id)
     {
-        $url = $this->apiUrlGenerator->urlDeleteWarehouseDocument($id);
+        $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -520,7 +520,7 @@ class Fakturownia
      */
     public function getWarehouses(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetWarehouses();
+        $url = $this->baseUrl . '/warehouse.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -537,7 +537,7 @@ class Fakturownia
      */
     public function getWarehouse($id)
     {
-        $url = $this->apiUrlGenerator->urlGetWarehouse($id);
+        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -556,7 +556,7 @@ class Fakturownia
      */
     public function createWarehouse(array $warehouse)
     {
-        $url = $this->apiUrlGenerator->urlCreateWarehouse();
+        $url = $this->baseUrl . '/warehouse.json';
         $data = [
             'warehouse' => $warehouse,
             'api_token' => $this->apiToken,
@@ -577,7 +577,7 @@ class Fakturownia
      */
     public function updateWarehouse($id, array $warehouse)
     {
-        $url = $this->apiUrlGenerator->urlUpdateWarehouse($id);
+        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $data = [
             'warehouse' => $warehouse,
             'api_token' => $this->apiToken,
@@ -597,7 +597,7 @@ class Fakturownia
      */
     public function deleteWarehouse($id)
     {
-        $url = $this->apiUrlGenerator->urlDeleteWarehouse($id);
+        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -616,7 +616,7 @@ class Fakturownia
      */
     public function getCategories(array $params = [])
     {
-        $url = $this->apiUrlGenerator->urlGetCategories();
+        $url = $this->baseUrl . '/categories.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -633,7 +633,7 @@ class Fakturownia
      */
     public function getCategory($id)
     {
-        $url = $this->apiUrlGenerator->urlGetCategory($id);
+        $url = $this->baseUrl . '/categories/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -652,7 +652,7 @@ class Fakturownia
      */
     public function createCategory(array $category)
     {
-        $url = $this->apiUrlGenerator->urlCreateCategory();
+        $url = $this->baseUrl . '/categories.json';
         $data = [
             'category' => $category,
             'api_token' => $this->apiToken,
@@ -673,7 +673,7 @@ class Fakturownia
      */
     public function updateCategory($id, array $category)
     {
-        $url = $this->apiUrlGenerator->urlUpdateCategory($id);
+        $url = $this->baseUrl . '/categories/' . $id . '.json';
         $data = [
             'category' => $category,
             'api_token' => $this->apiToken,
@@ -693,7 +693,7 @@ class Fakturownia
      */
     public function deleteCategory($id)
     {
-        $url = $this->apiUrlGenerator->urlDeleteCategory($id);
+        $url = $this->baseUrl . '/categories/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -710,7 +710,7 @@ class Fakturownia
      */
     public function getAccount()
     {
-        $url = $this->apiUrlGenerator->urlGetAccount();
+        $url = $this->baseUrl . '/account.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -731,7 +731,7 @@ class Fakturownia
      */
     public function createAccountForClient(array $account, array $user = [], array $company = [])
     {
-        $url = $this->apiUrlGenerator->urlCreateAccountForClient();
+        $url = $this->baseUrl . '/account.json';
         $data = [
             'account' => $account,
             'api_token' => $this->apiToken,
