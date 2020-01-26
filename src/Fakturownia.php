@@ -772,4 +772,156 @@ class Fakturownia
 
         return $this->restClient->post($url, $data);
     }
+
+    /**
+     * Get payments
+     *
+     * @param array $params Parameters
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getPayments(array $params = [])
+    {
+        $url = $this->baseUrl . '/banking/payments.json';
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
+    }
+
+    /**
+     * Get payment
+     *
+     * @param int $id Payment ID
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getPayment($id)
+    {
+        $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
+    }
+
+    /**
+     * Create payment
+     *
+     * @param array $payment Payment data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createPayment(array $payment)
+    {
+        $url = $this->baseUrl . '/banking/payments.json';
+        $data = [
+            'banking_payment' => $payment,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->post($url, $data);
+    }
+
+    /**
+     * Get departments
+     *
+     * @param array $params Parameters
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getDepartments(array $params = [])
+    {
+        $url = $this->baseUrl . '/departments.json';
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
+    }
+
+    /**
+     * Get department
+     *
+     * @param int $id Department ID
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getDepartment($id)
+    {
+        $url = $this->baseUrl . '/departments/' . $id . '.json';
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->get($url, $params);
+    }
+
+    /**
+     * Create department
+     *
+     * @param array $payment Department data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createDepartment(array $payment)
+    {
+        $url = $this->baseUrl . '/departments.json';
+        $data = [
+            'department' => $payment,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->post($url, $data);
+    }
+
+    /**
+     * Update department
+     *
+     * @param int   $id         Department ID
+     * @param array $department Department data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updateDepartment($id, array $department)
+    {
+        $url = $this->baseUrl . '/departments/' . $id . '.json';
+        $data = [
+            'department' => $department,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->put($url, $data);
+    }
+
+    /**
+     * Delete department
+     *
+     * @param int $id Department ID
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function deleteDepartment($id)
+    {
+        $url = $this->baseUrl . '/departments/' . $id . '.json';
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
+    }
 }

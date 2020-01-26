@@ -595,4 +595,112 @@ class FakturowniaTest  extends TestCase
         self::assertEquals(201, $response->getCode());
         self::assertEquals($responseData, $response->getData());
     }
+
+    public function testGetPayments()
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+        ];
+        $response = $this->fakturownia->getPayments($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetPayment()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/banking/payments/123.json',
+        ];
+        $response = $this->fakturownia->getPayment(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreatePayment()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'banking_payment' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+        ];
+        $response = $this->fakturownia->createPayment($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetDepartments()
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments.json',
+        ];
+        $response = $this->fakturownia->getDepartments($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetDepartment()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments/123.json',
+        ];
+        $response = $this->fakturownia->getDepartment(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreateDepartment()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'department' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments.json',
+        ];
+        $response = $this->fakturownia->createDepartment($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdateDepartment()
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'department' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments/123.json',
+        ];
+        $invoice = $this->fakturownia->updateDepartment(123, $params);
+        self::assertEquals(202, $invoice->getCode());
+        self::assertEquals($responseData, $invoice->getData());
+    }
+
+    public function testDeleteDepartment()
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments/123.json',
+        ];
+        $response = $this->fakturownia->deleteDepartment(123);
+        self::assertEquals(203, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
 }

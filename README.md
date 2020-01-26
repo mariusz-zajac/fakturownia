@@ -50,6 +50,14 @@ $ composer require abb/fakturownia
 * deleteCategory($id)
 * getAccount()
 * createAccountForClient(array $account, array $user = [], array $company = [])
+* getPayments(array $params = [])
+* getPayment($id)
+* createPayment(array $payment)
+* getDepartments(array $params = [])
+* getDepartment($id)
+* createDepartment(array $payment)
+* updateDepartment($id, array $department)
+* deleteDepartment($id)
 
 ## Examples of usage
 
