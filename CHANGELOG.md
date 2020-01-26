@@ -1,3 +1,9 @@
+### 1.2.0
+* Added login method
+* Added methods to manage payments and departments
+* Added tests
+* Refactoring
+
 ### 1.1.0
 * Added changelog
 * Added methods to manage categories, warehouses and recurring invoices
