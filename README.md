@@ -13,6 +13,7 @@ $ composer require abb/fakturownia
 
 ## Available methods
 
+* login($login, $password)
 * getInvoices(array $params = [])
 * getInvoice($id)
 * createInvoice(array $invoice)

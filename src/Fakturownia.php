@@ -24,6 +24,11 @@ class Fakturownia
     protected $baseUrl = 'https://[USERNAME].fakturownia.pl';
 
     /**
+     * @var string
+     */
+    protected $loginUrl = 'https://app.fakturownia.pl/login.json';
+
+    /**
      * Constructor
      *
      * @param string                   $apiToken   Fakturownia API token
@@ -38,6 +43,26 @@ class Fakturownia
         $this->restClient = $restClient ?: new FakturowniaRestClient();
         $username = explode('/', $this->apiToken)[1];
         $this->baseUrl = str_replace('[USERNAME]', $username, $this->baseUrl);
+    }
+
+    /**
+     * Login
+     *
+     * @param string $login    Login or e-mail
+     * @param string $password Password
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function login($login, $password)
+    {
+        $data = [
+            'login' => $login,
+            'password' => $password,
+        ];
+
+        return $this->restClient->post($this->loginUrl, $data);
     }
 
     /**

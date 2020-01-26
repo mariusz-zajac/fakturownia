@@ -78,6 +78,18 @@ class FakturowniaTest  extends TestCase
         new Fakturownia('invalid_token');
     }
 
+    public function testLogin()
+    {
+        $responseData = [
+            'login' => 'john_doe',
+            'password' => 'p4ssw0rd!',
+            'url' => 'https://app.fakturownia.pl/login.json',
+        ];
+        $response = $this->fakturownia->login('john_doe', 'p4ssw0rd!');
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
     public function testGetInvoices()
     {
         $params = [
