@@ -1,3 +1,6 @@
+### 1.3.0
+* Upgraded to PHP 7.1
+
 ### 1.2.0
 * Added login method
 * Added methods to manage payments and departments

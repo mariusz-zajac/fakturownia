@@ -28,7 +28,7 @@ class FakturowniaResponse implements ResponseInterface
      * @param int   $code Response code
      * @param array $data Response data
      */
-    public function __construct($code, array $data)
+    public function __construct(int $code, array $data)
     {
         $this->code = $code;
         $this->data = $data;
@@ -37,7 +37,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -45,7 +45,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
@@ -53,7 +53,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         if (200 <= $this->code && $this->code < 300) {
             return self::STATUS_SUCCESS;
@@ -69,7 +69,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return self::STATUS_SUCCESS === $this->getStatus();
     }
@@ -77,7 +77,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function isNotFound()
+    public function isNotFound(): bool
     {
         return self::STATUS_NOT_FOUND === $this->getStatus();
     }
@@ -85,7 +85,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function isError()
+    public function isError(): bool
     {
         return self::STATUS_ERROR === $this->getStatus();
     }
@@ -93,7 +93,7 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'code' => $this->getCode(),

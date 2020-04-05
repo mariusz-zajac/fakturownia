@@ -36,15 +36,16 @@ class FakturowniaTokenValidatorTest extends TestCase
      *
      * @param $token
      */
-    public function testValidatorForValidToken($token)
+    public function testValidatorForValidToken($token): void
     {
+        $this->expectNotToPerformAssertions();
         $this->tokenValidator->isValidTokenOrFail($token);
     }
 
     /**
      * @return array
      */
-    public function providerValidTokens()
+    public function providerValidTokens(): array
     {
         return [
             ['token/username'],
@@ -58,16 +59,16 @@ class FakturowniaTokenValidatorTest extends TestCase
      *
      * @param $token
      */
-    public function testValidatorForInvalidToken($token)
+    public function testValidatorForInvalidToken($token): void
     {
-        self::expectException('Abb\Fakturownia\Exception\InvalidTokenException');
+        $this->expectException('Abb\Fakturownia\Exception\InvalidTokenException');
         $this->tokenValidator->isValidTokenOrFail($token);
     }
 
     /**
      * @return array
      */
-    public function providerInvalidTokens()
+    public function providerInvalidTokens(): array
     {
         return [
             [''],

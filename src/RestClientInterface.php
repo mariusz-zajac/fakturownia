@@ -20,7 +20,7 @@ interface RestClientInterface
      *
      * @throws RequestErrorException
      */
-    public function get($url, array $params = []);
+    public function get(string $url, array $params = []): ResponseInterface;
 
     /**
      * Send an HTTP POST request
@@ -32,7 +32,7 @@ interface RestClientInterface
      *
      * @throws RequestErrorException
      */
-    public function post($url, array $params = []);
+    public function post(string $url, array $params = []): ResponseInterface;
 
     /**
      * Send an HTTP PUT request
@@ -44,7 +44,7 @@ interface RestClientInterface
      *
      * @throws RequestErrorException
      */
-    public function put($url, array $params = []);
+    public function put(string $url, array $params = []): ResponseInterface;
 
     /**
      * Send an HTTP DELETE request
@@ -56,5 +56,5 @@ interface RestClientInterface
      *
      * @throws RequestErrorException
      */
-    public function delete($url, array $params = []);
+    public function delete(string $url, array $params = []): ResponseInterface;
 }

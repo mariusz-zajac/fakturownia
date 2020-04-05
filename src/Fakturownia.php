@@ -35,7 +35,7 @@ class Fakturownia
      * @param RestClientInterface|null $restClient REST client
      */
     public function __construct(
-        $apiToken,
+        string $apiToken,
         RestClientInterface $restClient = null
     ) {
         (new FakturowniaTokenValidator())->isValidTokenOrFail($apiToken);
@@ -55,7 +55,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function login($login, $password)
+    public function login(string $login, string $password): ResponseInterface
     {
         $data = [
             'login' => $login,
@@ -74,7 +74,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getInvoices(array $params = [])
+    public function getInvoices(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices.json';
         $params['api_token'] = $this->apiToken;
@@ -91,7 +91,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getInvoice($id)
+    public function getInvoice(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $params = [
@@ -110,7 +110,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createInvoice(array $invoice)
+    public function createInvoice(array $invoice): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices.json';
         $data = [
@@ -131,7 +131,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateInvoice($id, array $invoice)
+    public function updateInvoice(int $id, array $invoice): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $data = [
@@ -151,7 +151,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function deleteInvoice($id)
+    public function deleteInvoice(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '.json';
         $params = [
@@ -170,7 +170,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function sendInvoice($id)
+    public function sendInvoice(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '/send_by_email.json';
         $data = [
@@ -190,7 +190,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function changeInvoiceStatus($id, $status)
+    public function changeInvoiceStatus(int $id, string $status): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '/change_status.json';
         $data = [
@@ -210,7 +210,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getRecurringInvoices(array $params = [])
+    public function getRecurringInvoices(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/recurrings.json';
         $params['api_token'] = $this->apiToken;
@@ -227,7 +227,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createRecurringInvoice(array $recurringInvoice)
+    public function createRecurringInvoice(array $recurringInvoice): ResponseInterface
     {
         $url = $this->baseUrl . '/recurrings.json';
         $data = [
@@ -248,7 +248,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateRecurringInvoice($id, array $recurringInvoice)
+    public function updateRecurringInvoice(int $id, array $recurringInvoice): ResponseInterface
     {
         $url = $this->baseUrl . '/recurrings/' . $id . '.json';
         $data = [
@@ -268,7 +268,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getClients(array $params = [])
+    public function getClients(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/clients.json';
         $params['api_token'] = $this->apiToken;
@@ -285,7 +285,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getClient($id)
+    public function getClient(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/clients/' . $id . '.json';
         $params = [
@@ -304,7 +304,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getClientByExternalId($id)
+    public function getClientByExternalId(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/clients.json';
         $params = [
@@ -324,7 +324,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createClient(array $client)
+    public function createClient(array $client): ResponseInterface
     {
         $url = $this->baseUrl . '/clients.json';
         $data = [
@@ -345,7 +345,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateClient($id, array $client)
+    public function updateClient(int $id, array $client): ResponseInterface
     {
         $url = $this->baseUrl . '/clients/' . $id . '.json';
         $data = [
@@ -365,7 +365,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getProducts(array $params = [])
+    public function getProducts(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/products.json';
         $params['api_token'] = $this->apiToken;
@@ -383,7 +383,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getProduct($id, $warehouseId = null)
+    public function getProduct(int $id, int $warehouseId = null): ResponseInterface
     {
         $url = $this->baseUrl . '/products/' . $id . '.json';
         $params = [
@@ -406,7 +406,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createProduct(array $product)
+    public function createProduct(array $product): ResponseInterface
     {
         $url = $this->baseUrl . '/products.json';
         $data = [
@@ -427,7 +427,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateProduct($id, array $product)
+    public function updateProduct(int $id, array $product)
     {
         $url = $this->baseUrl . '/products/' . $id . '.json';
         $data = [
@@ -447,7 +447,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getWarehouseDocuments(array $params = [])
+    public function getWarehouseDocuments(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse_documents.json';
         $params['api_token'] = $this->apiToken;
@@ -464,7 +464,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getWarehouseDocument($id)
+    public function getWarehouseDocument(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $params = [
@@ -483,7 +483,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createWarehouseDocument(array $warehouseDocument)
+    public function createWarehouseDocument(array $warehouseDocument): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse_documents.json';
         $data = [
@@ -504,7 +504,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateWarehouseDocument($id, array $warehouseDocument)
+    public function updateWarehouseDocument(int $id, array $warehouseDocument): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $data = [
@@ -524,7 +524,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function deleteWarehouseDocument($id)
+    public function deleteWarehouseDocument(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse_documents/' . $id . '.json';
         $params = [
@@ -543,7 +543,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getWarehouses(array $params = [])
+    public function getWarehouses(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse.json';
         $params['api_token'] = $this->apiToken;
@@ -560,7 +560,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getWarehouse($id)
+    public function getWarehouse(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $params = [
@@ -579,7 +579,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createWarehouse(array $warehouse)
+    public function createWarehouse(array $warehouse): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse.json';
         $data = [
@@ -600,7 +600,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateWarehouse($id, array $warehouse)
+    public function updateWarehouse(int $id, array $warehouse): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $data = [
@@ -620,7 +620,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function deleteWarehouse($id)
+    public function deleteWarehouse(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/warehouse/' . $id . '.json';
         $params = [
@@ -639,7 +639,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getCategories(array $params = [])
+    public function getCategories(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/categories.json';
         $params['api_token'] = $this->apiToken;
@@ -656,7 +656,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getCategory($id)
+    public function getCategory(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/categories/' . $id . '.json';
         $params = [
@@ -675,7 +675,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createCategory(array $category)
+    public function createCategory(array $category): ResponseInterface
     {
         $url = $this->baseUrl . '/categories.json';
         $data = [
@@ -696,7 +696,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateCategory($id, array $category)
+    public function updateCategory(int $id, array $category): ResponseInterface
     {
         $url = $this->baseUrl . '/categories/' . $id . '.json';
         $data = [
@@ -716,7 +716,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function deleteCategory($id)
+    public function deleteCategory(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/categories/' . $id . '.json';
         $params = [
@@ -733,7 +733,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getAccount()
+    public function getAccount(): ResponseInterface
     {
         $url = $this->baseUrl . '/account.json';
         $params = [
@@ -754,7 +754,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createAccountForClient(array $account, array $user = [], array $company = [])
+    public function createAccountForClient(array $account, array $user = [], array $company = []): ResponseInterface
     {
         $url = $this->baseUrl . '/account.json';
         $data = [
@@ -782,7 +782,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getPayments(array $params = [])
+    public function getPayments(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/banking/payments.json';
         $params['api_token'] = $this->apiToken;
@@ -799,7 +799,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getPayment($id)
+    public function getPayment(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
         $params = [
@@ -818,7 +818,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createPayment(array $payment)
+    public function createPayment(array $payment): ResponseInterface
     {
         $url = $this->baseUrl . '/banking/payments.json';
         $data = [
@@ -838,7 +838,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getDepartments(array $params = [])
+    public function getDepartments(array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/departments.json';
         $params['api_token'] = $this->apiToken;
@@ -855,7 +855,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function getDepartment($id)
+    public function getDepartment(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/departments/' . $id . '.json';
         $params = [
@@ -874,7 +874,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function createDepartment(array $payment)
+    public function createDepartment(array $payment): ResponseInterface
     {
         $url = $this->baseUrl . '/departments.json';
         $data = [
@@ -895,7 +895,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function updateDepartment($id, array $department)
+    public function updateDepartment(int $id, array $department): ResponseInterface
     {
         $url = $this->baseUrl . '/departments/' . $id . '.json';
         $data = [
@@ -915,7 +915,7 @@ class Fakturownia
      *
      * @throws Exception\RequestErrorException
      */
-    public function deleteDepartment($id)
+    public function deleteDepartment(int $id): ResponseInterface
     {
         $url = $this->baseUrl . '/departments/' . $id . '.json';
         $params = [

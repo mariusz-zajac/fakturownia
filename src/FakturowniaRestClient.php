@@ -36,7 +36,7 @@ class FakturowniaRestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function get($url, array $params = [])
+    public function get(string $url, array $params = []): ResponseInterface
     {
         return $this->request('GET', $url, $params);
     }
@@ -44,7 +44,7 @@ class FakturowniaRestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function post($url, array $params = [])
+    public function post(string $url, array $params = []): ResponseInterface
     {
         return $this->request('POST', $url, $params);
     }
@@ -52,7 +52,7 @@ class FakturowniaRestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function put($url, array $params = [])
+    public function put(string $url, array $params = []): ResponseInterface
     {
         return $this->request('PUT', $url, $params);
     }
@@ -60,7 +60,7 @@ class FakturowniaRestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function delete($url, array $params = [])
+    public function delete(string $url, array $params = []): ResponseInterface
     {
         return $this->request('DELETE', $url, $params);
     }
@@ -76,7 +76,7 @@ class FakturowniaRestClient implements RestClientInterface
      *
      * @throws RequestErrorException
      */
-    protected function request($method, $url, array $params = [])
+    protected function request(string $method, string $url, array $params = []): ResponseInterface
     {
         curl_setopt_array($this->curl, [
             CURLOPT_HTTPHEADER => [

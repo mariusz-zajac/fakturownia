@@ -11,7 +11,7 @@ class FakturowniaResponseTest extends TestCase
     /**
      * @dataProvider providerResponseData
      */
-    public function testResponse($code, $data, $status, $isSuccess, $isNotFound, $isError, $array)
+    public function testResponse(int $code, array $data, string $status, bool $isSuccess, bool $isNotFound, bool $isError, array $array): void
     {
         $response = new FakturowniaResponse($code, $data);
 
@@ -27,7 +27,7 @@ class FakturowniaResponseTest extends TestCase
     /**
      * @return array
      */
-    public function providerResponseData()
+    public function providerResponseData(): array
     {
         return [
             [

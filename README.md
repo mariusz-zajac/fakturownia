@@ -1,10 +1,13 @@
 # Fakturownia (InvoiceOcean)
+
 PHP client for Fakturownia (InvoiceOcean) API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
 
 ## Requirements
-* PHP 5.4 or higher with curl and json extensions.
+
+* PHP 7.1 or higher with curl and json extensions.
 
 ## Installation
+
 The recommended way to install is through [Composer](http://getcomposer.org).
 
 ```bash
@@ -13,51 +16,51 @@ $ composer require abb/fakturownia
 
 ## Available methods
 
-* login($login, $password)
+* login(string $login, string $password)
 * getInvoices(array $params = [])
-* getInvoice($id)
+* getInvoice(int $id)
 * createInvoice(array $invoice)
-* updateInvoice($id, array $invoice)
-* deleteInvoice($id)
-* sendInvoice($id)
-* changeInvoiceStatus($id, $status)
+* updateInvoice(int $id, array $invoice)
+* deleteInvoice(int $id)
+* sendInvoice(int $id)
+* changeInvoiceStatus(int $id, $status)
 * getRecurringInvoices(array $params = [])
 * createRecurringInvoice(array $recurringInvoice)
-* updateRecurringInvoice($id, array $recurringInvoice)
+* updateRecurringInvoice(int $id, array $recurringInvoice)
 * getClients(array $params = [])
-* getClient($id)
-* getClientByExternalId($id)
+* getClient(int $id)
+* getClientByExternalId(int $id)
 * createClient(array $client)
-* updateClient($id, array $client)
+* updateClient(int $id, array $client)
 * getProducts(array $params = [])
-* getProduct($id, $warehouseId = null)
+* getProduct(int $id, int $warehouseId = null)
 * createProduct(array $product)
-* updateProduct($id, array $product)
+* updateProduct(int $id, array $product)
 * getWarehouseDocuments(array $params = [])
-* getWarehouseDocument($id)
+* getWarehouseDocument(int $id)
 * createWarehouseDocument(array $warehouseDocument)
-* updateWarehouseDocument($id, array $warehouseDocument)
-* deleteWarehouseDocument($id)
+* updateWarehouseDocument(int $id, array $warehouseDocument)
+* deleteWarehouseDocument(int $id)
 * getWarehouses(array $params = [])
-* getWarehouse($id)
+* getWarehouse(int $id)
 * createWarehouse(array $warehouse)
-* updateWarehouse($id, array $warehouse)
-* deleteWarehouse($id)
+* updateWarehouse(int $id, array $warehouse)
+* deleteWarehouse(int $id)
 * getCategories(array $params = [])
-* getCategory($id)
+* getCategory(int $id)
 * createCategory(array $category)
-* updateCategory($id, array $category)
-* deleteCategory($id)
+* updateCategory(int $id, array $category)
+* deleteCategory(int $id)
 * getAccount()
 * createAccountForClient(array $account, array $user = [], array $company = [])
 * getPayments(array $params = [])
-* getPayment($id)
+* getPayment(int $id)
 * createPayment(array $payment)
 * getDepartments(array $params = [])
-* getDepartment($id)
+* getDepartment(int $id)
 * createDepartment(array $payment)
-* updateDepartment($id, array $department)
-* deleteDepartment($id)
+* updateDepartment(int $id, array $department)
+* deleteDepartment(int $id)
 
 ## Examples of usage
 

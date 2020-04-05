@@ -4,6 +4,7 @@ namespace Abb\Fakturownia\Tests;
 
 use Abb\Fakturownia\Fakturownia;
 use Abb\Fakturownia\FakturowniaResponse;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FakturowniaTest  extends TestCase
@@ -40,9 +41,9 @@ class FakturowniaTest  extends TestCase
     /**
      * Mock REST client
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
-    private function mockRestClient()
+    private function mockRestClient(): MockObject
     {
         $restClient = $this->createMock('Abb\Fakturownia\RestClientInterface');
 
@@ -72,13 +73,13 @@ class FakturowniaTest  extends TestCase
         return $restClient;
     }
 
-    public function testCreateFakturowniaWithInvalidToken()
+    public function testCreateFakturowniaWithInvalidToken(): void
     {
-        self::expectException('Abb\Fakturownia\Exception\InvalidTokenException');
+        $this->expectException('Abb\Fakturownia\Exception\InvalidTokenException');
         new Fakturownia('invalid_token');
     }
 
-    public function testLogin()
+    public function testLogin(): void
     {
         $responseData = [
             'login' => 'john_doe',
@@ -90,7 +91,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetInvoices()
+    public function testGetInvoices(): void
     {
         $params = [
             'period' => 'this_month',
@@ -105,7 +106,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetInvoice()
+    public function testGetInvoice(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -116,7 +117,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateInvoice()
+    public function testCreateInvoice(): void
     {
         $params = [
             'name' => 'Test',
@@ -131,7 +132,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateInvoice()
+    public function testUpdateInvoice(): void
     {
         $params = [
             'name' => 'Test',
@@ -146,7 +147,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testDeleteInvoice()
+    public function testDeleteInvoice(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -157,7 +158,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testSendInvoice()
+    public function testSendInvoice(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -168,7 +169,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testChangeInvoiceStatus()
+    public function testChangeInvoiceStatus(): void
     {
         $responseData = [
             'status' => 'new',
@@ -180,7 +181,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetRecurringInvoices()
+    public function testGetRecurringInvoices(): void
     {
         $params = [
             'period' => 'this_month',
@@ -195,7 +196,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateRecurringInvoice()
+    public function testCreateRecurringInvoice(): void
     {
         $params = [
             'name' => 'Test',
@@ -210,7 +211,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateRecurringInvoice()
+    public function testUpdateRecurringInvoice(): void
     {
         $params = [
             'name' => 'Test',
@@ -225,7 +226,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetClients()
+    public function testGetClients(): void
     {
         $params = [
             'page' => '1',
@@ -240,7 +241,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetClient()
+    public function testGetClient(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -251,7 +252,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetClientByExternalId()
+    public function testGetClientByExternalId(): void
     {
         $responseData = [
             'external_id' => 123,
@@ -263,7 +264,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateClient()
+    public function testCreateClient(): void
     {
         $params = [
             'name' => 'John Doe',
@@ -278,7 +279,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateClient()
+    public function testUpdateClient(): void
     {
         $params = [
             'name' => 'John Doe',
@@ -293,7 +294,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testGetProducts()
+    public function testGetProducts(): void
     {
         $params = [
             'page' => '1',
@@ -308,7 +309,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetProduct()
+    public function testGetProduct(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -319,7 +320,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetProductWithWarehouse()
+    public function testGetProductWithWarehouse(): void
     {
         $responseData = [
             'warehouse_id' => 321,
@@ -331,7 +332,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateProduct()
+    public function testCreateProduct(): void
     {
         $params = [
             'name' => 'Test',
@@ -346,7 +347,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateProduct()
+    public function testUpdateProduct(): void
     {
         $params = [
             'name' => 'Test',
@@ -361,7 +362,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testGetWarehouseDocuments()
+    public function testGetWarehouseDocuments(): void
     {
         $params = [
             'page' => '1',
@@ -376,7 +377,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetWarehouseDocument()
+    public function testGetWarehouseDocument(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -387,7 +388,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateWarehouseDocument()
+    public function testCreateWarehouseDocument(): void
     {
         $params = [
             'name' => 'Test',
@@ -402,7 +403,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateWarehouseDocument()
+    public function testUpdateWarehouseDocument(): void
     {
         $params = [
             'name' => 'Test',
@@ -417,7 +418,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testDeleteWarehouseDocument()
+    public function testDeleteWarehouseDocument(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -428,7 +429,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetWarehouses()
+    public function testGetWarehouses(): void
     {
         $params = [
             'page' => '1',
@@ -443,7 +444,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetWarehouse()
+    public function testGetWarehouse(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -454,7 +455,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateWarehouse()
+    public function testCreateWarehouse(): void
     {
         $params = [
             'name' => 'Test',
@@ -469,7 +470,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateWarehouse()
+    public function testUpdateWarehouse(): void
     {
         $params = [
             'name' => 'Test',
@@ -484,7 +485,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testDeleteWarehouse()
+    public function testDeleteWarehouse(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -495,7 +496,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetCategories()
+    public function testGetCategories(): void
     {
         $params = [
             'page' => '1',
@@ -510,7 +511,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetCategory()
+    public function testGetCategory(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -521,7 +522,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateCategory()
+    public function testCreateCategory(): void
     {
         $params = [
             'name' => 'Test',
@@ -536,7 +537,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateCategory()
+    public function testUpdateCategory(): void
     {
         $params = [
             'name' => 'Test',
@@ -551,7 +552,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testDeleteCategory()
+    public function testDeleteCategory(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -562,7 +563,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetAccount()
+    public function testGetAccount(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -573,7 +574,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateAccountForClient()
+    public function testCreateAccountForClient(): void
     {
         $account = [
             'prefix' => 'prefix1',
@@ -596,7 +597,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetPayments()
+    public function testGetPayments(): void
     {
         $params = [
             'page' => '1',
@@ -611,7 +612,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetPayment()
+    public function testGetPayment(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -622,7 +623,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreatePayment()
+    public function testCreatePayment(): void
     {
         $params = [
             'name' => 'Test',
@@ -637,7 +638,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetDepartments()
+    public function testGetDepartments(): void
     {
         $params = [
             'page' => '1',
@@ -652,7 +653,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetDepartment()
+    public function testGetDepartment(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
@@ -663,7 +664,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testCreateDepartment()
+    public function testCreateDepartment(): void
     {
         $params = [
             'name' => 'Test',
@@ -678,7 +679,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testUpdateDepartment()
+    public function testUpdateDepartment(): void
     {
         $params = [
             'name' => 'Test',
@@ -693,7 +694,7 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $invoice->getData());
     }
 
-    public function testDeleteDepartment()
+    public function testDeleteDepartment(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,

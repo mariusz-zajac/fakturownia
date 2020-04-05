@@ -19,7 +19,7 @@ class FakturowniaTokenValidator
      *
      * @throws InvalidTokenException If token is not valid
      */
-    public function isValidTokenOrFail($token)
+    public function isValidTokenOrFail($token): void
     {
         // check pattern: token_hash/username
         $isValid = is_string($token) && 1 === preg_match('~^[^/]+/[^/]+$~', $token);
