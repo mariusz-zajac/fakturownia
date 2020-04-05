@@ -7,7 +7,7 @@ use Abb\Fakturownia\FakturowniaResponse;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class FakturowniaTest  extends TestCase
+class FakturowniaTest extends TestCase
 {
 
     /**
@@ -47,8 +47,8 @@ class FakturowniaTest  extends TestCase
     {
         $restClient = $this->createMock('Abb\Fakturownia\RestClientInterface');
 
-        $responseCallback = function ($code) {
-            return function ($url, array $params) use ($code) {
+        $responseCallback = function (int $code) {
+            return function (string $url, array $params) use ($code) {
                 $params['url'] = $url;
                 return new FakturowniaResponse($code, $params);
             };
@@ -92,6 +92,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetInvoices(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/invoices.json',
+        ];
+        $response = $this->fakturownia->getInvoices();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetInvoicesWithParams(): void
     {
         $params = [
             'period' => 'this_month',
@@ -183,6 +194,17 @@ class FakturowniaTest  extends TestCase
 
     public function testGetRecurringInvoices(): void
     {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/recurrings.json',
+        ];
+        $response = $this->fakturownia->getRecurringInvoices();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetRecurringInvoicesWithParams(): void
+    {
         $params = [
             'period' => 'this_month',
         ];
@@ -227,6 +249,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetClients(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/clients.json',
+        ];
+        $response = $this->fakturownia->getClients();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetClientsWithParams(): void
     {
         $params = [
             'page' => '1',
@@ -296,6 +329,17 @@ class FakturowniaTest  extends TestCase
 
     public function testGetProducts(): void
     {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/products.json',
+        ];
+        $response = $this->fakturownia->getProducts();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetProductsWithParams(): void
+    {
         $params = [
             'page' => '1',
         ];
@@ -320,7 +364,18 @@ class FakturowniaTest  extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetProductWithWarehouse(): void
+    public function testGetProductWithNullWarehouse(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/products/123.json',
+        ];
+        $response = $this->fakturownia->getProduct(123, null);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetProductWithIntegerWarehouse(): void
     {
         $responseData = [
             'warehouse_id' => 321,
@@ -363,6 +418,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetWarehouseDocuments(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+        ];
+        $response = $this->fakturownia->getWarehouseDocuments();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetWarehouseDocumentsWithParams(): void
     {
         $params = [
             'page' => '1',
@@ -431,6 +497,17 @@ class FakturowniaTest  extends TestCase
 
     public function testGetWarehouses(): void
     {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/warehouse.json',
+        ];
+        $response = $this->fakturownia->getWarehouses();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetWarehousesWithParams(): void
+    {
         $params = [
             'page' => '1',
         ];
@@ -497,6 +574,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetCategories(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/categories.json',
+        ];
+        $response = $this->fakturownia->getCategories();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetCategoriesWithParams(): void
     {
         $params = [
             'page' => '1',
@@ -579,6 +667,21 @@ class FakturowniaTest  extends TestCase
         $account = [
             'prefix' => 'prefix1',
         ];
+        $responseData = [
+            'account' => $account,
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/account.json',
+        ];
+        $response = $this->fakturownia->createAccountForClient($account);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreateAccountForClientWithUserAndCompany(): void
+    {
+        $account = [
+            'prefix' => 'prefix1',
+        ];
         $user = [
             'login' => 'login1',
         ];
@@ -598,6 +701,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetPayments(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+        ];
+        $response = $this->fakturownia->getPayments();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetPaymentsWithParams(): void
     {
         $params = [
             'page' => '1',
@@ -639,6 +753,17 @@ class FakturowniaTest  extends TestCase
     }
 
     public function testGetDepartments(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://username.fakturownia.pl/departments.json',
+        ];
+        $response = $this->fakturownia->getDepartments();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetDepartmentsWithParams(): void
     {
         $params = [
             'page' => '1',

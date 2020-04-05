@@ -1,5 +1,6 @@
 ### 1.3.0
 * Upgraded to PHP 7.1
+* Added more tests
 
 ### 1.2.0
 * Added login method
