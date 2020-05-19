@@ -48,6 +48,8 @@ class Fakturownia
     /**
      * Login
      *
+     * @deprecated Avoid using this method. It will be removed in next version.
+     *
      * @param string $login    Login or e-mail
      * @param string $password Password
      *

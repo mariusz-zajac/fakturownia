@@ -1,5 +1,9 @@
+### 1.3.1
+* Deprecated login method
+
 ### 1.3.0
 * Upgraded to PHP 7.1
+* Added type hints
 * Added more tests
 
 ### 1.2.0
