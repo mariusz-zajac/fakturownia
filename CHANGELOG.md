@@ -1,5 +1,8 @@
 ### 1.3.1
 * Deprecated login method
+* Updated readme
+* Updated message of InvalidTokenException
+* Small refactoring
 
 ### 1.3.0
 * Upgraded to PHP 7.1
