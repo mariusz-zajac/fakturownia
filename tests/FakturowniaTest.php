@@ -13,7 +13,7 @@ class FakturowniaTest extends TestCase
     /**
      * @var string
      */
-    private $apiToken = '123456/username';
+    private $apiToken = '123456/my-subdomain';
 
     /**
      * @var Fakturownia
@@ -41,7 +41,7 @@ class FakturowniaTest extends TestCase
     /**
      * Mock REST client
      *
-     * @return MockObject
+     * @return MockObject|\Abb\Fakturownia\RestClientInterface
      */
     private function mockRestClient(): MockObject
     {
@@ -95,7 +95,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices.json',
         ];
         $response = $this->fakturownia->getInvoices();
         self::assertEquals(200, $response->getCode());
@@ -110,7 +110,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'period' => 'this_month',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices.json',
         ];
         $response = $this->fakturownia->getInvoices($params);
         self::assertEquals(200, $response->getCode());
@@ -121,7 +121,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123.json',
         ];
         $response = $this->fakturownia->getInvoice(123);
         self::assertEquals(200, $response->getCode());
@@ -136,7 +136,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'invoice' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices.json',
         ];
         $response = $this->fakturownia->createInvoice($params);
         self::assertEquals(201, $response->getCode());
@@ -151,7 +151,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'invoice' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123.json',
         ];
         $response = $this->fakturownia->updateInvoice(123, $params);
         self::assertEquals(202, $response->getCode());
@@ -162,7 +162,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123.json',
         ];
         $response = $this->fakturownia->deleteInvoice(123);
         self::assertEquals(203, $response->getCode());
@@ -173,7 +173,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices/123/send_by_email.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123/send_by_email.json',
         ];
         $response = $this->fakturownia->sendInvoice(123);
         self::assertEquals(201, $response->getCode());
@@ -185,7 +185,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'status' => 'new',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/invoices/123/change_status.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123/change_status.json',
         ];
         $response = $this->fakturownia->changeInvoiceStatus(123, 'new');
         self::assertEquals(201, $response->getCode());
@@ -196,7 +196,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/recurrings.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/recurrings.json',
         ];
         $response = $this->fakturownia->getRecurringInvoices();
         self::assertEquals(200, $response->getCode());
@@ -211,7 +211,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'period' => 'this_month',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/recurrings.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/recurrings.json',
         ];
         $response = $this->fakturownia->getRecurringInvoices($params);
         self::assertEquals(200, $response->getCode());
@@ -226,7 +226,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'recurring' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/recurrings.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/recurrings.json',
         ];
         $response = $this->fakturownia->createRecurringInvoice($params);
         self::assertEquals(201, $response->getCode());
@@ -241,7 +241,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'recurring' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/recurrings/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/recurrings/123.json',
         ];
         $response = $this->fakturownia->updateRecurringInvoice(123, $params);
         self::assertEquals(202, $response->getCode());
@@ -252,7 +252,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients.json',
         ];
         $response = $this->fakturownia->getClients();
         self::assertEquals(200, $response->getCode());
@@ -267,7 +267,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients.json',
         ];
         $response = $this->fakturownia->getClients($params);
         self::assertEquals(200, $response->getCode());
@@ -278,7 +278,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients/123.json',
         ];
         $response = $this->fakturownia->getClient(123);
         self::assertEquals(200, $response->getCode());
@@ -290,7 +290,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'external_id' => 123,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients.json',
         ];
         $response = $this->fakturownia->getClientByExternalId(123);
         self::assertEquals(200, $response->getCode());
@@ -305,7 +305,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'client' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients.json',
         ];
         $response = $this->fakturownia->createClient($params);
         self::assertEquals(201, $response->getCode());
@@ -320,7 +320,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'client' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/clients/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/clients/123.json',
         ];
         $invoice = $this->fakturownia->updateClient(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -331,7 +331,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products.json',
         ];
         $response = $this->fakturownia->getProducts();
         self::assertEquals(200, $response->getCode());
@@ -346,7 +346,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products.json',
         ];
         $response = $this->fakturownia->getProducts($params);
         self::assertEquals(200, $response->getCode());
@@ -357,7 +357,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products/123.json',
         ];
         $response = $this->fakturownia->getProduct(123);
         self::assertEquals(200, $response->getCode());
@@ -368,7 +368,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products/123.json',
         ];
         $response = $this->fakturownia->getProduct(123, null);
         self::assertEquals(200, $response->getCode());
@@ -380,7 +380,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'warehouse_id' => 321,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products/123.json',
         ];
         $response = $this->fakturownia->getProduct(123, 321);
         self::assertEquals(200, $response->getCode());
@@ -395,7 +395,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'product' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products.json',
         ];
         $response = $this->fakturownia->createProduct($params);
         self::assertEquals(201, $response->getCode());
@@ -410,7 +410,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'product' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/products/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/products/123.json',
         ];
         $invoice = $this->fakturownia->updateProduct(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -421,7 +421,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents.json',
         ];
         $response = $this->fakturownia->getWarehouseDocuments();
         self::assertEquals(200, $response->getCode());
@@ -436,7 +436,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents.json',
         ];
         $response = $this->fakturownia->getWarehouseDocuments($params);
         self::assertEquals(200, $response->getCode());
@@ -447,7 +447,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents/123.json',
         ];
         $response = $this->fakturownia->getWarehouseDocument(123);
         self::assertEquals(200, $response->getCode());
@@ -462,7 +462,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'warehouse_document' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents.json',
         ];
         $response = $this->fakturownia->createWarehouseDocument($params);
         self::assertEquals(201, $response->getCode());
@@ -477,7 +477,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'warehouse_document' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents/123.json',
         ];
         $invoice = $this->fakturownia->updateWarehouseDocument(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -488,7 +488,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse_documents/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse_documents/123.json',
         ];
         $response = $this->fakturownia->deleteWarehouseDocument(123);
         self::assertEquals(203, $response->getCode());
@@ -499,7 +499,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse.json',
         ];
         $response = $this->fakturownia->getWarehouses();
         self::assertEquals(200, $response->getCode());
@@ -514,7 +514,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse.json',
         ];
         $response = $this->fakturownia->getWarehouses($params);
         self::assertEquals(200, $response->getCode());
@@ -525,7 +525,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse/123.json',
         ];
         $response = $this->fakturownia->getWarehouse(123);
         self::assertEquals(200, $response->getCode());
@@ -540,7 +540,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'warehouse' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse.json',
         ];
         $response = $this->fakturownia->createWarehouse($params);
         self::assertEquals(201, $response->getCode());
@@ -555,7 +555,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'warehouse' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse/123.json',
         ];
         $invoice = $this->fakturownia->updateWarehouse(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -566,7 +566,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/warehouse/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/warehouse/123.json',
         ];
         $response = $this->fakturownia->deleteWarehouse(123);
         self::assertEquals(203, $response->getCode());
@@ -577,7 +577,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories.json',
         ];
         $response = $this->fakturownia->getCategories();
         self::assertEquals(200, $response->getCode());
@@ -592,7 +592,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories.json',
         ];
         $response = $this->fakturownia->getCategories($params);
         self::assertEquals(200, $response->getCode());
@@ -603,7 +603,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories/123.json',
         ];
         $response = $this->fakturownia->getCategory(123);
         self::assertEquals(200, $response->getCode());
@@ -618,7 +618,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'category' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories.json',
         ];
         $response = $this->fakturownia->createCategory($params);
         self::assertEquals(201, $response->getCode());
@@ -633,7 +633,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'category' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories/123.json',
         ];
         $invoice = $this->fakturownia->updateCategory(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -644,7 +644,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/categories/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/categories/123.json',
         ];
         $response = $this->fakturownia->deleteCategory(123);
         self::assertEquals(203, $response->getCode());
@@ -655,7 +655,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/account.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/account.json',
         ];
         $response = $this->fakturownia->getAccount(123);
         self::assertEquals(200, $response->getCode());
@@ -670,7 +670,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'account' => $account,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/account.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/account.json',
         ];
         $response = $this->fakturownia->createAccountForClient($account);
         self::assertEquals(201, $response->getCode());
@@ -693,7 +693,7 @@ class FakturowniaTest extends TestCase
             'user' => $user,
             'company' => $company,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/account.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/account.json',
         ];
         $response = $this->fakturownia->createAccountForClient($account, $user, $company);
         self::assertEquals(201, $response->getCode());
@@ -704,7 +704,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments.json',
         ];
         $response = $this->fakturownia->getPayments();
         self::assertEquals(200, $response->getCode());
@@ -719,7 +719,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments.json',
         ];
         $response = $this->fakturownia->getPayments($params);
         self::assertEquals(200, $response->getCode());
@@ -730,7 +730,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/banking/payments/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments/123.json',
         ];
         $response = $this->fakturownia->getPayment(123);
         self::assertEquals(200, $response->getCode());
@@ -745,7 +745,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'banking_payment' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/banking/payments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments.json',
         ];
         $response = $this->fakturownia->createPayment($params);
         self::assertEquals(201, $response->getCode());
@@ -756,7 +756,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments.json',
         ];
         $response = $this->fakturownia->getDepartments();
         self::assertEquals(200, $response->getCode());
@@ -771,7 +771,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'page' => '1',
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments.json',
         ];
         $response = $this->fakturownia->getDepartments($params);
         self::assertEquals(200, $response->getCode());
@@ -782,7 +782,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments/123.json',
         ];
         $response = $this->fakturownia->getDepartment(123);
         self::assertEquals(200, $response->getCode());
@@ -797,7 +797,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'department' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments.json',
         ];
         $response = $this->fakturownia->createDepartment($params);
         self::assertEquals(201, $response->getCode());
@@ -812,7 +812,7 @@ class FakturowniaTest extends TestCase
         $responseData = [
             'department' => $params,
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments/123.json',
         ];
         $invoice = $this->fakturownia->updateDepartment(123, $params);
         self::assertEquals(202, $invoice->getCode());
@@ -823,7 +823,7 @@ class FakturowniaTest extends TestCase
     {
         $responseData = [
             'api_token' => $this->apiToken,
-            'url' => 'https://username.fakturownia.pl/departments/123.json',
+            'url' => 'https://my-subdomain.fakturownia.pl/departments/123.json',
         ];
         $response = $this->fakturownia->deleteDepartment(123);
         self::assertEquals(203, $response->getCode());
