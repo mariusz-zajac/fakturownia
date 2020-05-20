@@ -14,6 +14,12 @@ The recommended way to install is through [Composer](http://getcomposer.org).
 $ composer require abb/fakturownia
 ```
 
+## Supported API tokens
+
+Fakturownia.pl provides two types of tokens - with prefix (i.e. with your subdomain) and without prefix.
+Only **tokens with prefix** are supported. You can generate it in fakturownia.pl service
+(Settings -> Account settings -> Integration -> Show ApiTokens -> Add new Token -> Kind: Token with a prefix).
+
 ## Available methods
 
 * login(string $login, string $password)
@@ -69,9 +75,11 @@ $ composer require abb/fakturownia
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $response = $fakturownia->getInvoices();
-$status = $response->getStatus(); // e.g. 'SUCCESS', 'ERROR', 'NOT_FOUND'
-$code = $response->getCode();
-$invoices = $response->getData();
+if ($response->isSuccess()) {
+    $invoices = $response->getData();
+} else {
+    $errors = $response->getData();
+}
 ```
 
 ### Example 2 - Get invoices by parameters
@@ -126,7 +134,22 @@ $invoiceData = [
 $createdInvoice = $fakturownia->createInvoice($invoiceData)->getData();
 ```
 
-### Example 5 - Update invoice
+### Example 5 - Create an invoice and send to client by email
+
+```php
+$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
+$invoiceData = [
+    'buyer_email' => 'buyer@testemail.pl',
+    // ...
+];
+$response = $fakturownia->createInvoice($invoiceData);
+if ($response->isSuccess()) {
+    $createdInvoice = $response->getData();
+    $fakturownia->sendInvoice($createdInvoice['id']); // Invoice will be sent to buyer_email
+}
+```
+
+### Example 6 - Update invoice
 
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
@@ -143,7 +166,7 @@ $invoiceData = [
 $updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData)->getData();
 ```
 
-### Example 6 - Delete invoice
+### Example 7 - Delete invoice
 
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');

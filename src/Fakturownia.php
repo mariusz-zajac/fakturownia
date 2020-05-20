@@ -21,32 +21,27 @@ class Fakturownia
     /**
      * @var string
      */
-    protected $baseUrl = 'https://[USERNAME].fakturownia.pl';
-
-    /**
-     * @var string
-     */
-    protected $loginUrl = 'https://app.fakturownia.pl/login.json';
+    protected $baseUrl;
 
     /**
      * Constructor
      *
-     * @param string                   $apiToken   Fakturownia API token
+     * @param string                   $apiToken   Fakturownia API token with prefix
      * @param RestClientInterface|null $restClient REST client
      */
-    public function __construct(
-        string $apiToken,
-        RestClientInterface $restClient = null
-    ) {
+    public function __construct(string $apiToken, RestClientInterface $restClient = null)
+    {
         (new FakturowniaTokenValidator())->isValidTokenOrFail($apiToken);
         $this->apiToken = $apiToken;
         $this->restClient = $restClient ?: new FakturowniaRestClient();
-        $username = explode('/', $this->apiToken)[1];
-        $this->baseUrl = str_replace('[USERNAME]', $username, $this->baseUrl);
+        $subdomain = explode('/', $this->apiToken)[1];
+        $this->baseUrl = sprintf('https://%s.fakturownia.pl', $subdomain);
     }
 
     /**
      * Login
+     *
+     * @deprecated This method is deprecated and may be removed in next major release.
      *
      * @param string $login    Login or e-mail
      * @param string $password Password
@@ -62,7 +57,7 @@ class Fakturownia
             'password' => $password,
         ];
 
-        return $this->restClient->post($this->loginUrl, $data);
+        return $this->restClient->post('https://app.fakturownia.pl/login.json', $data);
     }
 
     /**
