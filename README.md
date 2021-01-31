@@ -75,7 +75,7 @@ Only **tokens with prefix** are supported. You can generate it in fakturownia.pl
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $response = $fakturownia->getInvoices();
-if ($response->isSuccess()) {
+if ($response->isSuccess()) { // check response status
     $invoices = $response->getData();
 } else {
     $errors = $response->getData();
