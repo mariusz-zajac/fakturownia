@@ -823,6 +823,27 @@ class Fakturownia
     }
 
     /**
+     * Update payment
+     *
+     * @param int   $id      Payment ID
+     * @param array $payment Payment data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updatePayment(int $id, array $payment): ResponseInterface
+    {
+        $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
+        $data = [
+            'banking_payment' => $payment,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->put($url, $data);
+    }
+
+    /**
      * Get departments
      *
      * @param array $params Parameters
