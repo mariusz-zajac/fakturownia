@@ -1,3 +1,6 @@
+### 1.4.0
+* Allowed PHP 8
+
 ### 1.3.1
 * Deprecated login method
 * Updated readme
