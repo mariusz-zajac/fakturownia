@@ -789,17 +789,15 @@ class Fakturownia
      * Get payment
      *
      * @param int $id Payment ID
-     *
+     * @param array $params
      * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
-    public function getPayment(int $id): ResponseInterface
+    public function getPayment(int $id, array $params = []): ResponseInterface
     {
         $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
-        $params = [
-            'api_token' => $this->apiToken,
-        ];
+        $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
     }
