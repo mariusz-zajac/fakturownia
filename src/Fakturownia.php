@@ -788,8 +788,9 @@ class Fakturownia
     /**
      * Get payment
      *
-     * @param int $id Payment ID
-     * @param array $params
+     * @param int   $id     Payment ID
+     * @param array $params Parameters
+     *
      * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
