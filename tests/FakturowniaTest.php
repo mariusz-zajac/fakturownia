@@ -737,6 +737,21 @@ class FakturowniaTest extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
+    public function testGetPaymentWithParams(): void
+    {
+        $params = [
+            'include' => 'invoices',
+        ];
+        $responseData = [
+            'include' => 'invoices',
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments/123.json',
+        ];
+        $response = $this->fakturownia->getPayment(123, $params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
     public function testCreatePayment(): void
     {
         $params = [
