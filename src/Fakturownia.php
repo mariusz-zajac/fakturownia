@@ -823,6 +823,46 @@ class Fakturownia
     }
 
     /**
+     * Update payment
+     *
+     * @param int   $id      Payment ID
+     * @param array $payment Payment data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updatePayment(int $id, array $payment): ResponseInterface
+    {
+        $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
+        $data = [
+            'banking_payment' => $payment,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->put($url, $data);
+    }
+
+    /**
+     * Delete payment
+     *
+     * @param int $id Payment ID
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function deletePayment(int $id): ResponseInterface
+    {
+        $url = $this->baseUrl . '/banking/payments/' . $id . '.json';
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
+    }
+
+    /**
      * Get departments
      *
      * @param array $params Parameters
