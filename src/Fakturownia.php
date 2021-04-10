@@ -902,17 +902,17 @@ class Fakturownia
     /**
      * Create department
      *
-     * @param array $payment Department data
+     * @param array $department Department data
      *
      * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
-    public function createDepartment(array $payment): ResponseInterface
+    public function createDepartment(array $department): ResponseInterface
     {
         $url = $this->baseUrl . '/departments.json';
         $data = [
-            'department' => $payment,
+            'department' => $department,
             'api_token' => $this->apiToken,
         ];
 
