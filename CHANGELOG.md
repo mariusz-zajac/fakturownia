@@ -1,3 +1,9 @@
+### 1.5.0
+* Added updatePayment method
+* Added deletePayment method
+* Allowed sending of parameter in the getPayment method
+* Added .gitattributes
+
 ### 1.4.0
 * Allowed PHP 8
 
