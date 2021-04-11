@@ -60,11 +60,13 @@ Only **tokens with prefix** are supported. You can generate it in fakturownia.pl
 * getAccount()
 * createAccountForClient(array $account, array $user = [], array $company = [])
 * getPayments(array $params = [])
-* getPayment(int $id)
+* getPayment(int $id, array $params = [])
 * createPayment(array $payment)
+* updatePayment(int $id, array $payment)
+* deletePayment(int $id)
 * getDepartments(array $params = [])
 * getDepartment(int $id)
-* createDepartment(array $payment)
+* createDepartment(array $department)
 * updateDepartment(int $id, array $department)
 * deleteDepartment(int $id)
 
@@ -75,7 +77,7 @@ Only **tokens with prefix** are supported. You can generate it in fakturownia.pl
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $response = $fakturownia->getInvoices();
-if ($response->isSuccess()) { // check response status
+if ($response->isSuccess()) { // check response status before you retrieve data
     $invoices = $response->getData();
 } else {
     $errors = $response->getData();

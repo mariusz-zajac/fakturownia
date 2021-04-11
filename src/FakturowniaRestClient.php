@@ -88,10 +88,12 @@ class FakturowniaRestClient implements RestClientInterface
             CURLOPT_CUSTOMREQUEST => $method,
         ]);
 
-        if ('GET' === $method) {
-            $url = $url . '?' . http_build_query($params);
-        } else {
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($params));
+        if ($params) {
+            if ('GET' === $method) {
+                $url = $url . '?' . http_build_query($params);
+            } else {
+                curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($params));
+            }
         }
 
         curl_setopt($this->curl, CURLOPT_URL, $url);

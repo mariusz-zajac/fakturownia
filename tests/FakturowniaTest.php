@@ -737,6 +737,21 @@ class FakturowniaTest extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
+    public function testGetPaymentWithParams(): void
+    {
+        $params = [
+            'include' => 'invoices',
+        ];
+        $responseData = [
+            'include' => 'invoices',
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments/123.json',
+        ];
+        $response = $this->fakturownia->getPayment(123, $params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
     public function testCreatePayment(): void
     {
         $params = [
@@ -749,6 +764,32 @@ class FakturowniaTest extends TestCase
         ];
         $response = $this->fakturownia->createPayment($params);
         self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdatePayment(): void
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'banking_payment' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments/123.json',
+        ];
+        $response = $this->fakturownia->updatePayment(123, $params);
+        self::assertEquals(202, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testDeletePayment(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/banking/payments/123.json',
+        ];
+        $response = $this->fakturownia->deletePayment(123);
+        self::assertEquals(203, $response->getCode());
         self::assertEquals($responseData, $response->getData());
     }
 
