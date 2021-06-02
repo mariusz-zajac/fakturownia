@@ -540,7 +540,7 @@ class Fakturownia
      */
     public function getWarehouses(array $params = []): ResponseInterface
     {
-        $url = $this->baseUrl . '/warehouse.json';
+        $url = $this->baseUrl . '/warehouses.json';
         $params['api_token'] = $this->apiToken;
 
         return $this->restClient->get($url, $params);
@@ -557,7 +557,7 @@ class Fakturownia
      */
     public function getWarehouse(int $id): ResponseInterface
     {
-        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
+        $url = $this->baseUrl . '/warehouses/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];
@@ -576,7 +576,7 @@ class Fakturownia
      */
     public function createWarehouse(array $warehouse): ResponseInterface
     {
-        $url = $this->baseUrl . '/warehouse.json';
+        $url = $this->baseUrl . '/warehouses.json';
         $data = [
             'warehouse' => $warehouse,
             'api_token' => $this->apiToken,
@@ -597,7 +597,7 @@ class Fakturownia
      */
     public function updateWarehouse(int $id, array $warehouse): ResponseInterface
     {
-        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
+        $url = $this->baseUrl . '/warehouses/' . $id . '.json';
         $data = [
             'warehouse' => $warehouse,
             'api_token' => $this->apiToken,
@@ -617,7 +617,7 @@ class Fakturownia
      */
     public function deleteWarehouse(int $id): ResponseInterface
     {
-        $url = $this->baseUrl . '/warehouse/' . $id . '.json';
+        $url = $this->baseUrl . '/warehouses/' . $id . '.json';
         $params = [
             'api_token' => $this->apiToken,
         ];

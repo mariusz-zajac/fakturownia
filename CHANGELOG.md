@@ -1,3 +1,6 @@
+### 1.5.1
+* Fixed warehouses endpoint address
+
 ### 1.5.0
 * Added updatePayment method
 * Added deletePayment method
