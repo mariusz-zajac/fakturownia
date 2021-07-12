@@ -103,6 +103,14 @@ $invoiceId = 123456;
 $invoice = $fakturownia->getInvoice($invoiceId)->getData();
 ```
 
+### Example 3.1 - Get invoice by ID as pdf
+
+```php
+$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
+$invoiceId = 123456;
+$invoice = $fakturownia->getInvoicePdf($invoiceId)->getData();  
+```
+
 ### Example 4 - Create an invoice
 
 ```php
