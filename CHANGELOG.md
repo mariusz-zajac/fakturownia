@@ -1,3 +1,7 @@
+### 1.6.0
+* Added methods to manage price lists
+* Added getInvoicePdf method
+
 ### 1.5.1
 * Fixed warehouses endpoint address
 
