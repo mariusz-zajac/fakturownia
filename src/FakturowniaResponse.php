@@ -53,6 +53,14 @@ class FakturowniaResponse implements ResponseInterface
     /**
      * {@inheritDoc}
      */
+    public function getPDF(): string
+    {
+        return $this->data['pdf'] ?? "";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getStatus(): string
     {
         if (200 <= $this->code && $this->code < 300) {
