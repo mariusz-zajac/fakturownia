@@ -870,4 +870,71 @@ class FakturowniaTest extends TestCase
         self::assertEquals(203, $response->getCode());
         self::assertEquals($responseData, $response->getData());
     }
+
+    public function testGetPriceLists(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/price_lists.json',
+        ];
+        $response = $this->fakturownia->getPriceLists();
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetPriceListsWithParams(): void
+    {
+        $params = [
+            'page' => '1',
+        ];
+        $responseData = [
+            'page' => '1',
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/price_lists.json',
+        ];
+        $response = $this->fakturownia->getPriceLists($params);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testCreatePriceList(): void
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'price_list' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/price_lists.json',
+        ];
+        $response = $this->fakturownia->createPriceList($params);
+        self::assertEquals(201, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testUpdatePriceList(): void
+    {
+        $params = [
+            'name' => 'Test',
+        ];
+        $responseData = [
+            'price_list' => $params,
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/price_lists/123.json',
+        ];
+        $invoice = $this->fakturownia->updatePriceList(123, $params);
+        self::assertEquals(202, $invoice->getCode());
+        self::assertEquals($responseData, $invoice->getData());
+    }
+
+    public function testDeletePriceList(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'url' => 'https://my-subdomain.fakturownia.pl/price_lists/123.json',
+        ];
+        $response = $this->fakturownia->deletePriceList(123);
+        self::assertEquals(203, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
 }

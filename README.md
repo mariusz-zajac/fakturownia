@@ -69,6 +69,10 @@ Only **tokens with prefix** are supported. You can generate it in fakturownia.pl
 * createDepartment(array $department)
 * updateDepartment(int $id, array $department)
 * deleteDepartment(int $id)
+* getPriceLists(array $params = [])
+* createPriceList(array $priceList)
+* updatePriceList(int $id, array $priceList)
+* deletePriceList(int $id)
 
 ## Examples of usage
 

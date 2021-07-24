@@ -958,4 +958,81 @@ class Fakturownia
 
         return $this->restClient->delete($url, $params);
     }
+
+    /**
+     * Get price lists
+     *
+     * @param array $params Parameters
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function getPriceLists(array $params = []): ResponseInterface
+    {
+        $url = $this->baseUrl . '/price_lists.json';
+        $params['api_token'] = $this->apiToken;
+
+        return $this->restClient->get($url, $params);
+    }
+
+    /**
+     * Create price list
+     *
+     * @param array $priceList Price list data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function createPriceList(array $priceList): ResponseInterface
+    {
+        $url = $this->baseUrl . '/price_lists.json';
+        $data = [
+            'price_list' => $priceList,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->post($url, $data);
+    }
+
+    /**
+     * Update price list
+     *
+     * @param int   $id        Price list ID
+     * @param array $priceList Price list data
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function updatePriceList(int $id, array $priceList): ResponseInterface
+    {
+        $url = $this->baseUrl . '/price_lists/' . $id . '.json';
+        $data = [
+            'price_list' => $priceList,
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->put($url, $data);
+    }
+
+    /**
+     * Delete price list
+     *
+     * @param int $id Price list ID
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception\RequestErrorException
+     */
+    public function deletePriceList(int $id): ResponseInterface
+    {
+        $url = $this->baseUrl . '/price_lists/' . $id . '.json';
+        $params = [
+            'api_token' => $this->apiToken,
+        ];
+
+        return $this->restClient->delete($url, $params);
+    }
 }
