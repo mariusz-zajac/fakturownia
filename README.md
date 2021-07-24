@@ -25,6 +25,7 @@ Only **tokens with prefix** are supported. You can generate it in fakturownia.pl
 * login(string $login, string $password)
 * getInvoices(array $params = [])
 * getInvoice(int $id)
+* getInvoicePdf(int $id, string $printOption = null)
 * createInvoice(array $invoice)
 * updateInvoice(int $id, array $invoice)
 * deleteInvoice(int $id)
@@ -107,12 +108,14 @@ $invoiceId = 123456;
 $invoice = $fakturownia->getInvoice($invoiceId)->getData();
 ```
 
-### Example 3.1 - Get invoice by ID as pdf
+### Example 3.1 - Get invoice by ID as PDF
 
 ```php
 $fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
 $invoiceId = 123456;
-$invoice = $fakturownia->getInvoicePdf($invoiceId)->getData();  
+$printOption = 'duplicate';
+$pdfContent = $fakturownia->getInvoicePdf($invoiceId, $printOption)->getData()['content'];
+file_put_contents('/path/to/invoice.pdf', $pdfContent);
 ```
 
 ### Example 4 - Create an invoice

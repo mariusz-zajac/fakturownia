@@ -99,18 +99,23 @@ class Fakturownia
     /**
      * Get invoice as PDF
      *
-     * @param int $id Invoice ID
+     * @param int         $id          Invoice ID
+     * @param string|null $printOption Print option
      *
      * @return ResponseInterface
      *
      * @throws Exception\RequestErrorException
      */
-    public function getInvoicePdf(int $id): ResponseInterface
+    public function getInvoicePdf(int $id, string $printOption = null): ResponseInterface
     {
         $url = $this->baseUrl . '/invoices/' . $id . '.pdf';
         $params = [
             'api_token' => $this->apiToken,
         ];
+
+        if (null !== $printOption) {
+            $params['print_option'] = $printOption;
+        }
 
         return $this->restClient->get($url, $params);
     }

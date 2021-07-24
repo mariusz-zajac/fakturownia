@@ -23,13 +23,6 @@ interface ResponseInterface
     public function getData(): array;
 
     /**
-     * Get response data
-     *
-     * @return string
-     */
-    public function getPDF(): string;
-
-    /**
      * Get response status
      *
      * @return string

@@ -128,13 +128,25 @@ class FakturowniaTest extends TestCase
         self::assertEquals($responseData, $response->getData());
     }
 
-    public function testGetInvoicePDF(): void
+    public function testGetInvoicePdf(): void
     {
         $responseData = [
             'api_token' => $this->apiToken,
             'url' => 'https://my-subdomain.fakturownia.pl/invoices/123.pdf',
         ];
         $response = $this->fakturownia->getInvoicePdf(123);
+        self::assertEquals(200, $response->getCode());
+        self::assertEquals($responseData, $response->getData());
+    }
+
+    public function testGetInvoicePdfWithPrintOption(): void
+    {
+        $responseData = [
+            'api_token' => $this->apiToken,
+            'print_option' => 'duplicate',
+            'url' => 'https://my-subdomain.fakturownia.pl/invoices/123.pdf',
+        ];
+        $response = $this->fakturownia->getInvoicePdf(123, 'duplicate');
         self::assertEquals(200, $response->getCode());
         self::assertEquals($responseData, $response->getData());
     }

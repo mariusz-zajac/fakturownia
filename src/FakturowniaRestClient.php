@@ -105,10 +105,15 @@ class FakturowniaRestClient implements RestClientInterface
         }
 
         $code = curl_getinfo($this->curl, CURLINFO_RESPONSE_CODE);
-        $content = curl_getinfo($this->curl, CURLINFO_CONTENT_TYPE);
+        $contentType = curl_getinfo($this->curl, CURLINFO_CONTENT_TYPE);
+
         curl_reset($this->curl);
 
-        $params = strpos($content, 'application/pdf') !== false ? ['pdf' => $result ] : (array) json_decode($result, true);
+        if (false !== strpos($contentType, 'application/pdf')) {
+            $params = ['content' => $result];
+        } else {
+            $params = (array) json_decode($result, true);
+        }
 
         return new FakturowniaResponse($code, $params);
     }
