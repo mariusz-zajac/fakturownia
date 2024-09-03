@@ -1,3 +1,6 @@
+### 2.0.0
+* New API version
+
 ### 1.6.0
 * Added methods to manage price lists
 * Added getInvoicePdf method

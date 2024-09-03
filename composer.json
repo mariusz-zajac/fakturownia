@@ -1,6 +1,8 @@
 {
     "name": "abb/fakturownia",
+    "type": "library",
     "description": "PHP client for Fakturownia API",
+    "keywords": ["fakturownia", "invoiceocean", "api", "php"],
     "license": "MIT",
     "authors": [
         {
@@ -19,11 +21,18 @@
         }
     },
     "require": {
-        "php": "^7.1 || ^8.0",
-        "ext-curl": "*",
-        "ext-json": "*"
+        "php": ">=8.2",
+        "ext-json": "*",
+        "symfony/http-client": "^7.0",
+        "symfony/http-client-contracts": "^3.4.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "^9.6",
+        "friendsofphp/php-cs-fixer": "^3.50"
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit tests",
+        "php-cs": "vendor/bin/php-cs-fixer fix --diff --dry-run --no-interaction -v",
+        "php-cs-fix": "vendor/bin/php-cs-fixer fix"
     }
 }
