@@ -19,9 +19,9 @@ final class CategoriesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($client))->get(123);
+        $response = (new Categories($fakturownia))->get(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -45,9 +45,9 @@ final class CategoriesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($client))->getAll();
+        $response = (new Categories($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -72,9 +72,9 @@ final class CategoriesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($client))->create($categoryData);
+        $response = (new Categories($fakturownia))->create($categoryData);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories.json', $mockResponse->getRequestUrl());
@@ -100,9 +100,9 @@ final class CategoriesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($client))->update(123, $categoryData);
+        $response = (new Categories($fakturownia))->update(123, $categoryData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories/123.json', $mockResponse->getRequestUrl());
@@ -118,9 +118,9 @@ final class CategoriesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($client))->delete(123);
+        $response = (new Categories($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories/123.json?api_token=bar', $mockResponse->getRequestUrl());

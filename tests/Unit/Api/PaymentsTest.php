@@ -22,9 +22,9 @@ final class PaymentsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($client))->get(123);
+        $response = (new Payments($fakturownia))->get(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -46,9 +46,9 @@ final class PaymentsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($client))->getAll();
+        $response = (new Payments($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -76,9 +76,9 @@ final class PaymentsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($client))->create($paymentData);
+        $response = (new Payments($fakturownia))->create($paymentData);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments.json', $mockResponse->getRequestUrl());
@@ -107,9 +107,9 @@ final class PaymentsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($client))->update(123, $paymentData);
+        $response = (new Payments($fakturownia))->update(123, $paymentData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json', $mockResponse->getRequestUrl());
@@ -125,9 +125,9 @@ final class PaymentsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($client))->delete(123);
+        $response = (new Payments($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json?api_token=bar', $mockResponse->getRequestUrl());

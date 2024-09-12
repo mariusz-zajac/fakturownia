@@ -24,7 +24,7 @@ class Invoices extends AbstractApi
         ]);
     }
 
-    public function getPdfContent(int $id, ?string $printOption = null): string
+    public function getPdf(int $id, ?string $printOption = null): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
@@ -34,11 +34,9 @@ class Invoices extends AbstractApi
             $params['print_option'] = $printOption;
         }
 
-        $response = $this->request('GET', 'invoices/' . $id . '.pdf', [
+        return $this->request('GET', 'invoices/' . $id . '.pdf', [
             'query' => $params,
         ]);
-
-        return $response->getContent();
     }
 
     public function create(array $invoice, array $params = []): Response

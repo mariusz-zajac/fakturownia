@@ -33,9 +33,9 @@ final class PriceListsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new PriceLists($client))->getAll();
+        $response = (new PriceLists($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/price_lists.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -74,9 +74,9 @@ final class PriceListsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new PriceLists($client))->create($priceListData);
+        $response = (new PriceLists($fakturownia))->create($priceListData);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/price_lists.json', $mockResponse->getRequestUrl());
@@ -113,9 +113,9 @@ final class PriceListsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new PriceLists($client))->update(123, $priceListData);
+        $response = (new PriceLists($fakturownia))->update(123, $priceListData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/price_lists/123.json', $mockResponse->getRequestUrl());
@@ -131,9 +131,9 @@ final class PriceListsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new PriceLists($client))->delete(123);
+        $response = (new PriceLists($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/price_lists/123.json?api_token=bar', $mockResponse->getRequestUrl());

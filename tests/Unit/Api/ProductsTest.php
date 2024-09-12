@@ -21,9 +21,9 @@ final class ProductsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($client))->get(123);
+        $response = (new Products($fakturownia))->get(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -42,9 +42,9 @@ final class ProductsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($client))->get(123, 555);
+        $response = (new Products($fakturownia))->get(123, 555);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products/123.json?api_token=bar&warehouse_id=555', $mockResponse->getRequestUrl());
@@ -65,9 +65,9 @@ final class ProductsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($client))->getAll();
+        $response = (new Products($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -94,9 +94,9 @@ final class ProductsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($client))->create($productData);
+        $response = (new Products($fakturownia))->create($productData);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products.json', $mockResponse->getRequestUrl());
@@ -124,9 +124,9 @@ final class ProductsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($client))->update(123, $productData);
+        $response = (new Products($fakturownia))->update(123, $productData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products/123.json', $mockResponse->getRequestUrl());

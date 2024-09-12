@@ -27,9 +27,9 @@ final class RecurringInvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new RecurringInvoices($client))->getAll();
+        $response = (new RecurringInvoices($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -60,9 +60,9 @@ final class RecurringInvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new RecurringInvoices($client))->create($recurringInvoiceData);
+        $response = (new RecurringInvoices($fakturownia))->create($recurringInvoiceData);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings.json', $mockResponse->getRequestUrl());
@@ -87,9 +87,9 @@ final class RecurringInvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new RecurringInvoices($client))->update(123, $recurringInvoiceData);
+        $response = (new RecurringInvoices($fakturownia))->update(123, $recurringInvoiceData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings/123.json', $mockResponse->getRequestUrl());

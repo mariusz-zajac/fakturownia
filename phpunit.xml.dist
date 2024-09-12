@@ -5,6 +5,11 @@
          verbose="true"
          bootstrap="vendor/autoload.php"
 >
+    <php>
+        <env name="FAKTUROWNIA_SUBDOMAIN" value=""/>
+        <env name="FAKTUROWNIA_TOKEN" value=""/>
+        <env name="FAKTUROWNIA_INVOICE_ID" value=""/>
+    </php>
     <coverage>
         <include>
             <directory suffix=".php">src</directory>
@@ -13,6 +18,9 @@
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
 </phpunit>

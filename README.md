@@ -4,7 +4,7 @@ PHP client for [Fakturownia](https://fakturownia.pl) ([InvoiceOcean](https://inv
 
 ## Requirements
 
-* PHP 8.2 or higher with json extension.
+* PHP 8.2 or higher with curl and json extensions.
 
 ## Installation
 
@@ -17,7 +17,7 @@ $ composer require abb/fakturownia
 ## Example of usage
 
 ```php
-$fakturownia = new \Abb\Fakturownia\Client(['subdomain' => 'foo', 'api_token' => 'bar']);
+$fakturownia = new \Abb\Fakturownia\Fakturownia(['subdomain' => 'foo', 'api_token' => 'bar']);
 
 // Get invoice by ID
 $response = $fakturownia->invoices()->get(123);
@@ -30,7 +30,7 @@ $params = [
 $response = $fakturownia->invoices()->getAll($params);
 
 // Get invoice as PDF and save to file
-$pdfContent = $fakturownia->invoices()->getPdfContent(123);
+$pdfContent = $fakturownia->invoices()->getPdf(123)->getContent();
 file_put_contents('/path/to/invoice_123.pdf', $pdfContent);
 
 // Create an invoice

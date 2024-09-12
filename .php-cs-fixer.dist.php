@@ -32,11 +32,6 @@ return (new PhpCsFixer\Config())
                 'function',
             ],
         ],
-        'trailing_comma_in_multiline' => [
-            'elements' => [
-                'arrays',
-            ],
-        ],
         'align_multiline_comment' => true,
         'array_indentation' => true,
         'declare_strict_types' => true,

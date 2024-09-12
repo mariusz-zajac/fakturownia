@@ -2,7 +2,7 @@
     "name": "abb/fakturownia",
     "type": "library",
     "description": "PHP client for Fakturownia API",
-    "keywords": ["fakturownia", "invoiceocean", "api", "php"],
+    "keywords": ["fakturownia", "invoiceocean", "api", "php", "client"],
     "license": "MIT",
     "authors": [
         {
@@ -22,6 +22,7 @@
     },
     "require": {
         "php": ">=8.2",
+        "ext-curl": "*",
         "ext-json": "*",
         "symfony/http-client": "^7.0",
         "symfony/http-client-contracts": "^3.4.1"

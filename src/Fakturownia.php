@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Abb\Fakturownia;
 
 use Abb\Fakturownia\Api\Accounts;
+use Abb\Fakturownia\Api\ApiClient;
 use Abb\Fakturownia\Api\Categories;
 use Abb\Fakturownia\Api\Clients;
 use Abb\Fakturownia\Api\Departments;
@@ -20,24 +21,33 @@ use Abb\Fakturownia\Exception\InvalidOptionException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Client
+class Fakturownia
 {
-    private HttpClientInterface $httpClient;
-    private string $baseUrl;
-    private string $apiToken;
+    protected ApiClient $apiClient;
 
-    private ?Accounts $accounts = null;
-    private ?Categories $categories = null;
-    private ?Clients $clients = null;
-    private ?Departments $departments = null;
-    private ?Invoices $invoices = null;
-    private ?Payments $payments = null;
-    private ?PriceLists $priceLists = null;
-    private ?Products $products = null;
-    private ?RecurringInvoices $recurringInvoices = null;
-    private ?WarehouseActions $warehouseActions = null;
-    private ?WarehouseDocuments $warehouseDocuments = null;
-    private ?Warehouses $warehouses = null;
+    protected string $baseUrl;
+    protected string $apiToken;
+
+    protected ?Accounts $accounts = null;
+    protected ?Categories $categories = null;
+    protected ?Clients $clients = null;
+    protected ?Departments $departments = null;
+    protected ?Invoices $invoices = null;
+    protected ?Payments $payments = null;
+    protected ?PriceLists $priceLists = null;
+    protected ?Products $products = null;
+    protected ?RecurringInvoices $recurringInvoices = null;
+    protected ?WarehouseActions $warehouseActions = null;
+    protected ?WarehouseDocuments $warehouseDocuments = null;
+    protected ?Warehouses $warehouses = null;
+
+    protected array $defaultHttpClientOptions = [
+        'headers' => [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'User-Agent' => 'fakturownia-php-api-client',
+        ],
+    ];
 
     /**
      * @param array{subdomain: string, api_token: string} $options
@@ -53,19 +63,13 @@ class Client
         $this->baseUrl = sprintf('https://%s.fakturownia.pl', $options['subdomain']);
         $this->apiToken = $options['api_token'];
 
-        $httpClientOptions = [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-        ];
-
-        $this->httpClient = $httpClient ? $httpClient->withOptions($httpClientOptions) : HttpClient::create($httpClientOptions);
+        $httpClient = $httpClient ? $httpClient->withOptions($this->defaultHttpClientOptions) : HttpClient::create($this->defaultHttpClientOptions);
+        $this->apiClient = new ApiClient($httpClient);
     }
 
-    public function getHttpClient(): HttpClientInterface
+    public function getApiClient(): ApiClient
     {
-        return $this->httpClient;
+        return $this->apiClient;
     }
 
     public function getBaseUrl(): string

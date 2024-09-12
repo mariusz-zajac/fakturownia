@@ -29,12 +29,48 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->get(123);
+        $response = (new Invoices($fakturownia))->get(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123.json?api_token=bar', $mockResponse->getRequestUrl());
+        $this->assertSame($expectedResponseData, $response->getContent());
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function testGetInvoiceWithConnectedPayments(): void
+    {
+        $requestParams = [
+            'additional_fields' => [
+                'invoice' => 'connected_payments',
+            ],
+        ];
+
+        $expectedResponseData = [
+            'id' => 123,
+            'kind' => 'vat',
+            'number' => '01/2024',
+            'positions' => [
+                [
+                    'name' => 'Product 1',
+                    'tax' => 23,
+                    'quantity' => 1,
+                    'total_proce_gross' => 10.23,
+                ],
+            ],
+        ];
+
+        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
+
+        $response = (new Invoices($fakturownia))->get(123, $requestParams);
+
+        $this->assertSame('GET', $mockResponse->getRequestMethod());
+        $this->assertSame(
+            'https://foo.fakturownia.pl/invoices/123.json?additional_fields[invoice]=connected_payments&api_token=bar',
+            $mockResponse->getRequestUrl()
+        );
         $this->assertSame($expectedResponseData, $response->getContent());
         $this->assertSame(200, $response->getStatusCode());
     }
@@ -58,9 +94,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->getAll(['period' => 'this_month', 'page' => 1]);
+        $response = (new Invoices($fakturownia))->getAll(['period' => 'this_month', 'page' => 1]);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame(
@@ -73,12 +109,12 @@ final class InvoicesTest extends AbstractTestCase
 
     public function testGetInvoiceAsPdf(): void
     {
-        $expectedResponseData = 'some-pdf-content...';
+        $expectedResponseData = '%PDF-1.4-some-pdf-content...';
 
         $mockResponse = new MockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $pdfContent = (new Invoices($client))->getPdfContent(123);
+        $pdfContent = (new Invoices($fakturownia))->getPdf(123)->getContent();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123.pdf?api_token=bar', $mockResponse->getRequestUrl());
@@ -130,9 +166,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->create($invoiceData, $requestParams);
+        $response = (new Invoices($fakturownia))->create($invoiceData, $requestParams);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices.json', $mockResponse->getRequestUrl());
@@ -159,9 +195,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->update(123, $invoiceData);
+        $response = (new Invoices($fakturownia))->update(123, $invoiceData);
 
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123.json', $mockResponse->getRequestUrl());
@@ -177,9 +213,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->delete(123);
+        $response = (new Invoices($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -200,9 +236,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->cancel(123, 'some cancel reason note');
+        $response = (new Invoices($fakturownia))->cancel(123, 'some cancel reason note');
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/cancel.json', $mockResponse->getRequestUrl());
@@ -227,9 +263,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->sendByEmail(123, $requestParams);
+        $response = (new Invoices($fakturownia))->sendByEmail(123, $requestParams);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123/send_by_email.json', $mockResponse->getRequestUrl());
@@ -252,9 +288,9 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($client))->changeStatus(123, $newInvoiceStatus);
+        $response = (new Invoices($fakturownia))->changeStatus(123, $newInvoiceStatus);
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123/change_status.json', $mockResponse->getRequestUrl());
@@ -271,12 +307,14 @@ final class InvoicesTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 401]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         try {
-            (new Invoices($client))->get(123);
+            (new Invoices($fakturownia))->get(123);
             $this->fail('ApiException should be thrown');
         } catch (ApiException $e) {
+            $this->assertSame('You must be logged in to gain access to the site', $e->getMessage());
+            $this->assertSame(401, $e->getCode());
             $this->assertSame('GET', $mockResponse->getRequestMethod());
             $this->assertSame('https://foo.fakturownia.pl/invoices/123.json?api_token=bar', $mockResponse->getRequestUrl());
             $this->assertSame($expectedResponseData, $e->getResponse()->getContent());

@@ -26,9 +26,9 @@ final class WarehouseActionsTest extends AbstractTestCase
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
-        $client = $this->getApiClient($mockResponse);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new WarehouseActions($client))->getAll($requestParams);
+        $response = (new WarehouseActions($fakturownia))->getAll($requestParams);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame(
