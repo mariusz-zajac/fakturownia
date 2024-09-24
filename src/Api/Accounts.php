@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Api;
 
+use Abb\Fakturownia\Response;
+
 class Accounts extends AbstractApi
 {
     public function get(array $params = []): Response

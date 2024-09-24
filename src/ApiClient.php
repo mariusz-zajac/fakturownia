@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Abb\Fakturownia\Api;
+namespace Abb\Fakturownia;
 
 use Abb\Fakturownia\Exception\ApiException;
 use Abb\Fakturownia\Exception\RuntimeException;

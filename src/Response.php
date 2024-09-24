@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Abb\Fakturownia\Api;
+namespace Abb\Fakturownia;
 
 class Response
 {

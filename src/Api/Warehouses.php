@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Api;
 
+use Abb\Fakturownia\Response;
+
 class Warehouses extends AbstractApi
 {
     public function get(int $id): Response

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Fakturownia;
+use Abb\Fakturownia\Response;
 
 abstract class AbstractApi
 {

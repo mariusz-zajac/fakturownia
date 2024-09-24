@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Abb\Fakturownia\Tests\Unit;
 
 use Abb\Fakturownia\Api\Accounts;
-use Abb\Fakturownia\Api\ApiClient;
 use Abb\Fakturownia\Api\Categories;
 use Abb\Fakturownia\Api\Clients;
 use Abb\Fakturownia\Api\Departments;
@@ -17,6 +16,7 @@ use Abb\Fakturownia\Api\RecurringInvoices;
 use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Api\WarehouseDocuments;
 use Abb\Fakturownia\Api\Warehouses;
+use Abb\Fakturownia\ApiClient;
 use Abb\Fakturownia\Exception\InvalidOptionException;
 use Abb\Fakturownia\Fakturownia;
 

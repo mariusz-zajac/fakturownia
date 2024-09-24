@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Exception;
 
-use Abb\Fakturownia\Api\Response;
+use Abb\Fakturownia\Response;
 
 class ApiException extends \Exception implements ExceptionInterface
 {

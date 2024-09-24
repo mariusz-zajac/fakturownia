@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Abb\Fakturownia;
 
 use Abb\Fakturownia\Api\Accounts;
-use Abb\Fakturownia\Api\ApiClient;
 use Abb\Fakturownia\Api\Categories;
 use Abb\Fakturownia\Api\Clients;
 use Abb\Fakturownia\Api\Departments;
