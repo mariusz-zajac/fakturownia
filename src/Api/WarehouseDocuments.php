@@ -8,13 +8,13 @@ use Abb\Fakturownia\Response;
 
 class WarehouseDocuments extends AbstractApi
 {
-    public function get(int $id): Response
+    public function getOne(int $warehouseDocumentId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'warehouse_documents/' . $id . '.json', [
+        return $this->request('GET', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
             'query' => $params,
         ]);
     }
@@ -28,10 +28,10 @@ class WarehouseDocuments extends AbstractApi
         ]);
     }
 
-    public function create(array $warehouseDocument): Response
+    public function create(array $warehouseDocumentData): Response
     {
         $data = [
-            'warehouse_document' => $warehouseDocument,
+            'warehouse_document' => $warehouseDocumentData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -40,25 +40,25 @@ class WarehouseDocuments extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $warehouseDocument): Response
+    public function update(int $warehouseDocumentId, array $warehouseDocumentData): Response
     {
         $data = [
-            'warehouse_document' => $warehouseDocument,
+            'warehouse_document' => $warehouseDocumentData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'warehouse_documents/' . $id . '.json', [
+        return $this->request('PUT', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $warehouseDocumentId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'warehouse_documents/' . $id . '.json', [
+        return $this->request('DELETE', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
             'query' => $params,
         ]);
     }

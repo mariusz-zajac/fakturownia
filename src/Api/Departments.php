@@ -8,13 +8,13 @@ use Abb\Fakturownia\Response;
 
 class Departments extends AbstractApi
 {
-    public function get(int $id): Response
+    public function getOne(int $departmentId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'departments/' . $id . '.json', [
+        return $this->request('GET', 'departments/' . $departmentId . '.json', [
             'query' => $params,
         ]);
     }
@@ -28,10 +28,10 @@ class Departments extends AbstractApi
         ]);
     }
 
-    public function create(array $department): Response
+    public function create(array $departmentData): Response
     {
         $data = [
-            'department' => $department,
+            'department' => $departmentData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -40,25 +40,25 @@ class Departments extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $department): Response
+    public function update(int $departmentId, array $departmentData): Response
     {
         $data = [
-            'department' => $department,
+            'department' => $departmentData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'departments/' . $id . '.json', [
+        return $this->request('PUT', 'departments/' . $departmentId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $departmentId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'departments/' . $id . '.json', [
+        return $this->request('DELETE', 'departments/' . $departmentId . '.json', [
             'query' => $params,
         ]);
     }

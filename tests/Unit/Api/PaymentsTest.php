@@ -24,7 +24,7 @@ final class PaymentsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Payments($fakturownia))->get(123);
+        $response = (new Payments($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json?api_token=bar', $mockResponse->getRequestUrl());

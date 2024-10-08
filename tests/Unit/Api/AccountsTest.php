@@ -27,7 +27,7 @@ final class AccountsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Accounts($fakturownia))->get($requestParams);
+        $response = (new Accounts($fakturownia))->getOne($requestParams);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account.json?integration_token=baz&api_token=bar', $mockResponse->getRequestUrl());

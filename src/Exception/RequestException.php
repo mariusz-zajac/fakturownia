@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Exception;
 
 use Abb\Fakturownia\Response;
 
-class ApiException extends \Exception implements ExceptionInterface
+class RequestException extends \Exception implements ExceptionInterface
 {
     private Response $response;
 

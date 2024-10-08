@@ -34,7 +34,7 @@ final class WarehouseDocumentsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new WarehouseDocuments($fakturownia))->get(123);
+        $response = (new WarehouseDocuments($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/warehouse_documents/123.json?api_token=bar', $mockResponse->getRequestUrl());

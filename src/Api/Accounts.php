@@ -8,7 +8,7 @@ use Abb\Fakturownia\Response;
 
 class Accounts extends AbstractApi
 {
-    public function get(array $params = []): Response
+    public function getOne(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
@@ -17,19 +17,23 @@ class Accounts extends AbstractApi
         ]);
     }
 
-    public function createForClient(array $account, array $user = [], array $company = [], ?string $integrationToken = null): Response
-    {
+    public function createForClient(
+        array $accountData,
+        array $userData = [],
+        array $companyData = [],
+        ?string $integrationToken = null,
+    ): Response {
         $data = [
-            'account' => $account,
+            'account' => $accountData,
             'api_token' => $this->getApiToken(),
         ];
 
-        if (!empty($user)) {
-            $data['user'] = $user;
+        if (!empty($userData)) {
+            $data['user'] = $userData;
         }
 
-        if (!empty($company)) {
-            $data['company'] = $company;
+        if (!empty($companyData)) {
+            $data['company'] = $companyData;
         }
 
         if (null !== $integrationToken) {
@@ -64,12 +68,12 @@ class Accounts extends AbstractApi
         ]);
     }
 
-    public function addUser(array $user, string $integrationToken): Response
+    public function addUser(array $userData, string $integrationToken): Response
     {
         $data = [
             'api_token' => $this->getApiToken(),
             'integration_token' => $integrationToken,
-            'user' => $user,
+            'user' => $userData,
         ];
 
         return $this->request('POST', 'account/add_user.json', [

@@ -16,7 +16,7 @@ use Abb\Fakturownia\Api\RecurringInvoices;
 use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Api\WarehouseDocuments;
 use Abb\Fakturownia\Api\Warehouses;
-use Abb\Fakturownia\ApiClient;
+use Abb\Fakturownia\Request;
 use Abb\Fakturownia\Exception\InvalidOptionException;
 use Abb\Fakturownia\Fakturownia;
 
@@ -28,7 +28,7 @@ final class FakturowniaTest extends AbstractTestCase
 
         $this->assertSame('https://foo.fakturownia.pl', $fakturownia->getBaseUrl());
         $this->assertSame('bar', $fakturownia->getApiToken());
-        $this->assertInstanceOf(ApiClient::class, $fakturownia->getApiClient());
+        $this->assertInstanceOf(Request::class, $fakturownia->request());
         $this->assertInstanceOf(Accounts::class, $fakturownia->accounts());
         $this->assertInstanceOf(Categories::class, $fakturownia->categories());
         $this->assertInstanceOf(Clients::class, $fakturownia->clients());

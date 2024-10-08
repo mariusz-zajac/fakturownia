@@ -17,10 +17,10 @@ class RecurringInvoices extends AbstractApi
         ]);
     }
 
-    public function create(array $recurringInvoice): Response
+    public function create(array $recurringInvoiceData): Response
     {
         $data = [
-            'recurring' => $recurringInvoice,
+            'recurring' => $recurringInvoiceData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -29,14 +29,14 @@ class RecurringInvoices extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $recurringInvoice): Response
+    public function update(int $recurringInvoiceId, array $recurringInvoiceData): Response
     {
         $data = [
-            'recurring' => $recurringInvoice,
+            'recurring' => $recurringInvoiceData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'recurrings/' . $id . '.json', [
+        return $this->request('PUT', 'recurrings/' . $recurringInvoiceId . '.json', [
             'json' => $data,
         ]);
     }

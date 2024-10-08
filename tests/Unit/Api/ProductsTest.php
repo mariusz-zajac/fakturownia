@@ -23,7 +23,7 @@ final class ProductsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($fakturownia))->get(123);
+        $response = (new Products($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -44,7 +44,7 @@ final class ProductsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Products($fakturownia))->get(123, 555);
+        $response = (new Products($fakturownia))->getOne(123, 555);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/products/123.json?api_token=bar&warehouse_id=555', $mockResponse->getRequestUrl());

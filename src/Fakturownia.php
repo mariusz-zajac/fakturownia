@@ -22,7 +22,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Fakturownia
 {
-    protected ApiClient $apiClient;
+    protected Request $request;
 
     protected string $baseUrl;
     protected string $apiToken;
@@ -63,12 +63,12 @@ class Fakturownia
         $this->apiToken = $options['api_token'];
 
         $httpClient = $httpClient ? $httpClient->withOptions($this->defaultHttpClientOptions) : HttpClient::create($this->defaultHttpClientOptions);
-        $this->apiClient = new ApiClient($httpClient);
+        $this->request = new Request($httpClient);
     }
 
-    public function getApiClient(): ApiClient
+    public function request(): Request
     {
-        return $this->apiClient;
+        return $this->request;
     }
 
     public function getBaseUrl(): string

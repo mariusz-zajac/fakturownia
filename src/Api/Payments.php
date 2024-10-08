@@ -8,11 +8,11 @@ use Abb\Fakturownia\Response;
 
 class Payments extends AbstractApi
 {
-    public function get(int $id, array $params = []): Response
+    public function getOne(int $paymentId, array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'banking/payments/' . $id . '.json', [
+        return $this->request('GET', 'banking/payments/' . $paymentId . '.json', [
             'query' => $params,
         ]);
     }
@@ -26,10 +26,10 @@ class Payments extends AbstractApi
         ]);
     }
 
-    public function create(array $payment): Response
+    public function create(array $paymentData): Response
     {
         $data = [
-            'banking_payment' => $payment,
+            'banking_payment' => $paymentData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -38,25 +38,25 @@ class Payments extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $payment): Response
+    public function update(int $paymentId, array $paymentData): Response
     {
         $data = [
-            'banking_payment' => $payment,
+            'banking_payment' => $paymentData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'banking/payments/' . $id . '.json', [
+        return $this->request('PUT', 'banking/payments/' . $paymentId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $paymentId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'banking/payments/' . $id . '.json', [
+        return $this->request('DELETE', 'banking/payments/' . $paymentId . '.json', [
             'query' => $params,
         ]);
     }

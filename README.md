@@ -20,7 +20,7 @@ $ composer require abb/fakturownia
 $fakturownia = new \Abb\Fakturownia\Fakturownia(['subdomain' => 'foo', 'api_token' => 'bar']);
 
 // Get invoice by ID
-$response = $fakturownia->invoices()->get(123);
+$response = $fakturownia->invoices()->getOne(123);
 
 // Get invoices by parameters
 $params = [

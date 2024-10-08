@@ -8,11 +8,11 @@ use Abb\Fakturownia\Response;
 
 class Invoices extends AbstractApi
 {
-    public function get(int $id, array $params = []): Response
+    public function getOne(int $invoiceId, array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'invoices/' . $id . '.json', [
+        return $this->request('GET', 'invoices/' . $invoiceId . '.json', [
             'query' => $params,
         ]);
     }
@@ -26,7 +26,7 @@ class Invoices extends AbstractApi
         ]);
     }
 
-    public function getPdf(int $id, ?string $printOption = null): Response
+    public function getPdf(int $invoiceId, ?string $printOption = null): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
@@ -36,15 +36,15 @@ class Invoices extends AbstractApi
             $params['print_option'] = $printOption;
         }
 
-        return $this->request('GET', 'invoices/' . $id . '.pdf', [
+        return $this->request('GET', 'invoices/' . $invoiceId . '.pdf', [
             'query' => $params,
         ]);
     }
 
-    public function create(array $invoice, array $params = []): Response
+    public function create(array $invoiceData, array $params = []): Response
     {
         $data = $params;
-        $data['invoice'] = $invoice;
+        $data['invoice'] = $invoiceData;
         $data['api_token'] = $this->getApiToken();
 
         return $this->request('POST', 'invoices.json', [
@@ -52,34 +52,34 @@ class Invoices extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $invoice): Response
+    public function update(int $invoiceId, array $invoiceData): Response
     {
         $data = [
-            'invoice' => $invoice,
+            'invoice' => $invoiceData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'invoices/' . $id . '.json', [
+        return $this->request('PUT', 'invoices/' . $invoiceId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $invoiceId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'invoices/' . $id . '.json', [
+        return $this->request('DELETE', 'invoices/' . $invoiceId . '.json', [
             'query' => $params,
         ]);
     }
 
-    public function cancel(int $id, ?string $cancelReason = null): Response
+    public function cancel(int $invoiceId, ?string $cancelReason = null): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
-            'cancel_invoice_id' => $id,
+            'cancel_invoice_id' => $invoiceId,
         ];
 
         if (null !== $cancelReason) {
@@ -91,23 +91,23 @@ class Invoices extends AbstractApi
         ]);
     }
 
-    public function sendByEmail(int $id, array $params = []): Response
+    public function sendByEmail(int $invoiceId, array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('POST', 'invoices/' . $id . '/send_by_email.json', [
+        return $this->request('POST', 'invoices/' . $invoiceId . '/send_by_email.json', [
             'json' => $params,
         ]);
     }
 
-    public function changeStatus(int $id, string $status): Response
+    public function changeStatus(int $invoiceId, string $status): Response
     {
         $data = [
             'status' => $status,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'invoices/' . $id . '/change_status.json', [
+        return $this->request('POST', 'invoices/' . $invoiceId . '/change_status.json', [
             'json' => $data,
         ]);
     }

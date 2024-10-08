@@ -22,7 +22,7 @@ final class DepartmentsTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Departments($fakturownia))->get(123);
+        $response = (new Departments($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments/123.json?api_token=bar', $mockResponse->getRequestUrl());

@@ -8,7 +8,7 @@ use Abb\Fakturownia\Response;
 
 class Products extends AbstractApi
 {
-    public function get(int $id, ?int $warehouseId = null): Response
+    public function getOne(int $productId, ?int $warehouseId = null): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
@@ -18,7 +18,7 @@ class Products extends AbstractApi
             $params['warehouse_id'] = $warehouseId;
         }
 
-        return $this->request('GET', 'products/' . $id . '.json', [
+        return $this->request('GET', 'products/' . $productId . '.json', [
             'query' => $params,
         ]);
     }
@@ -32,10 +32,10 @@ class Products extends AbstractApi
         ]);
     }
 
-    public function create(array $product): Response
+    public function create(array $productData): Response
     {
         $data = [
-            'product' => $product,
+            'product' => $productData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -44,14 +44,14 @@ class Products extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $product): Response
+    public function update(int $productId, array $productData): Response
     {
         $data = [
-            'product' => $product,
+            'product' => $productData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'products/' . $id . '.json', [
+        return $this->request('PUT', 'products/' . $productId . '.json', [
             'json' => $data,
         ]);
     }

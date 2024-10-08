@@ -8,13 +8,13 @@ use Abb\Fakturownia\Response;
 
 class Warehouses extends AbstractApi
 {
-    public function get(int $id): Response
+    public function getOne(int $warehouseId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'warehouses/' . $id . '.json', [
+        return $this->request('GET', 'warehouses/' . $warehouseId . '.json', [
             'query' => $params,
         ]);
     }
@@ -28,10 +28,10 @@ class Warehouses extends AbstractApi
         ]);
     }
 
-    public function create(array $warehouse): Response
+    public function create(array $warehouseData): Response
     {
         $data = [
-            'warehouse' => $warehouse,
+            'warehouse' => $warehouseData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -40,25 +40,25 @@ class Warehouses extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $warehouse): Response
+    public function update(int $warehouseId, array $warehouseData): Response
     {
         $data = [
-            'warehouse' => $warehouse,
+            'warehouse' => $warehouseData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'warehouses/' . $id . '.json', [
+        return $this->request('PUT', 'warehouses/' . $warehouseId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $warehouseId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'warehouses/' . $id . '.json', [
+        return $this->request('DELETE', 'warehouses/' . $warehouseId . '.json', [
             'query' => $params,
         ]);
     }

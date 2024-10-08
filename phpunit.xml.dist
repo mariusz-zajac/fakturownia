@@ -9,6 +9,8 @@
         <env name="FAKTUROWNIA_SUBDOMAIN" value=""/>
         <env name="FAKTUROWNIA_TOKEN" value=""/>
         <env name="FAKTUROWNIA_INVOICE_ID" value=""/>
+        <env name="FAKTUROWNIA_CLIENT_ID" value=""/>
+        <env name="FAKTUROWNIA_CLIENT_EXTERNAL_ID" value=""/>
     </php>
     <coverage>
         <include>

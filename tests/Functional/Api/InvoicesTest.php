@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Tests\Functional\Api;
 
-use Abb\Fakturownia\Exception\ApiException;
+use Abb\Fakturownia\Exception\RequestException;
 use Abb\Fakturownia\Fakturownia;
 use Abb\Fakturownia\Tests\Functional\AbstractTestCase;
 
@@ -18,8 +18,8 @@ final class InvoicesTest extends AbstractTestCase
                     ['name' => 'Product 1', 'tax' => 23],
                 ],
             ]);
-            $this->fail('ApiException should be thrown');
-        } catch (ApiException $e) {
+            $this->fail(RequestException::class . ' should be thrown');
+        } catch (RequestException $e) {
             $response = $e->getResponse();
             $this->assertSame('Invalid data', $e->getMessage());
             $this->assertSame(422, $e->getCode());
@@ -35,7 +35,7 @@ final class InvoicesTest extends AbstractTestCase
     {
         $this->skipIf(empty($invoiceId = (int) getenv('FAKTUROWNIA_INVOICE_ID')), 'Missing FAKTUROWNIA_INVOICE_ID');
 
-        $response = $this->fakturownia->invoices()->get($invoiceId);
+        $response = $this->fakturownia->invoices()->getOne($invoiceId);
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertIsArray($response->getContent());
@@ -55,11 +55,11 @@ final class InvoicesTest extends AbstractTestCase
 
     public function testInvoiceNotFound(): void
     {
-        $this->expectException(ApiException::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('Not Found');
         $this->expectExceptionCode(404);
 
-        $this->fakturownia->invoices()->get(1);
+        $this->fakturownia->invoices()->getOne(1);
     }
 
     public function testAccessDenied(): void
@@ -69,10 +69,10 @@ final class InvoicesTest extends AbstractTestCase
             'api_token' => 'bar',
         ]);
 
-        $this->expectException(ApiException::class);
+        $this->expectException(RequestException::class);
         $this->expectExceptionMessage('You must be logged in to gain access to the site');
         $this->expectExceptionCode(401);
 
-        $fakturownia->invoices()->get(1);
+        $fakturownia->invoices()->getOne(1);
     }
 }

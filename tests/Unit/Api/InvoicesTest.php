@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\Invoices;
-use Abb\Fakturownia\Exception\ApiException;
+use Abb\Fakturownia\Exception\RequestException;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
 use Symfony\Component\HttpClient\Response\JsonMockResponse;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -31,7 +31,7 @@ final class InvoicesTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($fakturownia))->get(123);
+        $response = (new Invoices($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/invoices/123.json?api_token=bar', $mockResponse->getRequestUrl());
@@ -64,7 +64,7 @@ final class InvoicesTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Invoices($fakturownia))->get(123, $requestParams);
+        $response = (new Invoices($fakturownia))->getOne(123, $requestParams);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame(
@@ -310,9 +310,9 @@ final class InvoicesTest extends AbstractTestCase
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         try {
-            (new Invoices($fakturownia))->get(123);
-            $this->fail('ApiException should be thrown');
-        } catch (ApiException $e) {
+            (new Invoices($fakturownia))->getOne(123);
+            $this->fail(RequestException::class . ' should be thrown');
+        } catch (RequestException $e) {
             $this->assertSame('You must be logged in to gain access to the site', $e->getMessage());
             $this->assertSame(401, $e->getCode());
             $this->assertSame('GET', $mockResponse->getRequestMethod());

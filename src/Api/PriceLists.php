@@ -17,10 +17,10 @@ class PriceLists extends AbstractApi
         ]);
     }
 
-    public function create(array $priceList): Response
+    public function create(array $priceListData): Response
     {
         $data = [
-            'price_list' => $priceList,
+            'price_list' => $priceListData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -29,25 +29,25 @@ class PriceLists extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $priceList): Response
+    public function update(int $priceListId, array $priceListData): Response
     {
         $data = [
-            'price_list' => $priceList,
+            'price_list' => $priceListData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'price_lists/' . $id . '.json', [
+        return $this->request('PUT', 'price_lists/' . $priceListId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $priceListId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'price_lists/' . $id . '.json', [
+        return $this->request('DELETE', 'price_lists/' . $priceListId . '.json', [
             'query' => $params,
         ]);
     }

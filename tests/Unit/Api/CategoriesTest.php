@@ -21,7 +21,7 @@ final class CategoriesTest extends AbstractTestCase
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
-        $response = (new Categories($fakturownia))->get(123);
+        $response = (new Categories($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/categories/123.json?api_token=bar', $mockResponse->getRequestUrl());

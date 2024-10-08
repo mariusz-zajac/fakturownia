@@ -8,13 +8,13 @@ use Abb\Fakturownia\Response;
 
 class Categories extends AbstractApi
 {
-    public function get(int $id): Response
+    public function getOne(int $categoryId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'categories/' . $id . '.json', [
+        return $this->request('GET', 'categories/' . $categoryId . '.json', [
             'query' => $params,
         ]);
     }
@@ -28,10 +28,10 @@ class Categories extends AbstractApi
         ]);
     }
 
-    public function create(array $category): Response
+    public function create(array $categoryData): Response
     {
         $data = [
-            'category' => $category,
+            'category' => $categoryData,
             'api_token' => $this->getApiToken(),
         ];
 
@@ -40,25 +40,25 @@ class Categories extends AbstractApi
         ]);
     }
 
-    public function update(int $id, array $category): Response
+    public function update(int $categoryId, array $categoryData): Response
     {
         $data = [
-            'category' => $category,
+            'category' => $categoryData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'categories/' . $id . '.json', [
+        return $this->request('PUT', 'categories/' . $categoryId . '.json', [
             'json' => $data,
         ]);
     }
 
-    public function delete(int $id): Response
+    public function delete(int $categoryId): Response
     {
         $params = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'categories/' . $id . '.json', [
+        return $this->request('DELETE', 'categories/' . $categoryId . '.json', [
             'query' => $params,
         ]);
     }
