@@ -10,7 +10,7 @@ class RequestException extends \Exception implements ExceptionInterface
 {
     private Response $response;
 
-    public function __construct(string $message, int $code, Response $response, \Throwable $previous)
+    public function __construct(string $message, int $code, Response $response, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 

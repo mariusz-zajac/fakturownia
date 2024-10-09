@@ -9,7 +9,7 @@ use Abb\Fakturownia\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Request
+class ApiClient
 {
     public function __construct(
         protected HttpClientInterface $client,
@@ -22,7 +22,7 @@ class Request
      *
      * @see HttpClientInterface::OPTIONS_DEFAULTS for available options
      */
-    public function __invoke(string $method, string $url, array $options = []): Response
+    public function request(string $method, string $url, array $options = []): Response
     {
         try {
             $response = $this->client->request($method, $url, $options);
@@ -61,6 +61,6 @@ class Request
             return 'Invalid data';
         }
 
-        return 'Unknown error';
+        return sprintf('HTTP %d returned from API', $response->getStatusCode());
     }
 }

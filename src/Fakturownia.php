@@ -22,7 +22,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Fakturownia
 {
-    protected Request $request;
+    protected ApiClient $apiClient;
 
     protected string $baseUrl;
     protected string $apiToken;
@@ -40,11 +40,11 @@ class Fakturownia
     protected ?WarehouseDocuments $warehouseDocuments = null;
     protected ?Warehouses $warehouses = null;
 
-    protected array $defaultHttpClientOptions = [
+    protected array $httpClientDefaultOptions = [
         'headers' => [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'User-Agent' => 'fakturownia-php-api-client',
+            'User-Agent' => 'fakturownia-php-api-client/v2',
         ],
     ];
 
@@ -62,13 +62,13 @@ class Fakturownia
         $this->baseUrl = sprintf('https://%s.fakturownia.pl', $options['subdomain']);
         $this->apiToken = $options['api_token'];
 
-        $httpClient = $httpClient ? $httpClient->withOptions($this->defaultHttpClientOptions) : HttpClient::create($this->defaultHttpClientOptions);
-        $this->request = new Request($httpClient);
+        $httpClient = $httpClient ? $httpClient->withOptions($this->httpClientDefaultOptions) : HttpClient::create($this->httpClientDefaultOptions);
+        $this->apiClient = new ApiClient($httpClient);
     }
 
-    public function request(): Request
+    public function getApiClient(): ApiClient
     {
-        return $this->request;
+        return $this->apiClient;
     }
 
     public function getBaseUrl(): string

@@ -14,9 +14,9 @@ abstract class AbstractApi
     ) {
     }
 
-    protected function request(string $method, string $url, array $options = []): Response
+    protected function request(string $method, string $urlPath, array $options = []): Response
     {
-        return $this->fakturownia->request()($method, $this->fakturownia->getBaseUrl() . '/' . $url, $options);
+        return $this->fakturownia->getApiClient()->request($method, $this->fakturownia->getBaseUrl() . '/' . $urlPath, $options);
     }
 
     protected function getApiToken(): string
