@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Response;
 
-class RecurringInvoices extends AbstractApi
+final class RecurringInvoices extends AbstractApi
 {
     public function getAll(array $params = []): Response
     {

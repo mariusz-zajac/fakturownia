@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Response;
 
-class PriceLists extends AbstractApi
+final class PriceLists extends AbstractApi
 {
     public function getAll(array $params = []): Response
     {

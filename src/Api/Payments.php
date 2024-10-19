@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Response;
 
-class Payments extends AbstractApi
+final class Payments extends AbstractApi
 {
     public function getOne(int $paymentId, array $params = []): Response
     {

@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Response;
 
-class Categories extends AbstractApi
+final class Categories extends AbstractApi
 {
     public function getOne(int $categoryId): Response
     {

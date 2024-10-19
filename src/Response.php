@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia;
 
-class Response
+final class Response
 {
-    protected ?array $jsonData = null;
+    private ?array $jsonData = null;
 
     /**
      * @param string[][] $headers
      */
     public function __construct(
-        protected readonly string $content,
-        protected readonly array $headers,
-        protected readonly int $statusCode,
+        private string $content,
+        private array $headers,
+        private int $statusCode,
     ) {
     }
 

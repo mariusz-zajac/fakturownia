@@ -20,27 +20,27 @@ use Abb\Fakturownia\Exception\InvalidOptionException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Fakturownia
+final class Fakturownia
 {
-    protected ApiClient $apiClient;
+    private ApiClient $apiClient;
 
-    protected string $baseUrl;
-    protected string $apiToken;
+    private string $baseUrl;
+    private string $apiToken;
 
-    protected ?Accounts $accounts = null;
-    protected ?Categories $categories = null;
-    protected ?Clients $clients = null;
-    protected ?Departments $departments = null;
-    protected ?Invoices $invoices = null;
-    protected ?Payments $payments = null;
-    protected ?PriceLists $priceLists = null;
-    protected ?Products $products = null;
-    protected ?RecurringInvoices $recurringInvoices = null;
-    protected ?WarehouseActions $warehouseActions = null;
-    protected ?WarehouseDocuments $warehouseDocuments = null;
-    protected ?Warehouses $warehouses = null;
+    private ?Accounts $accounts = null;
+    private ?Categories $categories = null;
+    private ?Clients $clients = null;
+    private ?Departments $departments = null;
+    private ?Invoices $invoices = null;
+    private ?Payments $payments = null;
+    private ?PriceLists $priceLists = null;
+    private ?Products $products = null;
+    private ?RecurringInvoices $recurringInvoices = null;
+    private ?WarehouseActions $warehouseActions = null;
+    private ?WarehouseDocuments $warehouseDocuments = null;
+    private ?Warehouses $warehouses = null;
 
-    protected array $httpClientDefaultOptions = [
+    private array $httpClientDefaultOptions = [
         'headers' => [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',

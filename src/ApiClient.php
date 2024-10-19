@@ -9,10 +9,10 @@ use Abb\Fakturownia\Exception\RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class ApiClient
+final class ApiClient
 {
     public function __construct(
-        protected HttpClientInterface $client,
+        private HttpClientInterface $client,
     ) {
     }
 
@@ -45,7 +45,7 @@ class ApiClient
         }
     }
 
-    protected function getErrorMessage(Response $response): string
+    private function getErrorMessage(Response $response): string
     {
         try {
             $message = $response->getContent()['message'] ?? $response->getContent()['error'] ?? null;

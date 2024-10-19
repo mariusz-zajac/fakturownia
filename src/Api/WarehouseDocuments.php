@@ -6,7 +6,7 @@ namespace Abb\Fakturownia\Api;
 
 use Abb\Fakturownia\Response;
 
-class WarehouseDocuments extends AbstractApi
+final class WarehouseDocuments extends AbstractApi
 {
     public function getOne(int $warehouseDocumentId): Response
     {
