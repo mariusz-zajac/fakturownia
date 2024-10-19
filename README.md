@@ -4,7 +4,7 @@ PHP client for [Fakturownia](https://fakturownia.pl) ([InvoiceOcean](https://inv
 
 ## Requirements
 
-* PHP 8.2 or higher with curl and json extensions.
+* PHP 8.0.2 or higher with curl and json extensions.
 
 ## Installation
 

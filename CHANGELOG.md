@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.0.0
 * New API model
-* Dropped support for PHP < 8.2
+* Dropped support for PHP < 8.0.2
 
 ## 1.6.0
 * Added methods to manage price lists

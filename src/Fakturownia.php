@@ -51,10 +51,8 @@ class Fakturownia
     /**
      * @param array{subdomain: string, api_token: string} $options
      */
-    public function __construct(
-        #[\SensitiveParameter] array $options,
-        ?HttpClientInterface $httpClient = null,
-    ) {
+    public function __construct(array $options, ?HttpClientInterface $httpClient = null)
+    {
         if (empty($options['subdomain']) || empty($options['api_token'])) {
             throw new InvalidOptionException('Options "subdomain" and "api_token" are required.');
         }
