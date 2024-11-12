@@ -16,11 +16,13 @@ abstract class AbstractApi
 
     protected function request(string $method, string $urlPath, array $options = []): Response
     {
-        return $this->fakturownia->getApiClient()->request($method, $this->fakturownia->getBaseUrl() . '/' . $urlPath, $options);
+        $url = sprintf('https://%s.fakturownia.pl/%s', $this->fakturownia->getConfig()->getSubdomain(), $urlPath);
+
+        return $this->fakturownia->getApiClient()->request($method, $url, $options);
     }
 
     protected function getApiToken(): string
     {
-        return $this->fakturownia->getApiToken();
+        return $this->fakturownia->getConfig()->getApiToken();
     }
 }

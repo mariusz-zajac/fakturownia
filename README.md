@@ -17,7 +17,11 @@ $ composer require abb/fakturownia
 ## Example of usage
 
 ```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia(['subdomain' => 'foo', 'api_token' => 'bar']);
+$config = new \Abb\Fakturownia\Config(
+    subdomain: 'foo',
+    apiToken: 'bar',
+);
+$fakturownia = new \Abb\Fakturownia\Fakturownia($config);
 
 // Get invoice by ID
 $response = $fakturownia->invoices()->getOne(123);

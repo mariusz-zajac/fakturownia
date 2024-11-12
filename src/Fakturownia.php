@@ -16,16 +16,13 @@ use Abb\Fakturownia\Api\RecurringInvoices;
 use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Api\WarehouseDocuments;
 use Abb\Fakturownia\Api\Warehouses;
-use Abb\Fakturownia\Exception\InvalidOptionException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class Fakturownia
 {
+    private Config $config;
     private ApiClient $apiClient;
-
-    private string $baseUrl;
-    private string $apiToken;
 
     private ?Accounts $accounts = null;
     private ?Categories $categories = null;
@@ -48,35 +45,21 @@ final class Fakturownia
         ],
     ];
 
-    /**
-     * @param array{subdomain: string, api_token: string} $options
-     */
-    public function __construct(array $options, ?HttpClientInterface $httpClient = null)
+    public function __construct(Config $config, ?HttpClientInterface $httpClient = null)
     {
-        if (empty($options['subdomain']) || empty($options['api_token'])) {
-            throw new InvalidOptionException('Options "subdomain" and "api_token" are required.');
-        }
-
-        $this->baseUrl = sprintf('https://%s.fakturownia.pl', $options['subdomain']);
-        $this->apiToken = $options['api_token'];
-
+        $this->config = $config;
         $httpClient = $httpClient ? $httpClient->withOptions($this->httpClientDefaultOptions) : HttpClient::create($this->httpClientDefaultOptions);
         $this->apiClient = new ApiClient($httpClient);
+    }
+
+    public function getConfig(): Config
+    {
+        return $this->config;
     }
 
     public function getApiClient(): ApiClient
     {
         return $this->apiClient;
-    }
-
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
-    }
-
-    public function getApiToken(): string
-    {
-        return $this->apiToken;
     }
 
     public function accounts(): Accounts

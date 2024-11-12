@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Tests\Functional;
 
+use Abb\Fakturownia\Config;
 use Abb\Fakturownia\Fakturownia;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected array $options = [];
+    protected Config $config;
 
     protected Fakturownia $fakturownia;
 
@@ -19,12 +20,12 @@ abstract class AbstractTestCase extends TestCase
             self::markTestSkipped('Environment variables required to run functional tests are missing');
         }
 
-        $this->options = [
-            'subdomain' => getenv('FAKTUROWNIA_SUBDOMAIN'),
-            'api_token' => getenv('FAKTUROWNIA_TOKEN'),
-        ];
+        $this->config = new Config(
+            subdomain: getenv('FAKTUROWNIA_SUBDOMAIN'),
+            apiToken: getenv('FAKTUROWNIA_TOKEN'),
+        );
 
-        $this->fakturownia = new Fakturownia($this->options);
+        $this->fakturownia = new Fakturownia($this->config);
     }
 
     protected function skipIf(bool $condition, string $message = ''): void

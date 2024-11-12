@@ -15,7 +15,7 @@ final class AccountsTest extends AbstractTestCase
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertIsArray($response->getContent());
-        $this->assertSame($this->options['subdomain'], $response->getContent()['prefix']);
+        $this->assertSame($this->config->getSubdomain(), $response->getContent()['prefix']);
     }
 
     public function testUnableToUnlinkNonExistentAccounts(): void

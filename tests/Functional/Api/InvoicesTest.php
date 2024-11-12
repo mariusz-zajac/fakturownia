@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Tests\Functional\Api;
 
+use Abb\Fakturownia\Config;
 use Abb\Fakturownia\Exception\RequestException;
 use Abb\Fakturownia\Fakturownia;
 use Abb\Fakturownia\Tests\Functional\AbstractTestCase;
@@ -64,10 +65,11 @@ final class InvoicesTest extends AbstractTestCase
 
     public function testAccessDenied(): void
     {
-        $fakturownia = new Fakturownia([
-            'subdomain' => 'foo',
-            'api_token' => 'bar',
-        ]);
+        $config = new Config(
+            subdomain: 'foo',
+            apiToken: 'bar',
+        );
+        $fakturownia = new Fakturownia($config);
 
         $this->expectException(RequestException::class);
         $this->expectExceptionMessage('You must be logged in to gain access to the site');
