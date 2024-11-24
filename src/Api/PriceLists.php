@@ -12,9 +12,7 @@ final class PriceLists extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'price_lists.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'price_lists.json', query: $params);
     }
 
     public function create(array $priceListData): Response
@@ -24,9 +22,7 @@ final class PriceLists extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'price_lists.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'price_lists.json', body: $data);
     }
 
     public function update(int $priceListId, array $priceListData): Response
@@ -36,9 +32,7 @@ final class PriceLists extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'price_lists/' . $priceListId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'price_lists/' . $priceListId . '.json', body: $data);
     }
 
     public function delete(int $priceListId): Response
@@ -47,8 +41,6 @@ final class PriceLists extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'price_lists/' . $priceListId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'price_lists/' . $priceListId . '.json', query: $params);
     }
 }

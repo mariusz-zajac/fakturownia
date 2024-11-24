@@ -40,7 +40,26 @@ final class InvoicesTest extends AbstractTestCase
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertIsArray($response->getContent());
+        $this->assertArrayNotHasKey('connected_payments', $response->getContent());
         $this->assertSame($invoiceId, $response->getContent()['id']);
+    }
+
+    public function testGetInvoiceWithConnectedPayments(): void
+    {
+        $this->skipIf(empty($invoiceId = (int) getenv('FAKTUROWNIA_INVOICE_ID')), 'Missing FAKTUROWNIA_INVOICE_ID');
+
+        $response = $this->fakturownia->invoices()->getOne($invoiceId, [
+            'additional_fields' => [
+                'invoice' => 'connected_payments',
+            ],
+        ]);
+
+        $this->assertSame(200, $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertIsArray($content);
+        $this->assertArrayHasKey('connected_payments', $content);
+        $this->assertIsArray($content['connected_payments']);
+        $this->assertSame($invoiceId, $content['id']);
     }
 
     public function testGetInvoiceAsPdf(): void

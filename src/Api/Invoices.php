@@ -12,18 +12,14 @@ final class Invoices extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'invoices/' . $invoiceId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'invoices/' . $invoiceId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'invoices.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'invoices.json', query: $params);
     }
 
     public function getPdf(int $invoiceId, ?string $printOption = null): Response
@@ -36,9 +32,7 @@ final class Invoices extends AbstractApi
             $params['print_option'] = $printOption;
         }
 
-        return $this->request('GET', 'invoices/' . $invoiceId . '.pdf', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'invoices/' . $invoiceId . '.pdf', query: $params);
     }
 
     public function create(array $invoiceData, array $params = []): Response
@@ -47,9 +41,7 @@ final class Invoices extends AbstractApi
         $data['invoice'] = $invoiceData;
         $data['api_token'] = $this->getApiToken();
 
-        return $this->request('POST', 'invoices.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'invoices.json', body: $data);
     }
 
     public function update(int $invoiceId, array $invoiceData): Response
@@ -59,9 +51,7 @@ final class Invoices extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'invoices/' . $invoiceId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'invoices/' . $invoiceId . '.json', body: $data);
     }
 
     public function delete(int $invoiceId): Response
@@ -70,9 +60,7 @@ final class Invoices extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'invoices/' . $invoiceId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'invoices/' . $invoiceId . '.json', query: $params);
     }
 
     public function cancel(int $invoiceId, ?string $cancelReason = null): Response
@@ -86,18 +74,14 @@ final class Invoices extends AbstractApi
             $params['cancel_reason'] = $cancelReason;
         }
 
-        return $this->request('POST', 'invoices/cancel.json', [
-            'json' => $params,
-        ]);
+        return $this->request('POST', 'invoices/cancel.json', body: $params);
     }
 
     public function sendByEmail(int $invoiceId, array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('POST', 'invoices/' . $invoiceId . '/send_by_email.json', [
-            'json' => $params,
-        ]);
+        return $this->request('POST', 'invoices/' . $invoiceId . '/send_by_email.json', body: $params);
     }
 
     public function changeStatus(int $invoiceId, string $status): Response
@@ -107,8 +91,6 @@ final class Invoices extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'invoices/' . $invoiceId . '/change_status.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'invoices/' . $invoiceId . '/change_status.json', body: $data);
     }
 }

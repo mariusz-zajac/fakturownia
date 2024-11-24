@@ -37,19 +37,16 @@ final class Fakturownia
     private ?WarehouseDocuments $warehouseDocuments = null;
     private ?Warehouses $warehouses = null;
 
-    private array $httpClientDefaultOptions = [
-        'headers' => [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'User-Agent' => 'fakturownia-php-api-client/v2',
-        ],
+    private array $apiClientDefaultHeaders = [
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/json',
+        'User-Agent' => 'fakturownia-php-api-client/v2',
     ];
 
     public function __construct(Config $config, ?HttpClientInterface $httpClient = null)
     {
         $this->config = $config;
-        $httpClient = $httpClient ? $httpClient->withOptions($this->httpClientDefaultOptions) : HttpClient::create($this->httpClientDefaultOptions);
-        $this->apiClient = new ApiClient($httpClient);
+        $this->apiClient = new ApiClient($httpClient ?? HttpClient::create(), $this->apiClientDefaultHeaders);
     }
 
     public function getConfig(): Config

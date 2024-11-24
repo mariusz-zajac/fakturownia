@@ -12,9 +12,7 @@ final class Accounts extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'account.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'account.json', query: $params);
     }
 
     public function createForClient(
@@ -40,9 +38,7 @@ final class Accounts extends AbstractApi
             $data['integration_token'] = $integrationToken;
         }
 
-        return $this->request('POST', 'account.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'account.json', body: $data);
     }
 
     public function delete(): Response
@@ -51,9 +47,7 @@ final class Accounts extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'account/delete.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'account/delete.json', body: $data);
     }
 
     public function unlink(array $subdomains): Response
@@ -63,9 +57,7 @@ final class Accounts extends AbstractApi
             'prefix' => $subdomains,
         ];
 
-        return $this->request('PATCH', 'account/unlink.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PATCH', 'account/unlink.json', body: $data);
     }
 
     public function addUser(array $userData, string $integrationToken): Response
@@ -76,8 +68,6 @@ final class Accounts extends AbstractApi
             'user' => $userData,
         ];
 
-        return $this->request('POST', 'account/add_user.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'account/add_user.json', body: $data);
     }
 }

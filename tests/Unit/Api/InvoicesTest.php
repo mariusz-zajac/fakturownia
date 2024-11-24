@@ -59,6 +59,7 @@ final class InvoicesTest extends AbstractTestCase
                     'total_proce_gross' => 10.23,
                 ],
             ],
+            'connected_payments' => [],
         ];
 
         $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);

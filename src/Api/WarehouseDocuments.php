@@ -14,18 +14,14 @@ final class WarehouseDocuments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'warehouse_documents/' . $warehouseDocumentId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'warehouse_documents.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'warehouse_documents.json', query: $params);
     }
 
     public function create(array $warehouseDocumentData): Response
@@ -35,9 +31,7 @@ final class WarehouseDocuments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'warehouse_documents.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'warehouse_documents.json', body: $data);
     }
 
     public function update(int $warehouseDocumentId, array $warehouseDocumentData): Response
@@ -47,9 +41,7 @@ final class WarehouseDocuments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'warehouse_documents/' . $warehouseDocumentId . '.json', body: $data);
     }
 
     public function delete(int $warehouseDocumentId): Response
@@ -58,8 +50,6 @@ final class WarehouseDocuments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'warehouse_documents/' . $warehouseDocumentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'warehouse_documents/' . $warehouseDocumentId . '.json', query: $params);
     }
 }

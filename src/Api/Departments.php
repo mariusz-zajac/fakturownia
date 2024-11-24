@@ -14,18 +14,14 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'departments/' . $departmentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'departments/' . $departmentId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'departments.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'departments.json', query: $params);
     }
 
     public function create(array $departmentData): Response
@@ -35,9 +31,7 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'departments.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'departments.json', body: $data);
     }
 
     public function update(int $departmentId, array $departmentData): Response
@@ -47,9 +41,7 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'departments/' . $departmentId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'departments/' . $departmentId . '.json', body: $data);
     }
 
     public function delete(int $departmentId): Response
@@ -58,8 +50,6 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'departments/' . $departmentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'departments/' . $departmentId . '.json', query: $params);
     }
 }

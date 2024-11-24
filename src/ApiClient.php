@@ -13,18 +13,38 @@ final class ApiClient
 {
     public function __construct(
         private HttpClientInterface $client,
+        private array $defaultHeaders = [],
     ) {
     }
 
     /**
      * @throws RequestException
      * @throws RuntimeException
-     *
-     * @see HttpClientInterface::OPTIONS_DEFAULTS for available options
      */
-    public function request(string $method, string $url, array $options = []): Response
-    {
+    public function request(
+        string $method,
+        string $url,
+        array|string|null $body = null,
+        array $query = [],
+        array $headers = [],
+    ): Response {
         try {
+            $options = [];
+
+            if (null !== $body) {
+                if (is_array($body)) {
+                    $options['json'] = $body;
+                } else {
+                    $options['body'] = $body;
+                }
+            }
+
+            if (!empty($query)) {
+                $options['query'] = $query;
+            }
+
+            $options['headers'] = array_merge($this->defaultHeaders, $headers);
+
             $response = $this->client->request($method, $url, $options);
 
             return new Response(

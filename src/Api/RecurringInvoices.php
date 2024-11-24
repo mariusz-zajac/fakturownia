@@ -12,9 +12,7 @@ final class RecurringInvoices extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'recurrings.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'recurrings.json', query: $params);
     }
 
     public function create(array $recurringInvoiceData): Response
@@ -24,9 +22,7 @@ final class RecurringInvoices extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'recurrings.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'recurrings.json', body: $data);
     }
 
     public function update(int $recurringInvoiceId, array $recurringInvoiceData): Response
@@ -36,8 +32,6 @@ final class RecurringInvoices extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'recurrings/' . $recurringInvoiceId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'recurrings/' . $recurringInvoiceId . '.json', body: $data);
     }
 }

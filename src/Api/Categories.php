@@ -14,18 +14,14 @@ final class Categories extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'categories/' . $categoryId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'categories/' . $categoryId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'categories.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'categories.json', query: $params);
     }
 
     public function create(array $categoryData): Response
@@ -35,9 +31,7 @@ final class Categories extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'categories.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'categories.json', body: $data);
     }
 
     public function update(int $categoryId, array $categoryData): Response
@@ -47,9 +41,7 @@ final class Categories extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'categories/' . $categoryId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'categories/' . $categoryId . '.json', body: $data);
     }
 
     public function delete(int $categoryId): Response
@@ -58,8 +50,6 @@ final class Categories extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'categories/' . $categoryId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'categories/' . $categoryId . '.json', query: $params);
     }
 }

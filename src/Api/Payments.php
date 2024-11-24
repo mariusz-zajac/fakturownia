@@ -12,18 +12,14 @@ final class Payments extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'banking/payments/' . $paymentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'banking/payments/' . $paymentId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'banking/payments.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'banking/payments.json', query: $params);
     }
 
     public function create(array $paymentData): Response
@@ -33,9 +29,7 @@ final class Payments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'banking/payments.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'banking/payments.json', body: $data);
     }
 
     public function update(int $paymentId, array $paymentData): Response
@@ -45,9 +39,7 @@ final class Payments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'banking/payments/' . $paymentId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'banking/payments/' . $paymentId . '.json', body: $data);
     }
 
     public function delete(int $paymentId): Response
@@ -56,8 +48,6 @@ final class Payments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'banking/payments/' . $paymentId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('DELETE', 'banking/payments/' . $paymentId . '.json', query: $params);
     }
 }

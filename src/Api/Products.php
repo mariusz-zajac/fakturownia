@@ -18,18 +18,14 @@ final class Products extends AbstractApi
             $params['warehouse_id'] = $warehouseId;
         }
 
-        return $this->request('GET', 'products/' . $productId . '.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'products/' . $productId . '.json', query: $params);
     }
 
     public function getAll(array $params = []): Response
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'products.json', [
-            'query' => $params,
-        ]);
+        return $this->request('GET', 'products.json', query: $params);
     }
 
     public function create(array $productData): Response
@@ -39,9 +35,7 @@ final class Products extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'products.json', [
-            'json' => $data,
-        ]);
+        return $this->request('POST', 'products.json', body: $data);
     }
 
     public function update(int $productId, array $productData): Response
@@ -51,8 +45,6 @@ final class Products extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'products/' . $productId . '.json', [
-            'json' => $data,
-        ]);
+        return $this->request('PUT', 'products/' . $productId . '.json', body: $data);
     }
 }
