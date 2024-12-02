@@ -6,7 +6,6 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\Departments;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class DepartmentsTest extends AbstractTestCase
 {
@@ -19,15 +18,14 @@ final class DepartmentsTest extends AbstractTestCase
             'tax_no' => '-',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Departments($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments/123.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testGetAllDepartments(): void
@@ -41,15 +39,14 @@ final class DepartmentsTest extends AbstractTestCase
             ],
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Departments($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testCreateDepartment(): void
@@ -69,7 +66,7 @@ final class DepartmentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 201]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Departments($fakturownia))->create($departmentData);
@@ -77,8 +74,7 @@ final class DepartmentsTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(201, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testUpdateDepartment(): void
@@ -98,7 +94,7 @@ final class DepartmentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Departments($fakturownia))->update(123, $departmentData);
@@ -106,8 +102,7 @@ final class DepartmentsTest extends AbstractTestCase
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments/123.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testDeleteDepartment(): void
@@ -116,14 +111,13 @@ final class DepartmentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Departments($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/departments/123.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 }

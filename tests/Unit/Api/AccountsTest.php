@@ -6,7 +6,6 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\Accounts;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class AccountsTest extends AbstractTestCase
 {
@@ -24,15 +23,14 @@ final class AccountsTest extends AbstractTestCase
             'email' => 'email1@email.pl',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Accounts($fakturownia))->getOne($requestParams);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account.json?integration_token=baz&api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testCreateAccountForClient(): void
@@ -79,7 +77,7 @@ final class AccountsTest extends AbstractTestCase
             'email' => 'email1@email.pl',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 201]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Accounts($fakturownia))->createForClient($accountData, $userData, $companyData, $integrationToken);
@@ -87,8 +85,7 @@ final class AccountsTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(201, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testDeleteAccount(): void
@@ -102,7 +99,7 @@ final class AccountsTest extends AbstractTestCase
             'message' => 'Link do usunięcia konta wysłany!',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Accounts($fakturownia))->delete();
@@ -110,8 +107,7 @@ final class AccountsTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account/delete.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testUnlinkAccount(): void
@@ -141,7 +137,7 @@ final class AccountsTest extends AbstractTestCase
             ],
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Accounts($fakturownia))->unlink($subdomains);
@@ -149,8 +145,7 @@ final class AccountsTest extends AbstractTestCase
         $this->assertSame('PATCH', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account/unlink.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testAddUser(): void
@@ -175,7 +170,7 @@ final class AccountsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Accounts($fakturownia))->addUser($userData, $integrationToken);
@@ -183,7 +178,6 @@ final class AccountsTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/account/add_user.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 }

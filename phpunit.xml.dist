@@ -11,6 +11,7 @@
         <env name="FAKTUROWNIA_INVOICE_ID" value=""/>
         <env name="FAKTUROWNIA_CLIENT_ID" value=""/>
         <env name="FAKTUROWNIA_CLIENT_EXTERNAL_ID" value=""/>
+        <env name="FAKTUROWNIA_RECIPIENT_EMAIL" value=""/>
     </php>
     <coverage>
         <include>

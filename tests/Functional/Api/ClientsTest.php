@@ -14,9 +14,8 @@ final class ClientsTest extends AbstractTestCase
 
         $response = $this->fakturownia->clients()->getOne($clientId);
 
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertIsArray($response->getContent());
-        $this->assertSame($clientId, $response->getContent()['id']);
+        $this->assertIsArray($response);
+        $this->assertSame($clientId, $response['id']);
     }
 
     public function testGetClientsByExternalId(): void
@@ -25,9 +24,8 @@ final class ClientsTest extends AbstractTestCase
 
         $response = $this->fakturownia->clients()->getAllByExternalId($clientExternalId);
 
-        $this->assertSame(200, $response->getStatusCode());
-        $this->assertIsArray($response->getContent());
-        $this->assertCount(1, $response->getContent());
-        $this->assertSame($clientExternalId, $response->getContent()[0]['external_id']);
+        $this->assertIsArray($response);
+        $this->assertCount(1, $response);
+        $this->assertSame($clientExternalId, $response[0]['external_id']);
     }
 }

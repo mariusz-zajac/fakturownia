@@ -8,6 +8,8 @@ use Abb\Fakturownia\Config;
 use Abb\Fakturownia\Fakturownia;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
+use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class AbstractTestCase extends TestCase
@@ -18,8 +20,26 @@ abstract class AbstractTestCase extends TestCase
             subdomain: 'foo',
             apiToken: 'bar',
         );
-        $httpClient = new MockHttpClient($mockResponse);
+        $httpClient = new Psr18Client(new MockHttpClient($mockResponse));
 
         return new Fakturownia($config, $httpClient);
+    }
+
+    protected function createJsonMockResponse(array $body = [], array $info = []): MockResponse
+    {
+        try {
+            $json = json_encode($body, \JSON_THROW_ON_ERROR | \JSON_PRESERVE_ZERO_FRACTION);
+        } catch (\JsonException $e) {
+            throw new \InvalidArgumentException('JSON encoding failed: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+
+        $info['response_headers']['content-type'] ??= 'application/json';
+
+        return $this->createMockResponse($json, $info);
+    }
+
+    protected function createMockResponse(iterable|string $body = [], array $info = []): MockResponse
+    {
+        return new MockResponse($body, $info);
     }
 }

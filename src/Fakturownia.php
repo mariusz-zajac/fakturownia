@@ -16,8 +16,9 @@ use Abb\Fakturownia\Api\RecurringInvoices;
 use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Api\WarehouseDocuments;
 use Abb\Fakturownia\Api\Warehouses;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpClient\Psr18Client;
 
 final class Fakturownia
 {
@@ -43,10 +44,10 @@ final class Fakturownia
         'User-Agent' => 'fakturownia-php-api-client/v2',
     ];
 
-    public function __construct(Config $config, ?HttpClientInterface $httpClient = null)
+    public function __construct(Config $config, ?ClientInterface $httpClient = null)
     {
         $this->config = $config;
-        $this->apiClient = new ApiClient($httpClient ?? HttpClient::create(), $this->apiClientDefaultHeaders);
+        $this->apiClient = new ApiClient($httpClient ?? new Psr18Client(), $this->apiClientDefaultHeaders);
     }
 
     public function getConfig(): Config
@@ -57,6 +58,11 @@ final class Fakturownia
     public function getApiClient(): ApiClient
     {
         return $this->apiClient;
+    }
+
+    public function getLastResponse(): ?ResponseInterface
+    {
+        return $this->getApiClient()->getLastResponse();
     }
 
     public function accounts(): Accounts

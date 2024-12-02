@@ -34,7 +34,7 @@ $params = [
 $response = $fakturownia->invoices()->getAll($params);
 
 // Get invoice as PDF and save to file
-$pdfContent = $fakturownia->invoices()->getPdf(123)->getContent();
+$pdfContent = $fakturownia->invoices()->getPdf(123);
 file_put_contents('/path/to/invoice_123.pdf', $pdfContent);
 
 // Create an invoice
@@ -80,6 +80,27 @@ $response = $fakturownia->invoices()->update(123, $invoiceData);
 
 // Delete invoice
 $response = $fakturownia->invoices()->delete(123);
+```
+
+### Error handling
+
+```php
+$fakturownia = new \Abb\Fakturownia\Fakturownia($config);
+$invoiceData = [
+    // ...
+];
+
+try {
+    $response = $fakturownia->invoices()->create($invoiceData);
+} catch (\Abb\Fakturownia\Exception\ApiException $e) {
+    $msg = $e->getMessage(); // error message
+    $statusCode = $e->getCode(); // status code, e.g. 400, 401, 500 etc.
+    $details = $e->getDetails(); // error details (if available)
+} catch (\Abb\Fakturownia\Exception\RuntimeException $e) {
+    $msg = $e->getMessage();
+}
+
+$lastResponse = $fakturownia->getLastResponse(); // last API response (if available)
 ```
 
 ## API documentation

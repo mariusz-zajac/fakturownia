@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia;
 
-use Abb\Fakturownia\Exception\RequestException;
+use Abb\Fakturownia\Exception\ApiException;
 use Abb\Fakturownia\Exception\RuntimeException;
-use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Nyholm\Psr7\Request;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class ApiClient
 {
+    private ?ResponseInterface $lastResponse = null;
+
     public function __construct(
-        private HttpClientInterface $client,
+        private ClientInterface $client,
         private array $defaultHeaders = [],
     ) {
     }
 
     /**
-     * @throws RequestException
+     * @throws ApiException
      * @throws RuntimeException
      */
     public function request(
@@ -28,47 +31,51 @@ final class ApiClient
         array $query = [],
         array $headers = [],
     ): Response {
-        try {
-            $options = [];
+        $this->lastResponse = null;
 
-            if (null !== $body) {
-                if (is_array($body)) {
-                    $options['json'] = $body;
-                } else {
-                    $options['body'] = $body;
-                }
+        try {
+            $headers = array_merge($this->defaultHeaders, $headers);
+
+            if (is_array($body)) {
+                $body = json_encode($body, JSON_THROW_ON_ERROR | \JSON_PRESERVE_ZERO_FRACTION);
+                $headers['Accept'] ??= 'application/json';
+                $headers['Content-Type'] ??= 'application/json';
             }
 
             if (!empty($query)) {
-                $options['query'] = $query;
+                $url .= (str_contains($url, '?') ? '&' : '?') . http_build_query($query);
             }
 
-            $options['headers'] = array_merge($this->defaultHeaders, $headers);
+            $this->lastResponse = $this->client->sendRequest(new Request($method, $url, $headers, $body));
 
-            $response = $this->client->request($method, $url, $options);
-
-            return new Response(
-                $response->getContent(),
-                $response->getHeaders(),
-                $response->getStatusCode(),
-            );
-        } catch (HttpExceptionInterface $e) {
             $response = new Response(
-                $e->getResponse()->getContent(false),
-                $e->getResponse()->getHeaders(false),
-                $e->getResponse()->getStatusCode(),
+                (string) $this->lastResponse->getBody(),
+                $this->lastResponse->getStatusCode(),
             );
-
-            throw new RequestException($this->getErrorMessage($response), $e->getCode(), $response, $e);
         } catch (\Throwable $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
+
+        if ($response->getStatusCode() >= 400) {
+            throw new ApiException(
+                $this->getErrorMessage($response),
+                $response->getStatusCode(),
+                $this->getErrorDetails($response),
+            );
+        }
+
+        return $response;
+    }
+
+    public function getLastResponse(): ?ResponseInterface
+    {
+        return $this->lastResponse;
     }
 
     private function getErrorMessage(Response $response): string
     {
         try {
-            $message = $response->getContent()['message'] ?? $response->getContent()['error'] ?? null;
+            $message = $response->toArray()['message'] ?? $response->toArray()['error'] ?? null;
         } catch (\JsonException) {
             $message = null;
         }
@@ -82,5 +89,16 @@ final class ApiClient
         }
 
         return sprintf('HTTP %d returned from API', $response->getStatusCode());
+    }
+
+    private function getErrorDetails(Response $response): array
+    {
+        try {
+            $details = $response->toArray();
+        } catch (\JsonException) {
+            $details = [];
+        }
+
+        return $details;
     }
 }

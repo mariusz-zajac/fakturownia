@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Api;
 
-use Abb\Fakturownia\Response;
-
 final class Accounts extends AbstractApi
 {
-    public function getOne(array $params = []): Response
+    public function getOne(array $params = []): array
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'account.json', query: $params);
+        return $this->request('GET', 'account.json', query: $params)->toArray();
     }
 
     public function createForClient(
@@ -20,7 +18,7 @@ final class Accounts extends AbstractApi
         array $userData = [],
         array $companyData = [],
         ?string $integrationToken = null,
-    ): Response {
+    ): array {
         $data = [
             'account' => $accountData,
             'api_token' => $this->getApiToken(),
@@ -38,29 +36,29 @@ final class Accounts extends AbstractApi
             $data['integration_token'] = $integrationToken;
         }
 
-        return $this->request('POST', 'account.json', body: $data);
+        return $this->request('POST', 'account.json', body: $data)->toArray();
     }
 
-    public function delete(): Response
+    public function delete(): array
     {
         $data = [
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'account/delete.json', body: $data);
+        return $this->request('POST', 'account/delete.json', body: $data)->toArray();
     }
 
-    public function unlink(array $subdomains): Response
+    public function unlink(array $subdomains): array
     {
         $data = [
             'api_token' => $this->getApiToken(),
             'prefix' => $subdomains,
         ];
 
-        return $this->request('PATCH', 'account/unlink.json', body: $data);
+        return $this->request('PATCH', 'account/unlink.json', body: $data)->toArray();
     }
 
-    public function addUser(array $userData, string $integrationToken): Response
+    public function addUser(array $userData, string $integrationToken): array
     {
         $data = [
             'api_token' => $this->getApiToken(),
@@ -68,6 +66,6 @@ final class Accounts extends AbstractApi
             'user' => $userData,
         ];
 
-        return $this->request('POST', 'account/add_user.json', body: $data);
+        return $this->request('POST', 'account/add_user.json', body: $data)->toArray();
     }
 }

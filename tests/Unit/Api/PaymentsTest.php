@@ -6,7 +6,6 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\Payments;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class PaymentsTest extends AbstractTestCase
 {
@@ -21,15 +20,14 @@ final class PaymentsTest extends AbstractTestCase
             'kind' => 'api',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Payments($fakturownia))->getOne(123);
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testGetAllPayments(): void
@@ -45,15 +43,14 @@ final class PaymentsTest extends AbstractTestCase
             ],
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Payments($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testCreatePayment(): void
@@ -75,7 +72,7 @@ final class PaymentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 201]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Payments($fakturownia))->create($paymentData);
@@ -83,8 +80,7 @@ final class PaymentsTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(201, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testUpdatePayment(): void
@@ -106,7 +102,7 @@ final class PaymentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Payments($fakturownia))->update(123, $paymentData);
@@ -114,8 +110,7 @@ final class PaymentsTest extends AbstractTestCase
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testDeletePayment(): void
@@ -124,14 +119,13 @@ final class PaymentsTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new Payments($fakturownia))->delete(123);
 
         $this->assertSame('DELETE', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/banking/payments/123.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 }

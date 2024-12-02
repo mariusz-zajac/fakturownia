@@ -8,54 +8,31 @@ final class Response
 {
     private ?array $jsonData = null;
 
-    /**
-     * @param string[][] $headers
-     */
     public function __construct(
         private string $content,
-        private array $headers,
         private int $statusCode,
     ) {
     }
 
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
     /**
-     * Return the response body as a string or JSON array if content type is JSON
-     *
      * @throws \JsonException When the response body cannot be decoded to an array
      */
-    public function getContent(): array|string
+    public function toArray(): array
     {
         if (null !== $this->jsonData) {
             return $this->jsonData;
         }
 
-        if ($this->isJson()) {
-            return $this->jsonData = (array) json_decode($this->content, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
-        }
-
-        return $this->content;
+        return $this->jsonData = (array) json_decode($this->content, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
     }
 
-    /**
-     * Gets the HTTP headers of the response
-     *
-     * @return string[][]
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Gets the HTTP status code of the response
-     */
     public function getStatusCode(): int
     {
         return $this->statusCode;
-    }
-
-    public function isJson(): bool
-    {
-        return str_contains(strtolower($this->headers['content-type'][0] ?? ''), 'application/json');
     }
 }

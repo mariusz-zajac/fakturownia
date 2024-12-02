@@ -6,7 +6,6 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\RecurringInvoices;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class RecurringInvoicesTest extends AbstractTestCase
 {
@@ -26,15 +25,14 @@ final class RecurringInvoicesTest extends AbstractTestCase
             ],
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new RecurringInvoices($fakturownia))->getAll();
 
         $this->assertSame('GET', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings.json?api_token=bar', $mockResponse->getRequestUrl());
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testCreateRecurringInvoice(): void
@@ -59,7 +57,7 @@ final class RecurringInvoicesTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 201]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 201]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new RecurringInvoices($fakturownia))->create($recurringInvoiceData);
@@ -67,8 +65,7 @@ final class RecurringInvoicesTest extends AbstractTestCase
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(201, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 
     public function testUpdateRecurringInvoice(): void
@@ -86,7 +83,7 @@ final class RecurringInvoicesTest extends AbstractTestCase
             'code' => 'success',
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new RecurringInvoices($fakturownia))->update(123, $recurringInvoiceData);
@@ -94,7 +91,6 @@ final class RecurringInvoicesTest extends AbstractTestCase
         $this->assertSame('PUT', $mockResponse->getRequestMethod());
         $this->assertSame('https://foo.fakturownia.pl/recurrings/123.json', $mockResponse->getRequestUrl());
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 }

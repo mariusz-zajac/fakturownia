@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Abb\Fakturownia\Api;
 
-use Abb\Fakturownia\Response;
-
 final class Products extends AbstractApi
 {
-    public function getOne(int $productId, ?int $warehouseId = null): Response
+    public function getOne(int $productId, ?int $warehouseId = null): array
     {
         $params = [
             'api_token' => $this->getApiToken(),
@@ -18,33 +16,33 @@ final class Products extends AbstractApi
             $params['warehouse_id'] = $warehouseId;
         }
 
-        return $this->request('GET', 'products/' . $productId . '.json', query: $params);
+        return $this->request('GET', 'products/' . $productId . '.json', query: $params)->toArray();
     }
 
-    public function getAll(array $params = []): Response
+    public function getAll(array $params = []): array
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'products.json', query: $params);
+        return $this->request('GET', 'products.json', query: $params)->toArray();
     }
 
-    public function create(array $productData): Response
+    public function create(array $productData): array
     {
         $data = [
             'product' => $productData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'products.json', body: $data);
+        return $this->request('POST', 'products.json', body: $data)->toArray();
     }
 
-    public function update(int $productId, array $productData): Response
+    public function update(int $productId, array $productData): array
     {
         $data = [
             'product' => $productData,
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'products/' . $productId . '.json', body: $data);
+        return $this->request('PUT', 'products/' . $productId . '.json', body: $data)->toArray();
     }
 }

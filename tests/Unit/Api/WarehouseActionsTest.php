@@ -6,7 +6,6 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class WarehouseActionsTest extends AbstractTestCase
 {
@@ -25,7 +24,7 @@ final class WarehouseActionsTest extends AbstractTestCase
             ],
         ];
 
-        $mockResponse = new JsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
         $fakturownia = $this->getFakturowniaStub($mockResponse);
 
         $response = (new WarehouseActions($fakturownia))->getAll($requestParams);
@@ -35,7 +34,6 @@ final class WarehouseActionsTest extends AbstractTestCase
             'https://foo.fakturownia.pl/warehouse_actions.json?page=1&per_page=10&warehouse_id=2&api_token=bar',
             $mockResponse->getRequestUrl()
         );
-        $this->assertSame($expectedResponseData, $response->getContent());
-        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($expectedResponseData, $response);
     }
 }
