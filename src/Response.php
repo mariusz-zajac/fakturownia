@@ -6,12 +6,35 @@ namespace Abb\Fakturownia;
 
 final class Response
 {
+    private int $statusCode;
+
+    private array $headers;
+
+    private string $content;
+
     private ?array $jsonData = null;
 
-    public function __construct(
-        private string $content,
-        private int $statusCode,
-    ) {
+    /**
+     * @param string[][] $headers
+     */
+    public function __construct(int $statusCode, array $headers, string $content)
+    {
+        $this->statusCode = $statusCode;
+        $this->headers = $headers;
+        $this->content = $content;
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
     }
 
     public function getContent(): string
@@ -29,10 +52,5 @@ final class Response
         }
 
         return $this->jsonData = (array) json_decode($this->content, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
-    }
-
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
     }
 }

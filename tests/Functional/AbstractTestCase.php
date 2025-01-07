@@ -21,8 +21,8 @@ abstract class AbstractTestCase extends TestCase
         }
 
         $this->config = new Config(
-            subdomain: getenv('FAKTUROWNIA_SUBDOMAIN'),
-            apiToken: getenv('FAKTUROWNIA_TOKEN'),
+            getenv('FAKTUROWNIA_SUBDOMAIN'),
+            getenv('FAKTUROWNIA_TOKEN'),
         );
 
         $this->fakturownia = new Fakturownia($this->config);

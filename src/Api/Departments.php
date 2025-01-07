@@ -12,14 +12,14 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'departments/' . $departmentId . '.json', query: $params)->toArray();
+        return $this->request('GET', 'departments/' . $departmentId . '.json', ['query' => $params])->toArray();
     }
 
     public function getAll(array $params = []): array
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'departments.json', query: $params)->toArray();
+        return $this->request('GET', 'departments.json', ['query' => $params])->toArray();
     }
 
     public function create(array $departmentData): array
@@ -29,7 +29,7 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'departments.json', body: $data)->toArray();
+        return $this->request('POST', 'departments.json', ['body' => $data])->toArray();
     }
 
     public function update(int $departmentId, array $departmentData): array
@@ -39,7 +39,7 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'departments/' . $departmentId . '.json', body: $data)->toArray();
+        return $this->request('PUT', 'departments/' . $departmentId . '.json', ['body' => $data])->toArray();
     }
 
     public function delete(int $departmentId): array
@@ -48,6 +48,6 @@ final class Departments extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'departments/' . $departmentId . '.json', query: $params)->toArray();
+        return $this->request('DELETE', 'departments/' . $departmentId . '.json', ['query' => $params])->toArray();
     }
 }

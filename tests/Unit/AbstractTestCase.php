@@ -14,12 +14,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class AbstractTestCase extends TestCase
 {
-    protected function getFakturowniaStub(callable|iterable|ResponseInterface|null $mockResponse = null): Fakturownia
+    /**
+     * @param callable|callable[]|ResponseInterface|ResponseInterface[]|iterable|null $mockResponse
+     */
+    protected function getFakturowniaStub($mockResponse = null): Fakturownia
     {
-        $config = new Config(
-            subdomain: 'foo',
-            apiToken: 'bar',
-        );
+        $config = new Config('foo', 'bar');
         $httpClient = new Psr18Client(new MockHttpClient($mockResponse));
 
         return new Fakturownia($config, $httpClient);
@@ -38,7 +38,10 @@ abstract class AbstractTestCase extends TestCase
         return $this->createMockResponse($json, $info);
     }
 
-    protected function createMockResponse(iterable|string $body = [], array $info = []): MockResponse
+    /**
+     * @param string|string[]|iterable $body
+     */
+    protected function createMockResponse($body = [], array $info = []): MockResponse
     {
         return new MockResponse($body, $info);
     }

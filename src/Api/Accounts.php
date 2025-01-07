@@ -10,14 +10,14 @@ final class Accounts extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'account.json', query: $params)->toArray();
+        return $this->request('GET', 'account.json', ['query' => $params])->toArray();
     }
 
     public function createForClient(
         array $accountData,
         array $userData = [],
         array $companyData = [],
-        ?string $integrationToken = null,
+        ?string $integrationToken = null
     ): array {
         $data = [
             'account' => $accountData,
@@ -36,7 +36,7 @@ final class Accounts extends AbstractApi
             $data['integration_token'] = $integrationToken;
         }
 
-        return $this->request('POST', 'account.json', body: $data)->toArray();
+        return $this->request('POST', 'account.json', ['body' => $data])->toArray();
     }
 
     public function delete(): array
@@ -45,7 +45,7 @@ final class Accounts extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'account/delete.json', body: $data)->toArray();
+        return $this->request('POST', 'account/delete.json', ['body' => $data])->toArray();
     }
 
     public function unlink(array $subdomains): array
@@ -55,7 +55,7 @@ final class Accounts extends AbstractApi
             'prefix' => $subdomains,
         ];
 
-        return $this->request('PATCH', 'account/unlink.json', body: $data)->toArray();
+        return $this->request('PATCH', 'account/unlink.json', ['body' => $data])->toArray();
     }
 
     public function addUser(array $userData, string $integrationToken): array
@@ -66,6 +66,6 @@ final class Accounts extends AbstractApi
             'user' => $userData,
         ];
 
-        return $this->request('POST', 'account/add_user.json', body: $data)->toArray();
+        return $this->request('POST', 'account/add_user.json', ['body' => $data])->toArray();
     }
 }

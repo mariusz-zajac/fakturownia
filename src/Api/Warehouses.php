@@ -12,14 +12,14 @@ final class Warehouses extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'warehouses/' . $warehouseId . '.json', query: $params)->toArray();
+        return $this->request('GET', 'warehouses/' . $warehouseId . '.json', ['query' => $params])->toArray();
     }
 
     public function getAll(array $params = []): array
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'warehouses.json', query: $params)->toArray();
+        return $this->request('GET', 'warehouses.json', ['query' => $params])->toArray();
     }
 
     public function create(array $warehouseData): array
@@ -29,7 +29,7 @@ final class Warehouses extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'warehouses.json', body: $data)->toArray();
+        return $this->request('POST', 'warehouses.json', ['body' => $data])->toArray();
     }
 
     public function update(int $warehouseId, array $warehouseData): array
@@ -39,7 +39,7 @@ final class Warehouses extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'warehouses/' . $warehouseId . '.json', body: $data)->toArray();
+        return $this->request('PUT', 'warehouses/' . $warehouseId . '.json', ['body' => $data])->toArray();
     }
 
     public function delete(int $warehouseId): array
@@ -48,6 +48,6 @@ final class Warehouses extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'warehouses/' . $warehouseId . '.json', query: $params)->toArray();
+        return $this->request('DELETE', 'warehouses/' . $warehouseId . '.json', ['query' => $params])->toArray();
     }
 }

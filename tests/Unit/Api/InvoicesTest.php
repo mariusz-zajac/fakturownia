@@ -6,8 +6,8 @@ namespace Abb\Fakturownia\Tests\Unit\Api;
 
 use Abb\Fakturownia\Api\Invoices;
 use Abb\Fakturownia\Exception\ApiException;
+use Abb\Fakturownia\Response;
 use Abb\Fakturownia\Tests\Unit\AbstractTestCase;
-use Psr\Http\Message\ResponseInterface;
 
 final class InvoicesTest extends AbstractTestCase
 {
@@ -309,9 +309,10 @@ final class InvoicesTest extends AbstractTestCase
             $this->assertSame('GET', $mockResponse->getRequestMethod());
             $this->assertSame('https://foo.fakturownia.pl/invoices/123.json?api_token=bar', $mockResponse->getRequestUrl());
             $this->assertSame($expectedResponseData, $e->getDetails());
-            $this->assertInstanceOf(ResponseInterface::class, $fakturownia->getLastResponse());
+            $this->assertInstanceOf(Response::class, $fakturownia->getLastResponse());
             $this->assertSame(401, $fakturownia->getLastResponse()->getStatusCode());
-            $this->assertSame(json_encode($expectedResponseData), (string) $fakturownia->getLastResponse()->getBody());
+            $this->assertSame(json_encode($expectedResponseData), $fakturownia->getLastResponse()->getContent());
+            $this->assertSame($expectedResponseData, $fakturownia->getLastResponse()->toArray());
         }
     }
 }

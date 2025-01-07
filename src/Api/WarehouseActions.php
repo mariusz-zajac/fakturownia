@@ -10,6 +10,6 @@ final class WarehouseActions extends AbstractApi
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'warehouse_actions.json', query: $params)->toArray();
+        return $this->request('GET', 'warehouse_actions.json', ['query' => $params])->toArray();
     }
 }

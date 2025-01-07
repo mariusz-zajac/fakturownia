@@ -17,11 +17,12 @@ use Abb\Fakturownia\Api\WarehouseActions;
 use Abb\Fakturownia\Api\WarehouseDocuments;
 use Abb\Fakturownia\Api\Warehouses;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpClient\Psr18Client;
 
 final class Fakturownia
 {
+    public const USER_AGENT = 'fakturownia-php-api-client/v2';
+
     private Config $config;
     private ApiClient $apiClient;
 
@@ -41,7 +42,7 @@ final class Fakturownia
     private array $apiClientDefaultHeaders = [
         'Accept' => 'application/json',
         'Content-Type' => 'application/json',
-        'User-Agent' => 'fakturownia-php-api-client/v2',
+        'User-Agent' => self::USER_AGENT,
     ];
 
     public function __construct(Config $config, ?ClientInterface $httpClient = null)
@@ -60,7 +61,7 @@ final class Fakturownia
         return $this->apiClient;
     }
 
-    public function getLastResponse(): ?ResponseInterface
+    public function getLastResponse(): ?Response
     {
         return $this->getApiClient()->getLastResponse();
     }

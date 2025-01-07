@@ -35,7 +35,7 @@ final class InvoicesTest extends AbstractTestCase
     {
         $this->skipIf(empty($invoiceId = (int) getenv('FAKTUROWNIA_INVOICE_ID')), 'Missing FAKTUROWNIA_INVOICE_ID');
 
-        $description = 'Updated at ' . (new \DateTimeImmutable())->format('Y-m-d H:i:s');
+        $description = sprintf('[%s] Tested at %s', Fakturownia::USER_AGENT, (new \DateTimeImmutable())->format('Y-m-d H:i:s'));
         $response = $this->fakturownia->invoices()->update($invoiceId, [
             'description' => $description,
         ]);
@@ -106,10 +106,7 @@ final class InvoicesTest extends AbstractTestCase
 
     public function testAccessDenied(): void
     {
-        $config = new Config(
-            subdomain: 'foo',
-            apiToken: 'bar',
-        );
+        $config = new Config('foo', 'bar');
         $fakturownia = new Fakturownia($config);
 
         $this->expectException(ApiException::class);

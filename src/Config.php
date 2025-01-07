@@ -6,10 +6,14 @@ namespace Abb\Fakturownia;
 
 final class Config
 {
-    public function __construct(
-        private string $subdomain,
-        private string $apiToken,
-    ) {
+    private string $subdomain;
+
+    private string $apiToken;
+
+    public function __construct(string $subdomain, string $apiToken)
+    {
+        $this->subdomain = $subdomain;
+        $this->apiToken = $apiToken;
     }
 
     public function getSubdomain(): string

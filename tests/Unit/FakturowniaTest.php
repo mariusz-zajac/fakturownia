@@ -24,10 +24,7 @@ final class FakturowniaTest extends AbstractTestCase
 {
     public function testCreateServiceSuccessfully(): void
     {
-        $config = new Config(
-            subdomain: 'foo',
-            apiToken: 'bar',
-        );
+        $config = new Config('foo', 'bar');
         $fakturownia = new Fakturownia($config);
 
         $this->assertSame($config, $fakturownia->getConfig());

@@ -12,14 +12,14 @@ final class Clients extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'clients/' . $clientId . '.json', query: $params)->toArray();
+        return $this->request('GET', 'clients/' . $clientId . '.json', ['query' => $params])->toArray();
     }
 
     public function getAll(array $params = []): array
     {
         $params['api_token'] = $this->getApiToken();
 
-        return $this->request('GET', 'clients.json', query: $params)->toArray();
+        return $this->request('GET', 'clients.json', ['query' => $params])->toArray();
     }
 
     public function getAllByExternalId(string $externalId): array
@@ -29,7 +29,7 @@ final class Clients extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('GET', 'clients.json', query: $params)->toArray();
+        return $this->request('GET', 'clients.json', ['query' => $params])->toArray();
     }
 
     public function create(array $clientData): array
@@ -39,7 +39,7 @@ final class Clients extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('POST', 'clients.json', body: $data)->toArray();
+        return $this->request('POST', 'clients.json', ['body' => $data])->toArray();
     }
 
     public function update(int $clientId, array $clientData): array
@@ -49,7 +49,7 @@ final class Clients extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('PUT', 'clients/' . $clientId . '.json', body: $data)->toArray();
+        return $this->request('PUT', 'clients/' . $clientId . '.json', ['body' => $data])->toArray();
     }
 
     public function delete(int $clientId): array
@@ -58,6 +58,6 @@ final class Clients extends AbstractApi
             'api_token' => $this->getApiToken(),
         ];
 
-        return $this->request('DELETE', 'clients/' . $clientId . '.json', query: $params)->toArray();
+        return $this->request('DELETE', 'clients/' . $clientId . '.json', ['query' => $params])->toArray();
     }
 }

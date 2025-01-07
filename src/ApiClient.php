@@ -8,49 +8,55 @@ use Abb\Fakturownia\Exception\ApiException;
 use Abb\Fakturownia\Exception\RuntimeException;
 use Nyholm\Psr7\Request;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
 
 final class ApiClient
 {
-    private ?ResponseInterface $lastResponse = null;
+    private ClientInterface $httpClient;
 
-    public function __construct(
-        private ClientInterface $client,
-        private array $defaultHeaders = [],
-    ) {
+    private array $defaultHeaders;
+
+    private ?Response $lastResponse = null;
+
+    public function __construct(ClientInterface $httpClient, array $defaultHeaders = [])
+    {
+        $this->httpClient = $httpClient;
+        $this->defaultHeaders = $defaultHeaders;
     }
 
     /**
+     * @param array{headers?: array, body?: array|string, query?: array} $options
+     *
      * @throws ApiException
      * @throws RuntimeException
      */
-    public function request(
-        string $method,
-        string $url,
-        array|string|null $body = null,
-        array $query = [],
-        array $headers = [],
-    ): Response {
+    public function request(string $method, string $url, array $options = []): Response
+    {
         $this->lastResponse = null;
 
         try {
-            $headers = array_merge($this->defaultHeaders, $headers);
+            $headers = array_merge($this->defaultHeaders, $options['headers'] ?? []);
+            $body = null;
 
-            if (is_array($body)) {
-                $body = json_encode($body, JSON_THROW_ON_ERROR | \JSON_PRESERVE_ZERO_FRACTION);
-                $headers['Accept'] ??= 'application/json';
-                $headers['Content-Type'] ??= 'application/json';
+            if (isset($options['body'])) {
+                $body = $options['body'];
+
+                if (is_array($body)) {
+                    $body = json_encode($body, JSON_THROW_ON_ERROR | \JSON_PRESERVE_ZERO_FRACTION);
+                    $headers['Accept'] ??= 'application/json';
+                    $headers['Content-Type'] ??= 'application/json';
+                }
             }
 
-            if (!empty($query)) {
-                $url .= (str_contains($url, '?') ? '&' : '?') . http_build_query($query);
+            if (!empty($options['query'])) {
+                $url .= (str_contains($url, '?') ? '&' : '?') . http_build_query($options['query']);
             }
 
-            $this->lastResponse = $this->client->sendRequest(new Request($method, $url, $headers, $body));
+            $httpResponse = $this->httpClient->sendRequest(new Request($method, $url, $headers, $body));
 
-            $response = new Response(
-                (string) $this->lastResponse->getBody(),
-                $this->lastResponse->getStatusCode(),
+            $this->lastResponse = $response = new Response(
+                $httpResponse->getStatusCode(),
+                $httpResponse->getHeaders(),
+                (string) $httpResponse->getBody(),
             );
         } catch (\Throwable $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
@@ -67,7 +73,7 @@ final class ApiClient
         return $response;
     }
 
-    public function getLastResponse(): ?ResponseInterface
+    public function getLastResponse(): ?Response
     {
         return $this->lastResponse;
     }
@@ -76,7 +82,7 @@ final class ApiClient
     {
         try {
             $message = $response->toArray()['message'] ?? $response->toArray()['error'] ?? null;
-        } catch (\JsonException) {
+        } catch (\JsonException $e) {
             $message = null;
         }
 
@@ -95,7 +101,7 @@ final class ApiClient
     {
         try {
             $details = $response->toArray();
-        } catch (\JsonException) {
+        } catch (\JsonException $e) {
             $details = [];
         }
 

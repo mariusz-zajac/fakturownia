@@ -9,21 +9,18 @@ use Abb\Fakturownia\Response;
 
 abstract class AbstractApi
 {
-    public function __construct(
-        protected Fakturownia $fakturownia,
-    ) {
+    protected Fakturownia $fakturownia;
+
+    public function __construct(Fakturownia $fakturownia)
+    {
+        $this->fakturownia = $fakturownia;
     }
 
-    protected function request(
-        string $method,
-        string $urlPath,
-        array|string|null $body = null,
-        array $query = [],
-        array $headers = [],
-    ): Response {
+    protected function request(string $method, string $urlPath, array $options = []): Response
+    {
         $url = sprintf('https://%s.fakturownia.pl/%s', $this->fakturownia->getConfig()->getSubdomain(), $urlPath);
 
-        return $this->fakturownia->getApiClient()->request($method, $url, $body, $query, $headers);
+        return $this->fakturownia->getApiClient()->request($method, $url, $options);
     }
 
     protected function getApiToken(): string
