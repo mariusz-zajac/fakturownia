@@ -20,7 +20,7 @@ $ composer require abb/fakturownia
 $config = new \Abb\Fakturownia\Config('your_subdomain', 'api_token');
 $fakturownia = new \Abb\Fakturownia\Fakturownia($config);
 
-// Get invoice by ID
+// Get invoice with ID 123
 $response = $fakturownia->invoices()->getOne(123);
 
 // Get invoices by parameters
@@ -30,7 +30,7 @@ $params = [
 ];
 $response = $fakturownia->invoices()->getAll($params);
 
-// Get invoice as PDF and save to file
+// Get invoice with ID 123 as PDF and save it to file
 $pdfContent = $fakturownia->invoices()->getPdf(123);
 file_put_contents('/path/to/invoice_123.pdf', $pdfContent);
 
@@ -63,7 +63,7 @@ $invoiceData = [
 ];
 $response = $fakturownia->invoices()->create($invoiceData);
 
-// Update invoice
+// Update invoice with ID 123
 $invoiceData = [
     'buyer_name' => 'Nowa nazwa klienta Sp. z o.o.',
     'positions' =>  [
@@ -75,7 +75,7 @@ $invoiceData = [
 ];
 $response = $fakturownia->invoices()->update(123, $invoiceData);
 
-// Delete invoice
+// Delete invoice with ID 123
 $response = $fakturownia->invoices()->delete(123);
 ```
 
@@ -97,7 +97,7 @@ try {
     $msg = $e->getMessage();
 }
 
-$lastResponse = $fakturownia->getLastResponse(); // last API response or NULL (if not available)
+$lastResponse = $fakturownia->getLastResponse(); // last API response or NULL if not available
 ```
 
 ## API documentation
