@@ -1,10 +1,10 @@
 # Fakturownia (InvoiceOcean)
 
-PHP client for Fakturownia (InvoiceOcean) API ([fakturownia.pl](https://fakturownia.pl), [invoiceocean.com](https://invoiceocean.com)).
+PHP client for [Fakturownia](https://fakturownia.pl) ([InvoiceOcean](https://invoiceocean.com)) API.
 
 ## Requirements
 
-* PHP 7.1 or higher with curl and json extensions.
+* PHP 7.4 or higher with curl and json extensions.
 
 ## Installation
 
@@ -14,114 +14,27 @@ The recommended way to install is through [Composer](http://getcomposer.org).
 $ composer require abb/fakturownia
 ```
 
-## Supported API tokens
-
-Fakturownia.pl provides two types of tokens - with prefix (i.e. with your subdomain) and without prefix.
-Only **tokens with prefix** are supported. You can generate it in fakturownia.pl service
-(Settings -> Account settings -> Integration -> Show ApiTokens -> Add new Token -> Kind: Token with a prefix).
-
-## Available methods
-
-* login(string $login, string $password)
-* getInvoices(array $params = [])
-* getInvoice(int $id)
-* getInvoicePdf(int $id, string $printOption = null)
-* createInvoice(array $invoice)
-* updateInvoice(int $id, array $invoice)
-* deleteInvoice(int $id)
-* sendInvoice(int $id)
-* changeInvoiceStatus(int $id, $status)
-* getRecurringInvoices(array $params = [])
-* createRecurringInvoice(array $recurringInvoice)
-* updateRecurringInvoice(int $id, array $recurringInvoice)
-* getClients(array $params = [])
-* getClient(int $id)
-* getClientByExternalId(int $id)
-* createClient(array $client)
-* updateClient(int $id, array $client)
-* getProducts(array $params = [])
-* getProduct(int $id, int $warehouseId = null)
-* createProduct(array $product)
-* updateProduct(int $id, array $product)
-* getWarehouseDocuments(array $params = [])
-* getWarehouseDocument(int $id)
-* createWarehouseDocument(array $warehouseDocument)
-* updateWarehouseDocument(int $id, array $warehouseDocument)
-* deleteWarehouseDocument(int $id)
-* getWarehouses(array $params = [])
-* getWarehouse(int $id)
-* createWarehouse(array $warehouse)
-* updateWarehouse(int $id, array $warehouse)
-* deleteWarehouse(int $id)
-* getCategories(array $params = [])
-* getCategory(int $id)
-* createCategory(array $category)
-* updateCategory(int $id, array $category)
-* deleteCategory(int $id)
-* getAccount()
-* createAccountForClient(array $account, array $user = [], array $company = [])
-* getPayments(array $params = [])
-* getPayment(int $id, array $params = [])
-* createPayment(array $payment)
-* updatePayment(int $id, array $payment)
-* deletePayment(int $id)
-* getDepartments(array $params = [])
-* getDepartment(int $id)
-* createDepartment(array $department)
-* updateDepartment(int $id, array $department)
-* deleteDepartment(int $id)
-* getPriceLists(array $params = [])
-* createPriceList(array $priceList)
-* updatePriceList(int $id, array $priceList)
-* deletePriceList(int $id)
-
-## Examples of usage
-
-### Example 1 - Get invoices
+## Example of usage
 
 ```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$response = $fakturownia->getInvoices();
-if ($response->isSuccess()) { // check response status before you retrieve data
-    $invoices = $response->getData();
-} else {
-    $errors = $response->getData();
-}
-```
+$config = new \Abb\Fakturownia\Config('your_subdomain', 'api_token');
+$fakturownia = new \Abb\Fakturownia\Fakturownia($config);
 
-### Example 2 - Get invoices by parameters
+// Get invoice with ID 123
+$response = $fakturownia->invoices()->getOne(123);
 
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
+// Get invoices by parameters
 $params = [
     'period' => 'this_month',
     'page' => '1',
 ];
-$invoices = $fakturownia->getInvoices($params)->getData();
-```
+$response = $fakturownia->invoices()->getAll($params);
 
-### Example 3 - Get invoice by ID
+// Get invoice with ID 123 as PDF and save it to file
+$pdfContent = $fakturownia->invoices()->getPdf(123);
+file_put_contents('/path/to/invoice_123.pdf', $pdfContent);
 
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoiceId = 123456;
-$invoice = $fakturownia->getInvoice($invoiceId)->getData();
-```
-
-### Example 3.1 - Get invoice by ID as PDF
-
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoiceId = 123456;
-$printOption = 'duplicate';
-$pdfContent = $fakturownia->getInvoicePdf($invoiceId, $printOption)->getData()['content'];
-file_put_contents('/path/to/invoice.pdf', $pdfContent);
-```
-
-### Example 4 - Create an invoice
-
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
+// Create an invoice
 $invoiceData = [
     'kind' => 'vat',
     'number' => null,
@@ -148,29 +61,9 @@ $invoiceData = [
         ],
     ],
 ];
-$createdInvoice = $fakturownia->createInvoice($invoiceData)->getData();
-```
+$response = $fakturownia->invoices()->create($invoiceData);
 
-### Example 5 - Create an invoice and send to client by email
-
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoiceData = [
-    'buyer_email' => 'buyer@testemail.pl',
-    // ...
-];
-$response = $fakturownia->createInvoice($invoiceData);
-if ($response->isSuccess()) {
-    $createdInvoice = $response->getData();
-    $fakturownia->sendInvoice($createdInvoice['id']); // Invoice will be sent to buyer_email
-}
-```
-
-### Example 6 - Update invoice
-
-```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoiceId = 123456;
+// Update invoice with ID 123
 $invoiceData = [
     'buyer_name' => 'Nowa nazwa klienta Sp. z o.o.',
     'positions' =>  [
@@ -180,19 +73,33 @@ $invoiceData = [
         ],
     ],
 ];
-$updatedInvoice = $fakturownia->updateInvoice($invoiceId, $invoiceData)->getData();
+$response = $fakturownia->invoices()->update(123, $invoiceData);
+
+// Delete invoice with ID 123
+$response = $fakturownia->invoices()->delete(123);
 ```
 
-### Example 7 - Delete invoice
+### Error handling
 
 ```php
-$fakturownia = new \Abb\Fakturownia\Fakturownia('fakturownia_api_token');
-$invoiceId = 123456;
-$result = $fakturownia->deleteInvoice($invoiceId)->getData();
+$fakturownia = new \Abb\Fakturownia\Fakturownia($config);
+$invoiceData = [
+    // ...
+];
+
+try {
+    $response = $fakturownia->invoices()->create($invoiceData);
+} catch (\Abb\Fakturownia\Exception\ApiException $e) {
+    $msg = $e->getMessage(); // error message
+    $statusCode = $e->getCode(); // status code, e.g. 400, 401, 500 etc.
+    $details = $e->getDetails(); // error details (if available)
+} catch (\Abb\Fakturownia\Exception\RuntimeException $e) {
+    $msg = $e->getMessage();
+}
+
+$lastResponse = $fakturownia->getLastResponse(); // last API response or NULL if not available
 ```
 
-More info about the required parameters for every method: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).
+## API documentation
 
-## Changelog
-
-Changelog is available [here](CHANGELOG.md).
+More info about the required parameters for each method can be found here: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).

@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit
-        colors = "true"
-        verbose = "true"
-        bootstrap ="vendor/autoload.php"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
+         verbose="true"
+         bootstrap="vendor/autoload.php"
 >
+    <php>
+        <env name="FAKTUROWNIA_SUBDOMAIN" value=""/>
+        <env name="FAKTUROWNIA_TOKEN" value=""/>
+        <env name="FAKTUROWNIA_INVOICE_ID" value=""/>
+        <env name="FAKTUROWNIA_CLIENT_ID" value=""/>
+        <env name="FAKTUROWNIA_CLIENT_EXTERNAL_ID" value=""/>
+        <env name="FAKTUROWNIA_RECIPIENT_EMAIL" value=""/>
+    </php>
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
     <testsuites>
-        <testsuite name="all">
-            <directory>tests</directory>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
 </phpunit>
