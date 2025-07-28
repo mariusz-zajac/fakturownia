@@ -128,4 +128,20 @@ final class ProductsTest extends AbstractTestCase
         $this->assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
         $this->assertSame($expectedResponseData, $response);
     }
+
+    public function testDeleteProduct(): void
+    {
+        $expectedResponseData = [
+            0 => 'ok',
+        ];
+
+        $mockResponse = $this->createJsonMockResponse($expectedResponseData, ['http_code' => 200]);
+        $fakturownia = $this->getFakturowniaStub($mockResponse);
+
+        $response = (new Products($fakturownia))->delete(123);
+
+        $this->assertSame('DELETE', $mockResponse->getRequestMethod());
+        $this->assertSame('https://foo.fakturownia.pl/products/123.json?api_token=bar', $mockResponse->getRequestUrl());
+        $this->assertSame($expectedResponseData, $response);
+    }
 }

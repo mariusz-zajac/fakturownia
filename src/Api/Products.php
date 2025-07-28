@@ -45,4 +45,13 @@ final class Products extends AbstractApi
 
         return $this->request('PUT', 'products/' . $productId . '.json', ['body' => $data])->toArray();
     }
+
+    public function delete(int $productId): array
+    {
+        $params = [
+            'api_token' => $this->getApiToken(),
+        ];
+
+        return $this->request('DELETE', 'products/' . $productId . '.json', ['query' => $params])->toArray();
+    }
 }

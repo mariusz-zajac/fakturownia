@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.1.0
+* Added `\Abb\Fakturownia\Api\Products::delete` method
+
 ## 2.0.0
 * New API model
 * Dropped support for PHP < 7.4
