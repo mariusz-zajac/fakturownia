@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.2.0
+* Fixed `\Abb\Fakturownia\Response::toArray` to return an empty array for empty response bodies instead of throwing a JSON decoding error
+* Added support for `symfony/http-client` `^8.0`
+* Added methods to manage issuers
+
 ## 2.1.0
 * Added `\Abb\Fakturownia\Api\Products::delete` method
 

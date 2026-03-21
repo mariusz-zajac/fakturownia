@@ -51,6 +51,10 @@ final class Response
             return $this->jsonData;
         }
 
+        if ('' === trim($this->content)) {
+            return $this->jsonData = [];
+        }
+
         return $this->jsonData = (array) json_decode($this->content, true, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
     }
 }

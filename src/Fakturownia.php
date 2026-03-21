@@ -9,6 +9,7 @@ use Abb\Fakturownia\Api\Categories;
 use Abb\Fakturownia\Api\Clients;
 use Abb\Fakturownia\Api\Departments;
 use Abb\Fakturownia\Api\Invoices;
+use Abb\Fakturownia\Api\Issuers;
 use Abb\Fakturownia\Api\Payments;
 use Abb\Fakturownia\Api\PriceLists;
 use Abb\Fakturownia\Api\Products;
@@ -31,6 +32,7 @@ final class Fakturownia
     private ?Clients $clients = null;
     private ?Departments $departments = null;
     private ?Invoices $invoices = null;
+    private ?Issuers $issuers = null;
     private ?Payments $payments = null;
     private ?PriceLists $priceLists = null;
     private ?Products $products = null;
@@ -89,6 +91,11 @@ final class Fakturownia
     public function invoices(): Invoices
     {
         return $this->invoices ??= new Invoices($this);
+    }
+
+    public function issuers(): Issuers
+    {
+        return $this->issuers ??= new Issuers($this);
     }
 
     public function payments(): Payments

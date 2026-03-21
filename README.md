@@ -8,13 +8,13 @@ PHP client for [Fakturownia](https://fakturownia.pl) ([InvoiceOcean](https://inv
 
 ## Installation
 
-The recommended way to install is through [Composer](http://getcomposer.org).
+The recommended way to install the library is via [Composer](https://getcomposer.org).
 
 ```bash
 $ composer require abb/fakturownia
 ```
 
-## Example of usage
+## Usage example
 
 ```php
 $config = new \Abb\Fakturownia\Config('your_subdomain', 'api_token');
@@ -102,4 +102,4 @@ $lastResponse = $fakturownia->getLastResponse(); // last API response or NULL if
 
 ## API documentation
 
-More info about the required parameters for each method can be found here: [PL](https://app.fakturownia.pl/api) | [EN](http://app.invoiceocean.com/api).
+More information about the required parameters for each method can be found here: [PL](https://app.fakturownia.pl/api) | [EN](https://app.invoiceocean.com/api).

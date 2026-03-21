@@ -10,6 +10,10 @@ help: ## Prints this help text
 build: ## Build the docker image
 	@docker build --no-cache -t fakturownia-php:latest .
 
-.PHONY: run
-run: ## Start the docker container
+.PHONY: sh
+sh: ## Start an interactive shell in the docker container
 	@docker run -it --rm --name fakturownia-php -v "$$PWD:/app" -w /app -u "$$(id -u):$$(id -g)" --add-host=host.docker.internal:host-gateway fakturownia-php:latest bash
+
+.PHONY: run
+run: ## Run a command in the docker container, e.g. make run cmd="composer tests"
+	@docker run --rm -v "$$PWD:/app" -w /app -u "$$(id -u):$$(id -g)" --add-host=host.docker.internal:host-gateway fakturownia-php:latest $(cmd)

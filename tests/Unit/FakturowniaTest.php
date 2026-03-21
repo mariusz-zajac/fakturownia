@@ -9,6 +9,7 @@ use Abb\Fakturownia\Api\Categories;
 use Abb\Fakturownia\Api\Clients;
 use Abb\Fakturownia\Api\Departments;
 use Abb\Fakturownia\Api\Invoices;
+use Abb\Fakturownia\Api\Issuers;
 use Abb\Fakturownia\Api\Payments;
 use Abb\Fakturownia\Api\PriceLists;
 use Abb\Fakturownia\Api\Products;
@@ -35,6 +36,7 @@ final class FakturowniaTest extends AbstractTestCase
         $this->assertInstanceOf(Clients::class, $fakturownia->clients());
         $this->assertInstanceOf(Departments::class, $fakturownia->departments());
         $this->assertInstanceOf(Invoices::class, $fakturownia->invoices());
+        $this->assertInstanceOf(Issuers::class, $fakturownia->issuers());
         $this->assertInstanceOf(Payments::class, $fakturownia->payments());
         $this->assertInstanceOf(PriceLists::class, $fakturownia->priceLists());
         $this->assertInstanceOf(Products::class, $fakturownia->products());
